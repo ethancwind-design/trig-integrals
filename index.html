@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Trig Integrals</title>
+<meta name="description" content="A searchable library of trigonometric integrals: identities, powers, products, trig substitution, rational functions, by parts, definite integrals and special functions.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&display=swap">
+<link rel="stylesheet" href="style.css">
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['\\(', '\\)'], ['$', '$']], displayMath: [] },
+  svg: { fontCache: 'global' },
+  options: { enableMenu: false, enableAssistiveMml: false },
+  startup: { typeset: false }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header id="top">
+  <button id="menu" type="button" aria-label="Sections" aria-expanded="false">☰</button>
+  <a id="brand" href="#home"><span class="mark" aria-hidden="true">∫</span><span>Trig&nbsp;Integrals</span></a>
+  <label id="searchbox">
+    <span class="sr">Search integrals</span>
+    <input id="q" type="search" placeholder="Search: sec^3, x sin x, arctan, reduction, wallis…" autocomplete="off" spellcheck="false">
+    <kbd>/</kbd>
+  </label>
+  <button id="study" type="button" aria-pressed="false" title="Hide every answer until you click it">Study mode</button>
+  <button id="theme" type="button" aria-label="Toggle dark mode">◐</button>
+</header>
+<div id="shell">
+  <nav id="side" aria-label="Sections"></nav>
+  <main id="main" tabindex="-1"><div id="loading">Loading the math…</div></main>
+</div>
+<footer id="foot"></footer>
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

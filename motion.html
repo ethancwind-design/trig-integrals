@@ -1,0 +1,943 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Trig Substitution in Motion</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&display=swap">
+<style>
+/* Layout: a fixed 16:9 "graph-paper" stage scaled to fit; tokens magic-move between steps. */
+:root{
+  --bg:#E6EAF1; --paper:#FBFCFE; --grid:#EDF1F7; --ink:#172033; --muted:#6A7488; --rule:#D9DFE9;
+  --accent:#3346C8; --accent-soft:#E7EAFB;
+  --cx:#1D5FD8; --cd:#C26300; --cr:#08875A; --cp:#B0279E; --ca:#D2343C; --ct:#0B7480;
+  --font-display:"Bricolage Grotesque", "Avenir Next", system-ui, sans-serif;
+  --font-body:"Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#080B12; --paper:#111826; --grid:#162033; --ink:#E8EDF6; --muted:#8E99AD; --rule:#243049;
+  --accent:#93A1FF; --accent-soft:#1F2850;
+  --cx:#74A8FF; --cd:#F4AB45; --cr:#45D495; --cp:#EB82DB; --ca:#FF7D82; --ct:#52D2DA; color-scheme:dark } }
+:root[data-theme="dark"]{
+  --bg:#080B12; --paper:#111826; --grid:#162033; --ink:#E8EDF6; --muted:#8E99AD; --rule:#243049;
+  --accent:#93A1FF; --accent-soft:#1F2850;
+  --cx:#74A8FF; --cd:#F4AB45; --cr:#45D495; --cp:#EB82DB; --ca:#FF7D82; --ct:#52D2DA; color-scheme:dark }
+
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:12px;box-sizing:border-box;display:flex;flex-direction:column;gap:10px;overflow:hidden}
+#viewport{flex:1;position:relative;min-height:0}
+#stage{position:absolute;left:50%;top:50%;width:1280px;height:720px;transform-origin:center center;
+  background-color:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:32px 32px;border-radius:16px;box-shadow:0 1px 2px rgba(0,0,0,.08),0 12px 40px rgba(20,30,60,.12);
+  overflow:hidden;display:grid;grid-template-rows:auto 1fr auto;cursor:pointer;user-select:none}
+
+/* header */
+#head{display:flex;flex-direction:column;gap:10px;padding:20px 44px 0}
+#hrow{display:flex;justify-content:space-between;align-items:center;min-height:40px}
+#track{display:flex;align-items:center;padding:8px 18px;border:1.5px solid var(--rule);border-radius:12px;background:var(--paper);font-size:25px;min-height:66px;overflow:hidden}
+#track[hidden]{display:none}
+#track .tin{display:flex;align-items:center;gap:.4em;white-space:nowrap;transform-origin:left center}
+#track .lab{font:700 12px/1 var(--font-display);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-right:.3em}
+#track .ms{display:flex;align-items:center;gap:.3em}
+#track .badge{display:grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--accent);color:var(--paper);font:700 11px/1 var(--font-display)}
+#track .ans mjx-container{padding:2px 8px;border-radius:6px;background:var(--accent-soft)}
+#exlabel{display:flex;flex-direction:column;gap:6px}
+#exlabel .eb{font:700 13px/1 var(--font-display);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+#exlabel .prob{font-size:24px;color:var(--ink)}
+#phases{display:flex;gap:8px}
+#phases[hidden]{display:none}
+.ph{display:flex;align-items:center;gap:9px;padding:8px 14px 8px 8px;border-radius:999px;border:1.5px solid var(--rule);
+  color:var(--muted);font:500 15px/1 var(--font-display);background:var(--paper);transition:all .45s ease}
+.ph b{display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--rule);color:var(--ink);font-size:13px;transition:all .45s ease}
+.ph.on{border-color:var(--accent);color:var(--ink);background:var(--accent-soft)}
+.ph.on b{background:var(--accent);color:var(--paper)}
+.ph.done b{background:var(--muted);color:var(--paper)}
+
+/* board */
+#wrap{position:relative;margin:0 44px}
+#board{position:absolute;inset:0;display:grid;grid-template-columns:minmax(0,1fr) 370px;gap:30px}
+#board.full{grid-template-columns:minmax(0,1fr)}
+#board.full #side{display:none}
+#main,#side{display:flex;flex-direction:column;justify-content:center;align-items:center;gap:16px;min-width:0}
+#side{gap:10px;border-left:1.5px solid var(--rule);padding-left:26px}
+#side:empty{border-left-color:transparent}
+#fx{position:absolute;inset:0;pointer-events:none}
+#fx .tok{position:absolute;margin:0}
+
+.row{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:.26em;max-width:100%}
+.big{font-size:44px}
+.work{font-size:29px;justify-content:center}
+.line{font-size:31px}
+.side{font-size:26px}
+.cols{font-size:24px;gap:34px;align-items:flex-start;flex-wrap:nowrap}
+.tok.card,.tok.tablecard,.tok.mini{display:block;white-space:normal;text-align:left;line-height:1.5}
+.tok.card mjx-container,.tok.tablecard mjx-container,.tok.mini mjx-container{display:inline-block!important;line-height:normal;margin:0 .08em!important}
+.tok.card{font-size:22px;max-width:1000px;padding:18px 30px 18px 18px;border:1.5px solid var(--rule);border-radius:14px;background:var(--paper)}
+.steps{margin:0;padding-left:1.6em;display:flex;flex-direction:column;gap:10px}
+.steps li::marker{font-weight:700;color:var(--accent)}
+.steps .sub{margin-top:8px;padding:8px 14px;border-left:3px solid var(--rule)}
+.steps .pill,.pill{display:inline-block;font:700 12px/1 var(--font-display);letter-spacing:.08em;text-transform:uppercase;color:var(--accent);background:var(--accent-soft);padding:5px 9px;border-radius:999px;vertical-align:middle;margin-left:6px}
+.tok.tablecard{font-size:21px}
+.tt{border-collapse:collapse}
+.tt th,.tt td{padding:9px 18px;border-bottom:1.5px solid var(--rule);text-align:center}
+.tt thead th{font:700 15px/1 var(--font-display);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding-bottom:12px}
+.tt tbody th{text-align:left;font:500 17px/1.2 var(--font-display);color:var(--muted);white-space:nowrap}
+.tt tr.hl td,.tt tr.hl th{background:var(--accent-soft)}
+.tt td+td,.tt th+th{border-left:1.5px solid var(--rule)}
+.row.der{font-size:21px;gap:22px;align-items:flex-start;flex-wrap:nowrap}
+.der .stack{width:372px;gap:11px;padding:16px 14px;border:1.5px solid var(--rule);border-radius:14px;background:var(--paper)}
+.tok.mini{font-size:16px;color:var(--muted);max-width:330px;text-align:center}
+.side .tok.mini{text-align:left}
+.plot text{fill:var(--muted);font:16px var(--font-body)}
+.row.sum{font-size:19px;gap:18px;align-items:stretch;flex-wrap:nowrap;width:100%}
+.sum .stack{flex:1 1 0;min-width:0;justify-content:flex-start;gap:13px;padding:16px 12px;border:1.5px solid var(--rule);border-radius:14px;background:var(--paper)}
+.sum .tri.sm{width:230px;height:160px;margin-bottom:30px}
+.sum .tri.sm .lbl{font-size:18px}
+.eyebrow{font:700 13px/1 var(--font-display);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:6px}
+.display{font:700 78px/1.02 var(--font-display);letter-spacing:-.02em;text-wrap:balance}
+.lead{font-size:24px;color:var(--muted)}
+.chips{gap:12px;margin-top:6px}
+.sample{font-size:40px;margin-top:20px}
+
+.tok{display:inline-flex;align-items:center;line-height:1;white-space:nowrap;color:var(--ink);will-change:transform}
+.tok .m{display:block}
+mjx-assistive-mml{display:none!important}
+.tok mjx-container{display:block!important;margin:0!important;line-height:0}
+.tok svg{display:block;overflow:visible}
+.c-cx{color:var(--cx)} .c-cd{color:var(--cd)} .c-cr{color:var(--cr)} .c-cp{color:var(--cp)}
+.c-ca{color:var(--ca)} .c-ct{color:var(--ct)} .c-muted{color:var(--muted)} .c-ink{color:var(--ink)} .c-accent{color:var(--accent)}
+.c-ghost{color:var(--muted)}
+.c-ghost > .m{opacity:.42;outline:1.5px dashed var(--muted);outline-offset:5px;border-radius:6px}
+svg .cx{fill:var(--cx)} svg .cd{fill:var(--cd)} svg .cr{fill:var(--cr)} svg .cp{fill:var(--cp)}
+svg .ca{fill:var(--ca)} svg .ct{fill:var(--ct)} svg .ink{fill:var(--ink)}
+.tok.boxed{padding:.28em .55em;border:2px solid var(--accent);border-radius:.32em;background:var(--accent-soft)}
+.tok.chip{font:500 19px/1 var(--font-display);padding:10px 16px 10px 10px;border-radius:999px;border:1.5px solid var(--rule);background:var(--paper);gap:10px}
+.tok.chip b{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--accent);color:var(--paper);font-size:14px}
+.tok.note{font:400 17px/1.3 var(--font-body);color:var(--muted);white-space:normal;text-align:center;max-width:320px}
+
+/* fractions */
+.frac{display:inline-grid;grid-template-rows:1fr auto 1fr;justify-items:center;align-items:center;padding:0 .1em}
+.frac .num,.frac .den{display:flex;align-items:center;gap:.2em;padding:.08em .15em}
+.frac .num{align-self:end}.frac .den{align-self:start}
+.tok.bar{justify-self:stretch;height:max(2px,.055em);background:var(--ink);border-radius:2px}
+.stack{display:flex;flex-direction:column;align-items:center;gap:12px;min-width:0}
+.sline{display:flex;align-items:center;justify-content:center;gap:.26em}
+
+/* reference triangle */
+.tri{position:relative;width:320px;height:222px;margin-bottom:40px}
+.tri.sm{width:270px;height:187px;margin-bottom:34px}
+.tri svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.tri .side-l{fill:none;stroke:var(--rule);stroke-width:4;stroke-linecap:round;transition:stroke .5s ease}
+.tri .ra,.tri .arc{fill:none;stroke:var(--muted);stroke-width:2}
+.tri.drawing .side-l{stroke-dasharray:1;stroke-dashoffset:1;animation:draw .8s cubic-bezier(.65,0,.35,1) forwards}
+.tri.drawing .side-l:nth-of-type(2){animation-delay:.25s}
+.tri.drawing .side-l:nth-of-type(3){animation-delay:.5s}
+@keyframes draw{to{stroke-dashoffset:0}}
+.tri .lbl{position:absolute;font-size:24px;display:flex;flex-direction:column;gap:4px}
+.tri.sm .lbl{font-size:20px}
+.tri .lbl .val{opacity:0;transition:opacity .5s ease}
+.tri .lbl.on .val{opacity:1}
+.tri .lbl .m{display:block}
+.tri .role{font:700 15px/1 var(--font-display);letter-spacing:.06em;color:var(--muted);transition:color .5s ease}
+.tri.sm .role{font-size:13px}
+.tri .lbl.on .role{color:inherit}
+.tri.drawing .role{animation:fadein .4s ease .9s both}
+.tri .th{position:absolute;left:24.5%;top:84%;transform:translate(0,-100%);font-size:20px;color:var(--muted)}
+.tri .l-adj{left:40.6%;top:88.5%;transform:translate(-50%,0);align-items:center}
+.tri .l-opp{left:71.5%;top:56%;transform:translate(0,-50%);align-items:flex-start}
+.tri .l-hyp{left:38%;top:52%;transform:translate(-100%,-100%);align-items:flex-end}
+
+/* caption */
+#say{padding:12px 44px 24px;font-size:21px;line-height:1.45;min-height:84px;display:flex;align-items:flex-end;gap:16px}
+#say .tag{flex:none;font:700 12px/1 var(--font-display);letter-spacing:.14em;text-transform:uppercase;color:var(--accent);padding:6px 0 0;width:118px}
+#say .txt{max-width:62em;text-wrap:pretty}
+#say mjx-container{font-size:105%}
+.fadein{animation:fadein .5s ease both}
+@keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* toolbar */
+#bar{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;font-size:15px}
+#bar button,#bar select{font:500 15px/1 var(--font-display);color:var(--ink);background:var(--paper);border:1.5px solid var(--rule);
+  border-radius:10px;padding:9px 14px;cursor:pointer}
+#bar button:hover,#bar select:hover{border-color:var(--accent)}
+#bar button:focus-visible,#bar select:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+#bar #next{background:var(--accent);color:var(--paper);border-color:var(--accent)}
+#count{font-variant-numeric:tabular-nums;color:var(--muted);min-width:7.5em;text-align:center}
+#hint{color:var(--muted);font-size:13px}
+@media (max-width:640px){#hint{display:none}}
+#loading{position:absolute;inset:0;display:grid;place-items:center;font:500 20px var(--font-display);color:var(--muted)}
+@media (prefers-reduced-motion: reduce){.tri.drawing .side-l{animation:none;stroke-dashoffset:0}.fadein{animation:none}}
+</style>
+
+<div id="viewport">
+  <div id="stage" role="region" aria-label="Presentation slide. Click or press the right arrow to advance.">
+    <header id="head">
+      <div id="hrow">
+        <div id="exlabel"></div>
+        <div id="phases" hidden>
+          <div class="ph" data-p="1"><b>1</b>Substitute</div>
+          <div class="ph" data-p="2"><b>2</b>Integrate</div>
+          <div class="ph" data-p="3"><b>3</b>Back to x</div>
+        </div>
+      </div>
+      <div id="track" hidden aria-label="Problem so far"></div>
+    </header>
+    <div id="wrap"><div id="board"></div><div id="fx"></div></div>
+    <div id="say" aria-live="polite"></div>
+    <div id="loading">Loading the math…</div>
+  </div>
+</div>
+<nav id="bar" aria-label="Presentation controls">
+  <a id="back" href="index.html" style="font:500 15px/1 var(--font-display);color:var(--accent);text-decoration:none;padding:9px 6px">← Integral library</a>
+  <button id="prev" type="button" aria-label="Previous step">← Back</button>
+  <select id="jump" aria-label="Jump to section"></select>
+  <span id="count">–</span>
+  <button id="next" type="button" aria-label="Next step">Next →</button>
+  <button id="fs" type="button">Full screen</button>
+  <span id="hint">Click the slide or use ← → keys</span>
+</nav>
+
+<script>
+window.MathJax={
+  loader:{load:['[tex]/html','[tex]/cancel']},
+  tex:{packages:{'[+]':['html','cancel']}},
+  svg:{fontCache:'none'},
+  options:{enableAssistiveMml:false, enableMenu:false},
+  startup:{typeset:false}
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
+<script>
+const r=String.raw;
+/* ---------- content DSL ---------- */
+const T=(k,tex,c='ink',o={})=>({k,tex,c,...o});
+const H=(k,html,c='muted',o={})=>({k,html,c,...o});
+const G=(k,tex)=>T(k,tex,'ghost');
+const EQ=k=>T(k,'=');
+const R=(cls,...items)=>({cls,items});
+const F=(k,num,den)=>({k,frac:{num,den}});
+const ST=(...lines)=>({stack:lines});
+const TRI=(k,spec,o={})=>({k,tri:spec,...o});
+const side=(t,c)=>({tex:t,c});
+const triI=(x,a,rad,show)=>({opp:side(x,'cx'),hyp:side(a,'ca'),adj:side(rad,'cr'),show});
+const triII=(x,a,rad,show)=>({opp:side(x,'cx'),adj:side(a,'ca'),hyp:side(rad,'cr'),show});
+const triIII=(x,a,rad,show)=>({hyp:side(x,'cx'),adj:side(a,'ca'),opp:side(rad,'cr'),show});
+const S=(phase,say,main,sideRows=[],o={})=>({phase,say,main,side:sideRows,...o});
+const ALL=['opp','adj','hyp'];
+
+const examples=[];
+
+/* ===== Example 1 ===== */
+examples.push({n:1,type:'Type I',problem:r`\int_0^2\sqrt{16-x^2}\,dx`,track:[r`16\int_{x=0}^{x=2}\cos^2\theta\,d\theta`,r`8\Big[\theta+\sin\theta\cos\theta\Big]_{x=0}^{x=2}`,r`\tfrac{4\pi}{3}+2\sqrt3`],steps:(()=>{
+  const int0=T('int',r`\int_{0}^{2}`), intX=T('int',r`\int_{x=0}^{x=2}`);
+  const rad=T('rad',r`\sqrt{16-x^2}`,'cr'), dx=T('dx','dx','cd');
+  const gdx=G('gdx','dx'), grad=G('grad',r`\sqrt{16-x^2}`);
+  const typeRows=[R('eyebrow',H('eb1','Type I radical')),R('side',T('form',r`\sqrt{a^2-x^2}`,'cr')),R('side',T('aval',r`a^2=16\;\Rightarrow\;a=4`,'ca'))];
+  const subRows=[R('eyebrow',H('eb2','Substitution')),R('side',T('xsub',r`x=4\sin\theta`,'cx'))];
+  const dxRow=R('work',dx,EQ('e1'),T('dxv',r`4\cos\theta\,d\theta`,'cd',{from:'xsub'}));
+  const rA=[rad,EQ('e2'),T('r1',r`\sqrt{16-\class{cx}{16\sin^2\theta}}`,'cr',{from:'xsub'})];
+  const rB=[...rA,EQ('e3'),T('r2',r`\sqrt{16\cos^2\theta}`,'cr')];
+  const rC=[...rB,EQ('e4'),T('r3',r`4\cos\theta`,'cr')];
+  const idRows=[R('eyebrow',H('eb3','Pythagorean identity')),R('side',T('pyid',r`1-\sin^2\theta=\cos^2\theta`,'ct'))];
+  const k16=T('k16','16','ink',{from:'r3'}), c2=T('r3',r`\cos^2\theta`,'ct'), dth=T('dxv',r`d\theta`,'cd');
+  const top=R('big',k16,intX,c2,dth);
+  const half=[R('eyebrow',H('eb4','Half-angle identity')),R('side',T('id1',r`\cos^2\theta=\tfrac12(1+\cos2\theta)`,'ct'))];
+  const dbl=[R('eyebrow',H('eb5','Double-angle identity')),R('side',T('id2',r`\sin2\theta=2\sin\theta\cos\theta`,'ct'))];
+  const L1=R('line',EQ('p1'),T('p1t',r`8\int_{x=0}^{x=2}(1+\cos2\theta)\,d\theta`));
+  const L2=R('line',EQ('p2'),T('p2t',r`8\Big[\theta+\tfrac12\sin2\theta\Big]_{x=0}^{x=2}`));
+  const L3=R('line',EQ('p3'),T('p3t',r`8\Big[\theta+\sin\theta\cos\theta\Big]_{x=0}^{x=2}`));
+  const anti=(th,sn,cs)=>R('big',T('b1',r`8\Big[`,'ink',{from:'p3t'}),th,T('pl','+','ink',{from:'p3t'}),sn,cs,T('b2',r`\Big]_{x=0}^{x=2}`,'ink',{from:'p3t'}));
+  const th0=T('th',r`\theta`,'ct',{from:'p3t'}), sn0=T('sn',r`\sin\theta`,'ct',{from:'p3t'}), cs0=T('cs',r`\cos\theta`,'ct',{from:'p3t'});
+  const tri=s=>R('side',TRI('tri',triI('x','4',r`\sqrt{16-x^2}`,s)));
+  const triHead=R('eyebrow',H('eb6','Reference triangle'));
+  const ratio=R('side',T('trig1',r`\sin\theta=\frac{\class{cx}{x}}{\class{ca}{4}}=\frac{\text{opp}}{\text{hyp}}`));
+  const reads=[R('side',T('rd1',r`\theta=\arcsin\tfrac{x}{4}`,'ct')),R('side',T('rd2',r`\sin\theta=\tfrac{x}{4},`,'ct'),T('rd3',r`\cos\theta=\tfrac{\sqrt{16-x^2}}{4}`,'ct'))];
+  const swapped=anti(T('th',r`\arcsin\tfrac{x}{4}`,'cx',{from:'rd1'}),T('sn',r`\tfrac{x}{4}\cdot`,'cx',{from:'rd2'}),T('cs',r`\tfrac{\sqrt{16-x^2}}{4}`,'cr',{from:'rd3'}));
+  const V1=R('line',EQ('v1'),T('v1t',r`8\Big[\arcsin\tfrac12+\tfrac24\cdot\tfrac{\sqrt{12}}{4}\Big]-8\Big[\arcsin0+0\Big]`));
+  const V2=R('line',EQ('v2'),T('v2t',r`8\Big[\tfrac{\pi}{6}+\tfrac{\sqrt3}{4}\Big]=\tfrac{4\pi}{3}+2\sqrt3`,'ink',{cls:'boxed'}));
+  return [
+    S(1,r`The [[cr:radical]] $\sqrt{16-x^2}$ is what makes this hard. Phase 1 replaces every $x$-piece with a $\theta$-piece.`,[R('big',int0,rad,dx)]),
+    S(1,r`The radical has the form $\sqrt{a^2-x^2}$ with $a^2 = 16$, so $a = 4$. That makes it Type I.`,[R('big',int0,rad,dx)],typeRows),
+    S(1,r`Type I uses $x = a\sin\theta$. Here that's [[cx:$x = 4\sin\theta$]].`,[R('big',int0,rad,dx)],[...typeRows,...subRows]),
+    S(1,r`Start with [[cd:$dx$]]. Differentiate $x = 4\sin\theta$ to get $dx = 4\cos\theta\,d\theta$. We label the limits as $x$-values, since we'll return to $x$ in Phase 3.`,[R('big',intX,rad,gdx),dxRow],subRows),
+    S(1,r`Next the [[cr:radical]]. Square the substitution: $x^2 = 16\sin^2\theta$.`,[R('big',intX,grad,gdx),dxRow,R('work',...rA)],subRows),
+    S(1,r`Factor out 16, then use $1-\sin^2\theta=\cos^2\theta$.`,[R('big',intX,grad,gdx),dxRow,R('work',...rB)],[...subRows,...idRows]),
+    S(1,r`A square root of a perfect square: $\sqrt{16\cos^2\theta}=4\cos\theta$, since $\cos\theta\ge0$ for $-\tfrac{\pi}{2}\le\theta\le\tfrac{\pi}{2}$.`,[R('big',intX,grad,gdx),dxRow,R('work',...rC)],[...subRows,...idRows]),
+    S(1,r`Both replacements go back into the integral. Every piece is now in terms of $\theta$.`,[R('big',intX,T('r3',r`(4\cos\theta)`,'cr'),T('dxv',r`(4\cos\theta\,d\theta)`,'cd'))],subRows),
+    S(1,r`Multiply: $(4\cos\theta)(4\cos\theta)=16\cos^2\theta$. Phase 1 is done. We have a trig integral.`,[top],subRows),
+    S(2,r`An even power of cosine with no odd partner calls for the half-angle identity.`,[top],half),
+    S(2,r`Substitute and pull out the constant: $16\cdot\tfrac12=8$.`,[top,L1],half),
+    S(2,r`Integrate term by term, using $\int\cos2\theta\,d\theta=\tfrac12\sin2\theta$.`,[top,L1,L2],half),
+    S(2,r`Rewrite $\sin2\theta$ with single angles. The triangle only gives trig functions of $\theta$ itself, not $2\theta$.`,[top,L1,L2,L3],dbl),
+    S(3,r`Return to the substitution and solve for the trig function: $x=4\sin\theta$ means $\sin\theta=\tfrac{x}{4}$.`,[anti(th0,sn0,cs0)],[triHead,tri([]),ratio]),
+    S(3,r`Since $\sin\theta=\tfrac{\text{opp}}{\text{hyp}}$, label the opposite side [[cx:$x$]] and the hypotenuse [[ca:$4$]].`,[anti(th0,sn0,cs0)],[triHead,tri(['opp','hyp']),ratio]),
+    S(3,r`The Pythagorean theorem gives the adjacent side: $\sqrt{4^2-x^2}$. It is the [[cr:original radical]].`,[anti(th0,sn0,cs0)],[triHead,tri(ALL),R('side',T('pyth',r`\text{adj}=\sqrt{16-x^2}`,'cr'))]),
+    S(3,r`Read each $\theta$-expression off the triangle.`,[anti(th0,sn0,cs0)],[triHead,tri(ALL),...reads]),
+    S(3,r`Swap each one into the antiderivative. We are back in $x$, so the original $x$-limits apply.`,[swapped],[triHead,tri(ALL),...reads]),
+    S(3,r`Evaluate at $x=2$ and $x=0$. The lower limit gives 0.`,[swapped,V1],[triHead,tri(ALL),...reads]),
+    S(3,r`Simplify with $\sqrt{12}=2\sqrt3$: the answer is $\tfrac{4\pi}{3}+2\sqrt3$.`,[swapped,V1,V2],[triHead,tri(ALL),...reads]),
+  ];
+})()});
+
+/* ===== Example 2 ===== */
+examples.push({n:2,type:'Type I',problem:r`\int_1^{\sqrt2}\frac{dx}{x^2\sqrt{4-x^2}}`,track:[r`\tfrac14\int_{x=1}^{x=\sqrt2}\csc^2\theta\,d\theta`,r`-\tfrac14\cot\theta\,\Big|_{x=1}^{x=\sqrt2}`,r`\frac{\sqrt3-1}{4}`],steps:(()=>{
+  const int0=T('int',r`\int_{1}^{\sqrt2}`), intX=T('int',r`\int_{x=1}^{x=\sqrt2}`);
+  const dx=T('dx','dx','cd'), x2=T('x2',r`x^2`,'cp'), rad=T('rad',r`\sqrt{4-x^2}`,'cr');
+  const gdx=G('gdx','dx'), gx2=G('gx2',r`x^2`), grad=G('grad',r`\sqrt{4-x^2}`);
+  const typeRows=[R('eyebrow',H('eb1','Type I radical')),R('side',T('form',r`\sqrt{a^2-x^2}`,'cr')),R('side',T('aval',r`a^2=4\;\Rightarrow\;a=2`,'ca'))];
+  const subRows=[R('eyebrow',H('eb2','Substitution')),R('side',T('xsub',r`x=2\sin\theta`,'cx'))];
+  const dxRow=R('work',dx,EQ('e1'),T('dxv',r`2\cos\theta\,d\theta`,'cd',{from:'xsub'}));
+  const x2Row=R('work',x2,EQ('e2'),T('x2a',r`(2\sin\theta)^2`,'cp',{from:'xsub'}),EQ('e3'),T('x2b',r`4\sin^2\theta`,'cp'));
+  const rA=[rad,EQ('e4'),T('r1',r`\sqrt{4-\class{cp}{4\sin^2\theta}}`,'cr',{from:'x2b'}),EQ('e5'),T('r2',r`\sqrt{4\cos^2\theta}`,'cr')];
+  const rB=[...rA,EQ('e6'),T('r3',r`2\cos\theta`,'cr')];
+  const big=(n,d,k)=>R('big',k||intX,F('f',n,d));
+  const known=[R('eyebrow',H('eb3','Basic antiderivative')),R('side',T('id1',r`\int\csc^2\theta\,d\theta=-\cot\theta+C`,'ct'))];
+  const k=T('k',r`\tfrac14`,'ink',{from:'x2b'});
+  const p1top=R('big',k,intX,T('x2b',r`\csc^2\theta`,'ct'),T('dxv',r`d\theta`,'cd'));
+  const L1=R('line',EQ('p1'),T('p1t',r`-\tfrac14\cot\theta\;\Big|_{x=1}^{x=\sqrt2}`));
+  const anti=ct=>R('big',T('b1',r`-\tfrac14`,'ink',{from:'p1t'}),ct,T('b2',r`\Big|_{x=1}^{x=\sqrt2}`,'ink',{from:'p1t'}));
+  const ct0=T('ct',r`\cot\theta`,'ct',{from:'p1t'});
+  const tri=s=>R('side',TRI('tri',triI('x','2',r`\sqrt{4-x^2}`,s)));
+  const triHead=R('eyebrow',H('eb6','Reference triangle'));
+  const ratio=R('side',T('trig1',r`\sin\theta=\frac{\class{cx}{x}}{\class{ca}{2}}=\frac{\text{opp}}{\text{hyp}}`));
+  const rd=R('side',T('rd1',r`\cot\theta=\frac{\text{adj}}{\text{opp}}=\frac{\sqrt{4-x^2}}{x}`,'ct'));
+  const swapped=anti(T('ct',r`\frac{\class{cr}{\sqrt{4-x^2}}}{\class{cx}{x}}`,'ink',{from:'rd1'}));
+  const V1=R('line',EQ('v1'),T('v1t',r`-\tfrac14\left(\frac{\sqrt{2}}{\sqrt2}-\frac{\sqrt3}{1}\right)`));
+  const V2=R('line',EQ('v2'),T('v2t',r`-\tfrac14\left(1-\sqrt3\right)=\frac{\sqrt3-1}{4}`,'ink',{cls:'boxed'}));
+  return [
+    S(1,r`Two $x$-pieces sit in the denominator: [[cp:$x^2$]] and the [[cr:radical]] $\sqrt{4-x^2}$. Both must be replaced, along with [[cd:$dx$]].`,[big([dx],[x2,rad],int0)]),
+    S(1,r`The radical matches $\sqrt{a^2-x^2}$ with $a=2$: Type I.`,[big([dx],[x2,rad],int0)],typeRows),
+    S(1,r`Type I uses $x=a\sin\theta$, so [[cx:$x=2\sin\theta$]].`,[big([dx],[x2,rad],int0)],[...typeRows,...subRows]),
+    S(1,r`Replace [[cd:$dx$]]: $dx=2\cos\theta\,d\theta$.`,[big([gdx],[x2,rad]),dxRow],subRows),
+    S(1,r`Replace [[cp:$x^2$]] by squaring the substitution.`,[big([gdx],[gx2,rad]),dxRow,x2Row],subRows),
+    S(1,r`Inside the [[cr:radical]], $x^2$ becomes $4\sin^2\theta$, and $4-4\sin^2\theta=4\cos^2\theta$.`,[big([gdx],[gx2,grad]),dxRow,x2Row,R('work',...rA)],subRows),
+    S(1,r`So $\sqrt{4-x^2}=2\cos\theta$.`,[big([gdx],[gx2,grad]),dxRow,x2Row,R('work',...rB)],subRows),
+    S(1,r`All three replacements return to the integral.`,[big([T('dxv',r`2\cos\theta\,d\theta`,'cd')],[T('x2b',r`4\sin^2\theta`,'cp'),T('r3',r`2\cos\theta`,'cr')])],subRows),
+    S(1,r`The $2\cos\theta$ from $dx$ cancels the $2\cos\theta$ from the radical.`,[big([T('dxv',r`\cancel{2\cos\theta}\,d\theta`,'cd')],[T('x2b',r`4\sin^2\theta`,'cp'),T('r3',r`\cancel{2\cos\theta}`,'cr')])],subRows),
+    S(1,r`Pull out the constant $\tfrac14$.`,[R('big',k,intX,F('f',[T('dxv',r`d\theta`,'cd')],[T('x2b',r`\sin^2\theta`,'cp')]))],subRows),
+    S(1,r`Since $\tfrac{1}{\sin^2\theta}=\csc^2\theta$, Phase 1 ends with $\tfrac14\int\csc^2\theta\,d\theta$.`,[p1top],subRows),
+    S(2,r`This is a basic antiderivative: the derivative of $\cot\theta$ is $-\csc^2\theta$.`,[p1top],known),
+    S(2,r`So the trig integral evaluates to $-\tfrac14\cot\theta$.`,[p1top,L1],known),
+    S(3,r`From $x=2\sin\theta$ we get $\sin\theta=\tfrac{x}{2}$.`,[anti(ct0)],[triHead,tri([]),ratio]),
+    S(3,r`Label the opposite side [[cx:$x$]] and the hypotenuse [[ca:$2$]].`,[anti(ct0)],[triHead,tri(['opp','hyp']),ratio]),
+    S(3,r`The Pythagorean theorem gives the adjacent side: the [[cr:radical]] $\sqrt{4-x^2}$.`,[anti(ct0)],[triHead,tri(ALL),ratio]),
+    S(3,r`We need $\cot\theta=\tfrac{\text{adj}}{\text{opp}}$.`,[anti(ct0)],[triHead,tri(ALL),rd]),
+    S(3,r`Swap it into the antiderivative. Now the original $x$-limits apply.`,[swapped],[triHead,tri(ALL),rd]),
+    S(3,r`At $x=\sqrt2$: $\sqrt{4-2}=\sqrt2$. At $x=1$: $\sqrt{4-1}=\sqrt3$.`,[swapped,V1],[triHead,tri(ALL),rd]),
+    S(3,r`Simplify to get $\tfrac14(\sqrt3-1)$.`,[swapped,V1,V2],[triHead,tri(ALL),rd]),
+  ];
+})()});
+
+/* ===== Example 3 ===== */
+examples.push({n:3,type:'Type II',problem:r`\int_0^1\frac{dx}{(x^2+4)^{3/2}}`,track:[r`\tfrac14\int_{x=0}^{x=1}\cos\theta\,d\theta`,r`\tfrac14\sin\theta\,\Big|_{x=0}^{x=1}`,r`\frac{1}{4\sqrt5}`],steps:(()=>{
+  const int0=T('int',r`\int_{0}^{1}`), intX=T('int',r`\int_{x=0}^{x=1}`);
+  const dx=T('dx','dx','cd'), pw=T('pw',r`(x^2+4)^{3/2}`,'cp');
+  const lp=T('lp',r`\Big(`,'ink',{from:'pw'}), rad=T('rad',r`\sqrt{x^2+4}`,'cr',{from:'pw'}), rp=T('rp',r`\Big)^{3}`,'ink',{from:'pw'});
+  const gdx=G('gdx','dx'), grad=G('grad',r`\sqrt{x^2+4}`);
+  const typeRows=[R('eyebrow',H('eb1','Type II radical')),R('side',T('form',r`\sqrt{x^2+a^2}`,'cr')),R('side',T('aval',r`a^2=4\;\Rightarrow\;a=2`,'ca'))];
+  const subRows=[R('eyebrow',H('eb2','Substitution')),R('side',T('xsub',r`x=2\tan\theta`,'cx'))];
+  const idRows=[R('eyebrow',H('eb3','Pythagorean identity')),R('side',T('pyid',r`\tan^2\theta+1=\sec^2\theta`,'ct'))];
+  const dxRow=R('work',dx,EQ('e1'),T('dxv',r`2\sec^2\theta\,d\theta`,'cd',{from:'xsub'}));
+  const rA=[rad,EQ('e2'),T('r1',r`\sqrt{\class{cx}{4\tan^2\theta}+4}`,'cr',{from:'xsub'}),EQ('e3'),T('r2',r`\sqrt{4\sec^2\theta}`,'cr')];
+  const rB=[...rA,EQ('e4'),T('r3',r`2\sec\theta`,'cr')];
+  const big=(n,d,k)=>R('big',k||intX,F('f',n,d));
+  const k=T('k',r`\tfrac28`,'ink',{from:'r3'});
+  const p1top=R('big',T('k',r`\tfrac14`),intX,T('r3',r`\cos\theta`,'ct'),T('dxv',r`d\theta`,'cd'));
+  const known=[R('eyebrow',H('eb4','Basic antiderivative')),R('side',T('id1',r`\int\cos\theta\,d\theta=\sin\theta+C`,'ct'))];
+  const L1=R('line',EQ('p1'),T('p1t',r`\tfrac14\sin\theta\;\Big|_{x=0}^{x=1}`));
+  const anti=sn=>R('big',T('b1',r`\tfrac14`,'ink',{from:'p1t'}),sn,T('b2',r`\Big|_{x=0}^{x=1}`,'ink',{from:'p1t'}));
+  const sn0=T('sn',r`\sin\theta`,'ct',{from:'p1t'});
+  const tri=s=>R('side',TRI('tri',triII('x','2',r`\sqrt{x^2+4}`,s)));
+  const triHead=R('eyebrow',H('eb6','Reference triangle'));
+  const ratio=R('side',T('trig1',r`\tan\theta=\frac{\class{cx}{x}}{\class{ca}{2}}=\frac{\text{opp}}{\text{adj}}`));
+  const rd=R('side',T('rd1',r`\sin\theta=\frac{\text{opp}}{\text{hyp}}=\frac{x}{\sqrt{x^2+4}}`,'ct'));
+  const swapped=anti(T('sn',r`\frac{\class{cx}{x}}{\class{cr}{\sqrt{x^2+4}}}`,'ink',{from:'rd1'}));
+  const V1=R('line',EQ('v1'),T('v1t',r`\tfrac14\left(\frac{1}{\sqrt5}-\frac{0}{\sqrt4}\right)`));
+  const V2=R('line',EQ('v2'),T('v2t',r`\frac{1}{4\sqrt5}`,'ink',{cls:'boxed'}));
+  return [
+    S(1,r`A fractional exponent hides a radical: $(x^2+4)^{3/2}=\big(\sqrt{x^2+4}\big)^3$.`,[big([dx],[pw],int0)]),
+    S(1,r`Rewrite the [[cp:power]] as the cube of a [[cr:square root]].`,[big([dx],[lp,rad,rp],int0)]),
+    S(1,r`The radical matches $\sqrt{x^2+a^2}$ with $a=2$: Type II.`,[big([dx],[lp,rad,rp],int0)],typeRows),
+    S(1,r`Type II uses $x=a\tan\theta$, so [[cx:$x=2\tan\theta$]].`,[big([dx],[lp,rad,rp],int0)],[...typeRows,...subRows]),
+    S(1,r`Replace [[cd:$dx$]]: the derivative of $\tan\theta$ is $\sec^2\theta$, so $dx=2\sec^2\theta\,d\theta$.`,[big([gdx],[lp,rad,rp]),dxRow],subRows),
+    S(1,r`Inside the [[cr:radical]], $x^2=4\tan^2\theta$. Then $4\tan^2\theta+4=4(\tan^2\theta+1)=4\sec^2\theta$.`,[big([gdx],[lp,grad,rp]),dxRow,R('work',...rA)],[...subRows,...idRows]),
+    S(1,r`So $\sqrt{x^2+4}=2\sec\theta$, because $\sec\theta>0$ for $-\tfrac{\pi}{2}<\theta<\tfrac{\pi}{2}$.`,[big([gdx],[lp,grad,rp]),dxRow,R('work',...rB)],[...subRows,...idRows]),
+    S(1,r`Both replacements return to the integral.`,[big([T('dxv',r`2\sec^2\theta\,d\theta`,'cd')],[lp,T('r3',r`2\sec\theta`,'cr'),rp])],subRows),
+    S(1,r`Cube it: $(2\sec\theta)^3=8\sec^3\theta$.`,[big([T('dxv',r`2\sec^2\theta\,d\theta`,'cd')],[T('r3',r`8\sec^3\theta`,'cr')])],subRows),
+    S(1,r`Pull out the constants $\tfrac28$.`,[R('big',k,intX,F('f',[T('dxv',r`\sec^2\theta\,d\theta`,'cd')],[T('r3',r`\sec^3\theta`,'cr')]))],subRows),
+    S(1,r`Cancel $\sec^2\theta$ and reduce $\tfrac28=\tfrac14$.`,[R('big',T('k',r`\tfrac14`),intX,F('f',[T('dxv',r`d\theta`,'cd')],[T('r3',r`\sec\theta`,'cr')]))],subRows),
+    S(1,r`Since $\tfrac{1}{\sec\theta}=\cos\theta$, Phase 1 ends with $\tfrac14\int\cos\theta\,d\theta$.`,[p1top],subRows),
+    S(2,r`A basic antiderivative: $\int\cos\theta\,d\theta=\sin\theta$.`,[p1top,L1],known),
+    S(3,r`From $x=2\tan\theta$ we get $\tan\theta=\tfrac{x}{2}$.`,[anti(sn0)],[triHead,tri([]),ratio]),
+    S(3,r`Since $\tan\theta=\tfrac{\text{opp}}{\text{adj}}$, label the opposite side [[cx:$x$]] and the adjacent side [[ca:$2$]].`,[anti(sn0)],[triHead,tri(['opp','adj']),ratio]),
+    S(3,r`The Pythagorean theorem gives the hypotenuse $\sqrt{x^2+2^2}$. This time the [[cr:radical]] is the hypotenuse.`,[anti(sn0)],[triHead,tri(ALL),ratio]),
+    S(3,r`Read off $\sin\theta=\tfrac{\text{opp}}{\text{hyp}}$.`,[anti(sn0)],[triHead,tri(ALL),rd]),
+    S(3,r`Swap it in. The original $x$-limits apply again.`,[swapped],[triHead,tri(ALL),rd]),
+    S(3,r`Evaluate at $x=1$ and $x=0$.`,[swapped,V1],[triHead,tri(ALL),rd]),
+    S(3,r`The answer is $\tfrac{1}{4\sqrt5}$.`,[swapped,V1,V2],[triHead,tri(ALL),rd]),
+  ];
+})()});
+
+/* ===== Example 4 ===== */
+examples.push({n:4,type:'Type III',problem:r`\int\frac{\sqrt{x^2-144}}{x}\,dx`,track:[r`12\int\tan^2\theta\,d\theta`,r`12(\tan\theta-\theta)+C`,r`\sqrt{x^2-144}-12\operatorname{arcsec}\tfrac{x}{12}+C`],steps:(()=>{
+  const int=T('int',r`\int`);
+  const dx=T('dx','dx','cd'), rad=T('rad',r`\sqrt{x^2-144}`,'cr'), xd=T('xd','x','cp');
+  const gdx=G('gdx','dx'), grad=G('grad',r`\sqrt{x^2-144}`), gxd=G('gxd','x');
+  const typeRows=[R('eyebrow',H('eb1','Type III radical')),R('side',T('form',r`\sqrt{x^2-a^2}`,'cr')),R('side',T('aval',r`a^2=144\;\Rightarrow\;a=12`,'ca'))];
+  const subRows=[R('eyebrow',H('eb2','Substitution')),R('side',T('xsub',r`x=12\sec\theta`,'cx')),R('side',H('note1','Take x &gt; 12, so tan θ ≥ 0','muted',{cls:'note'}))];
+  const idRows=[R('eyebrow',H('eb3','Pythagorean identity')),R('side',T('pyid',r`\sec^2\theta-1=\tan^2\theta`,'ct'))];
+  const dxRow=R('work',dx,EQ('e1'),T('dxv',r`12\sec\theta\tan\theta\,d\theta`,'cd',{from:'xsub'}));
+  const xdRow=R('work',xd,EQ('e5'),T('xdv',r`12\sec\theta`,'cp',{from:'xsub'}));
+  const rA=[rad,EQ('e2'),T('r1',r`\sqrt{\class{cx}{144\sec^2\theta}-144}`,'cr',{from:'xsub'}),EQ('e3'),T('r2',r`\sqrt{144\tan^2\theta}`,'cr')];
+  const rB=[...rA,EQ('e4'),T('r3',r`12\tan\theta`,'cr')];
+  const big=(n,d,tail)=>R('big',int,F('f',n,d),tail);
+  const p1top=R('big',T('k','12','ink',{from:'r3'}),int,T('r3',r`\tan^2\theta`,'ct'),T('dxv',r`d\theta`,'cd'));
+  const idT=[R('eyebrow',H('eb4','Pythagorean identity')),R('side',T('id1',r`\tan^2\theta=\sec^2\theta-1`,'ct'))];
+  const L1=R('line',EQ('p1'),T('p1t',r`12\int(\sec^2\theta-1)\,d\theta`));
+  const L2=R('line',EQ('p2'),T('p2t',r`12\big(\tan\theta-\theta\big)+C`));
+  const anti=(tn,th)=>R('big',T('b1',r`12\Big(`,'ink',{from:'p2t'}),tn,T('mi','-','ink',{from:'p2t'}),th,T('b2',r`\Big)+C`,'ink',{from:'p2t'}));
+  const tn0=T('tn',r`\tan\theta`,'ct',{from:'p2t'}), th0=T('th',r`\theta`,'ct',{from:'p2t'});
+  const tri=s=>R('side',TRI('tri',triIII('x','12',r`\sqrt{x^2-144}`,s)));
+  const triHead=R('eyebrow',H('eb6','Reference triangle'));
+  const ratio=R('side',T('trig1',r`\sec\theta=\frac{\class{cx}{x}}{\class{ca}{12}}=\frac{\text{hyp}}{\text{adj}}`));
+  const reads=[R('side',T('rd1',r`\tan\theta=\frac{\sqrt{x^2-144}}{12}`,'ct')),R('side',T('rd2',r`\theta=\operatorname{arcsec}\tfrac{x}{12}`,'ct'))];
+  const swapped=anti(T('tn',r`\frac{\sqrt{x^2-144}}{12}`,'cr',{from:'rd1'}),T('th',r`\operatorname{arcsec}\tfrac{x}{12}`,'cx',{from:'rd2'}));
+  const V1=R('line',EQ('v1'),T('v1t',r`\sqrt{x^2-144}-12\operatorname{arcsec}\tfrac{x}{12}+C`,'ink',{cls:'boxed'}));
+  return [
+    S(1,r`This one is indefinite, so the final answer must be in $x$, plus $C$. Three pieces need replacing: the [[cr:radical]], the [[cp:$x$ in the denominator]], and [[cd:$dx$]].`,[big([rad],[xd],dx)]),
+    S(1,r`The radical matches $\sqrt{x^2-a^2}$ with $a=12$: Type III.`,[big([rad],[xd],dx)],typeRows),
+    S(1,r`Type III uses $x=a\sec\theta$, so [[cx:$x=12\sec\theta$]]. We take $x>12$ so the radical simplifies to $+12\tan\theta$.`,[big([rad],[xd],dx)],[...typeRows,...subRows]),
+    S(1,r`Replace [[cd:$dx$]]: the derivative of $\sec\theta$ is $\sec\theta\tan\theta$.`,[big([rad],[xd],gdx),dxRow],subRows),
+    S(1,r`The lone [[cp:$x$]] in the denominator is just the substitution itself.`,[big([rad],[gxd],gdx),dxRow,xdRow],subRows),
+    S(1,r`Inside the [[cr:radical]]: $144\sec^2\theta-144=144(\sec^2\theta-1)=144\tan^2\theta$.`,[big([grad],[gxd],gdx),dxRow,xdRow,R('work',...rA)],[...subRows,...idRows]),
+    S(1,r`So $\sqrt{x^2-144}=12\tan\theta$.`,[big([grad],[gxd],gdx),dxRow,xdRow,R('work',...rB)],[...subRows,...idRows]),
+    S(1,r`All three replacements return to the integral.`,[R('big',int,F('f',[T('r3',r`(12\tan\theta)`,'cr'),T('dxv',r`(12\sec\theta\tan\theta\,d\theta)`,'cd')],[T('xdv',r`12\sec\theta`,'cp')]))],subRows),
+    S(1,r`The $12\sec\theta$ in $dx$ cancels the denominator.`,[R('big',int,F('f',[T('r3',r`(12\tan\theta)`,'cr'),T('dxv',r`(\cancel{12\sec\theta}\,\tan\theta\,d\theta)`,'cd')],[T('xdv',r`\cancel{12\sec\theta}`,'cp')]))],subRows),
+    S(1,r`What's left is $12\tan\theta\cdot\tan\theta=12\tan^2\theta$. Phase 1 is done.`,[p1top],subRows),
+    S(2,r`Convert with $\tan^2\theta=\sec^2\theta-1$ so each term has a known antiderivative.`,[p1top,L1],idT),
+    S(2,r`$\int\sec^2\theta\,d\theta=\tan\theta$ and $\int1\,d\theta=\theta$.`,[p1top,L1,L2],idT),
+    S(3,r`From $x=12\sec\theta$ we get $\sec\theta=\tfrac{x}{12}$.`,[anti(tn0,th0)],[triHead,tri([]),ratio]),
+    S(3,r`Since $\sec\theta=\tfrac{\text{hyp}}{\text{adj}}$, label the hypotenuse [[cx:$x$]] and the adjacent side [[ca:$12$]].`,[anti(tn0,th0)],[triHead,tri(['hyp','adj']),ratio]),
+    S(3,r`The Pythagorean theorem gives the opposite side $\sqrt{x^2-12^2}$: the [[cr:radical]] again.`,[anti(tn0,th0)],[triHead,tri(ALL),ratio]),
+    S(3,r`We need $\tan\theta=\tfrac{\text{opp}}{\text{adj}}$ and $\theta$ itself, which comes from inverting $\sec\theta=\tfrac{x}{12}$.`,[anti(tn0,th0)],[triHead,tri(ALL),...reads]),
+    S(3,r`Swap both into the antiderivative.`,[swapped],[triHead,tri(ALL),...reads]),
+    S(3,r`Distribute the 12 for the final answer.`,[swapped,V1],[triHead,tri(ALL),...reads]),
+  ];
+})()});
+
+/* ===== Example 5 ===== */
+examples.push({n:5,type:'Type III · factor first',problem:r`\int\frac{5\,dx}{\sqrt{25x^2-9}}`,track:[r`\int\sec\theta\,d\theta`,r`\ln\left|\sec\theta+\tan\theta\right|+C`,r`\ln\left|\frac{5x+\sqrt{25x^2-9}}{3}\right|+C`],steps:(()=>{
+  const int=T('int',r`\int`);
+  const five=T('five','5'), dx=T('dx','dx','cd'), rad0=T('rad',r`\sqrt{25x^2-9}`,'cr');
+  const radF=T('rad',r`\sqrt{25\left(x^2-\tfrac{9}{25}\right)}`,'cr');
+  const radS=T('rad',r`\sqrt{x^2-\tfrac{9}{25}}`,'cr'), fiveB=T('fiveb','5','ink',{from:'rad'});
+  const gdx=G('gdx','dx'), grad=G('grad',r`\sqrt{x^2-\tfrac{9}{25}}`);
+  const big=(n,d)=>R('big',int,F('f',n,d));
+  const typeRows=[R('eyebrow',H('eb1','Type III radical')),R('side',T('form',r`\sqrt{x^2-a^2}`,'cr')),R('side',T('aval',r`a^2=\tfrac{9}{25}\;\Rightarrow\;a=\tfrac35`,'ca'))];
+  const subRows=[R('eyebrow',H('eb2','Substitution')),R('side',T('xsub',r`x=\tfrac35\sec\theta`,'cx'))];
+  const dxRow=R('work',dx,EQ('e1'),T('dxv',r`\tfrac35\sec\theta\tan\theta\,d\theta`,'cd',{from:'xsub'}));
+  const rA=[radS,EQ('e2'),T('r1',r`\sqrt{\class{cx}{\tfrac{9}{25}\sec^2\theta}-\tfrac{9}{25}}`,'cr',{from:'xsub'}),EQ('e3'),T('r2',r`\sqrt{\tfrac{9}{25}\tan^2\theta}`,'cr')];
+  const rB=[...rA,EQ('e4'),T('r3',r`\tfrac35\tan\theta`,'cr')];
+  const p1top=R('big',int,T('sec',r`\sec\theta`,'ct',{from:'dxv'}),T('dxv',r`d\theta`,'cd'));
+  const known=[R('eyebrow',H('eb4','From Section 1')),R('side',T('id1',r`\int\sec\theta\,d\theta=\ln|\sec\theta+\tan\theta|+C`,'ct'))];
+  const L1=R('line',EQ('p1'),T('p1t',r`\ln\left|\sec\theta+\tan\theta\right|+C`));
+  const anti=(sc,tn)=>R('big',T('b1',r`\ln\Big|`,'ink',{from:'p1t'}),sc,T('pl','+','ink',{from:'p1t'}),tn,T('b2',r`\Big|+C`,'ink',{from:'p1t'}));
+  const sc0=T('sc',r`\sec\theta`,'ct',{from:'p1t'}), tn0=T('tn',r`\tan\theta`,'ct',{from:'p1t'});
+  const tri=s=>R('side',TRI('tri',triIII('5x','3',r`\sqrt{25x^2-9}`,s)));
+  const triHead=R('eyebrow',H('eb6','Reference triangle'));
+  const ratio=R('side',T('trig1',r`\sec\theta=\frac{x}{3/5}=\frac{\class{cx}{5x}}{\class{ca}{3}}=\frac{\text{hyp}}{\text{adj}}`));
+  const reads=[R('side',T('rd1',r`\sec\theta=\tfrac{5x}{3}`,'ct')),R('side',T('rd2',r`\tan\theta=\tfrac{\sqrt{25x^2-9}}{3}`,'ct'))];
+  const swapped=anti(T('sc',r`\frac{5x}{3}`,'cx',{from:'rd1'}),T('tn',r`\frac{\sqrt{25x^2-9}}{3}`,'cr',{from:'rd2'}));
+  const V1=R('line',EQ('v1'),T('v1t',r`\ln\left|\frac{5x+\sqrt{25x^2-9}}{3}\right|+C`,'ink',{cls:'boxed'}));
+  return [
+    S(1,r`This looks like Type III, but $x^2$ has a coefficient of 25. The standard forms need a coefficient of 1, so factor first.`,[big([five,dx],[rad0])]),
+    S(1,r`Factor 25 out of both terms under the [[cr:root]].`,[big([five,dx],[radF])]),
+    S(1,r`$\sqrt{25}=5$ comes out of the radical.`,[big([five,dx],[fiveB,radS])]),
+    S(1,r`The 5 on top cancels the 5 on the bottom.`,[big([T('five',r`\cancel{5}`),dx],[T('fiveb',r`\cancel{5}`),radS])]),
+    S(1,r`Now the coefficient of $x^2$ is 1.`,[big([dx],[radS])]),
+    S(1,r`It matches $\sqrt{x^2-a^2}$ with $a^2=\tfrac{9}{25}$, so $a=\tfrac35$: Type III.`,[big([dx],[radS])],typeRows),
+    S(1,r`Type III uses $x=a\sec\theta$, so [[cx:$x=\tfrac35\sec\theta$]].`,[big([dx],[radS])],[...typeRows,...subRows]),
+    S(1,r`Replace [[cd:$dx$]].`,[big([gdx],[radS]),dxRow],subRows),
+    S(1,r`Inside the [[cr:radical]]: $\tfrac{9}{25}\sec^2\theta-\tfrac{9}{25}=\tfrac{9}{25}(\sec^2\theta-1)=\tfrac{9}{25}\tan^2\theta$.`,[big([gdx],[grad]),dxRow,R('work',...rA)],subRows),
+    S(1,r`So $\sqrt{x^2-\tfrac{9}{25}}=\tfrac35\tan\theta$ (taking $x>\tfrac35$).`,[big([gdx],[grad]),dxRow,R('work',...rB)],subRows),
+    S(1,r`Both replacements return to the integral.`,[big([T('dxv',r`\tfrac35\sec\theta\tan\theta\,d\theta`,'cd')],[T('r3',r`\tfrac35\tan\theta`,'cr')])],subRows),
+    S(1,r`$\tfrac35\tan\theta$ cancels top and bottom.`,[big([T('dxv',r`\cancel{\tfrac35}\sec\theta\,\cancel{\tan\theta}\,d\theta`,'cd')],[T('r3',r`\cancel{\tfrac35\tan\theta}`,'cr')])],subRows),
+    S(1,r`Phase 1 ends with $\int\sec\theta\,d\theta$.`,[p1top],subRows),
+    S(2,r`This is a known result, derived in Section 1 with a “convenient version of 1.”`,[p1top,L1],known),
+    S(3,r`From $x=\tfrac35\sec\theta$: $\sec\theta=\tfrac{x}{3/5}=\tfrac{5x}{3}$. Clearing the fraction keeps the triangle clean.`,[anti(sc0,tn0)],[triHead,tri([]),ratio]),
+    S(3,r`Label the hypotenuse [[cx:$5x$]] and the adjacent side [[ca:$3$]].`,[anti(sc0,tn0)],[triHead,tri(['hyp','adj']),ratio]),
+    S(3,r`The opposite side is $\sqrt{(5x)^2-3^2}=\sqrt{25x^2-9}$: the [[cr:original radical]].`,[anti(sc0,tn0)],[triHead,tri(ALL),ratio]),
+    S(3,r`Read off $\sec\theta$ and $\tan\theta$.`,[anti(sc0,tn0)],[triHead,tri(ALL),...reads]),
+    S(3,r`Swap both into the antiderivative.`,[swapped],[triHead,tri(ALL),...reads]),
+    S(3,r`Optionally, combine over the common denominator 3.`,[swapped,V1],[triHead,tri(ALL),...reads]),
+  ];
+})()});
+
+/* ===== Example 6 ===== */
+examples.push({n:6,type:'Type I · complete the square',problem:r`\int_1^2\frac{dx}{\sqrt{4x-x^2}}`,track:[r`\int_{x=1}^{x=2}d\theta`,r`\theta\,\Big|_{x=1}^{x=2}`,r`\tfrac{\pi}{6}`],steps:(()=>{
+  const int0=T('int',r`\int_{1}^{2}`), intX=T('int',r`\int_{x=1}^{x=2}`);
+  const dx=T('dx','dx','cd'), rad0=T('rad',r`\sqrt{4x-x^2}`,'cr');
+  const big=(n,d,k)=>R('big',k||intX,F('f',n,d));
+  const cs1=R('work',T('cs0',r`4x-x^2`,'cr',{from:'rad'}),EQ('c1'),T('cs1',r`-(x^2-4x)`));
+  const cs2=R('work',EQ('c2'),T('cs2',r`-(x^2-4x+4)+4`),EQ('c3'),T('cs3',r`4-(x-2)^2`,'cr'));
+  const radC=T('rad',r`\sqrt{4-(x-2)^2}`,'cr',{from:'cs3'});
+  const radU=T('rad',r`\sqrt{4-u^2}`,'cr'), du=T('dx','du','cd');
+  const uRows=[R('eyebrow',H('eb0','Shift first')),R('side',T('usub',r`u=x-2,\quad du=dx`,'cx'))];
+  const typeRows=[R('eyebrow',H('eb1','Type I radical')),R('side',T('form',r`\sqrt{a^2-u^2}`,'cr')),R('side',T('aval',r`a^2=4\;\Rightarrow\;a=2`,'ca'))];
+  const subRows=[R('eyebrow',H('eb2','Substitution')),R('side',T('xsub',r`u=2\sin\theta`,'cx'))];
+  const gdu=G('gdx','du'), grad=G('grad',r`\sqrt{4-u^2}`);
+  const duRow=R('work',du,EQ('e1'),T('dxv',r`2\cos\theta\,d\theta`,'cd',{from:'xsub'}));
+  const rA=[radU,EQ('e2'),T('r1',r`\sqrt{4-\class{cx}{4\sin^2\theta}}`,'cr',{from:'xsub'}),EQ('e3'),T('r2',r`\sqrt{4\cos^2\theta}`,'cr')];
+  const rB=[...rA,EQ('e4'),T('r3',r`2\cos\theta`,'cr')];
+  const p1top=R('big',intX,T('dxv',r`d\theta`,'cd'));
+  const L1=R('line',EQ('p1'),T('p1t',r`\theta\;\Big|_{x=1}^{x=2}`));
+  const anti=th=>R('big',th,T('b2',r`\Big|_{x=1}^{x=2}`,'ink',{from:'p1t'}));
+  const th0=T('th',r`\theta`,'ct',{from:'p1t'});
+  const tri=s=>R('side',TRI('tri',triI('u','2',r`\sqrt{4-u^2}`,s)));
+  const triHead=R('eyebrow',H('eb6','Reference triangle'));
+  const ratio=R('side',T('trig1',r`\sin\theta=\frac{\class{cx}{u}}{\class{ca}{2}}=\frac{\text{opp}}{\text{hyp}}`));
+  const reads=[R('side',T('rd1',r`\theta=\arcsin\tfrac{u}{2}`,'ct')),R('side',T('rd2',r`=\arcsin\tfrac{x-2}{2}`,'ct'))];
+  const swapped=anti(T('th',r`\arcsin\frac{x-2}{2}`,'cx',{from:'rd2'}));
+  const V1=R('line',EQ('v1'),T('v1t',r`\arcsin0-\arcsin\left(-\tfrac12\right)`));
+  const V2=R('line',EQ('v2'),T('v2t',r`0-\left(-\tfrac{\pi}{6}\right)=\tfrac{\pi}{6}`,'ink',{cls:'boxed'}));
+  return [
+    S(1,r`$4x-x^2$ is not of the form $a^2-x^2$ yet: there's a linear term. Complete the square first.`,[big([dx],[rad0],int0)]),
+    S(1,r`Factor out the negative from the expression under the [[cr:root]].`,[big([dx],[rad0],int0),cs1]),
+    S(1,r`Add and subtract 4 to complete the square.`,[big([dx],[rad0],int0),cs1,cs2]),
+    S(1,r`The [[cr:radical]] is now $\sqrt{4-(x-2)^2}$.`,[big([dx],[radC],int0)]),
+    S(1,r`Shift with [[cx:$u=x-2$]], so $du=dx$. We keep the limits as $x$-values and return to $x$ at the end.`,[big([du],[radU])],uRows),
+    S(1,r`Now $\sqrt{4-u^2}$ matches $\sqrt{a^2-u^2}$ with $a=2$: Type I.`,[big([du],[radU])],[...uRows,...typeRows]),
+    S(1,r`Type I in the variable $u$: [[cx:$u=2\sin\theta$]].`,[big([du],[radU])],[...uRows,...subRows]),
+    S(1,r`Replace [[cd:$du$]].`,[big([gdu],[radU]),duRow],[...uRows,...subRows]),
+    S(1,r`Inside the [[cr:radical]]: $4-4\sin^2\theta=4\cos^2\theta$.`,[big([gdu],[grad]),duRow,R('work',...rA)],[...uRows,...subRows]),
+    S(1,r`So $\sqrt{4-u^2}=2\cos\theta$.`,[big([gdu],[grad]),duRow,R('work',...rB)],[...uRows,...subRows]),
+    S(1,r`Both replacements return to the integral.`,[big([T('dxv',r`2\cos\theta\,d\theta`,'cd')],[T('r3',r`2\cos\theta`,'cr')])],[...uRows,...subRows]),
+    S(1,r`Top and bottom cancel completely.`,[big([T('dxv',r`\cancel{2\cos\theta}\,d\theta`,'cd')],[T('r3',r`\cancel{2\cos\theta}`,'cr')])],[...uRows,...subRows]),
+    S(1,r`Phase 1 ends with the simplest trig integral there is: $\int d\theta$.`,[p1top],[...uRows,...subRows]),
+    S(2,r`$\int d\theta=\theta$.`,[p1top,L1],[...uRows,...subRows]),
+    S(3,r`From $u=2\sin\theta$ we get $\sin\theta=\tfrac{u}{2}$. The triangle is built in $u$.`,[anti(th0)],[triHead,tri([]),ratio]),
+    S(3,r`Opposite [[cx:$u$]], hypotenuse [[ca:$2$]], and the adjacent side is the [[cr:radical]] $\sqrt{4-u^2}$.`,[anti(th0)],[triHead,tri(ALL),ratio]),
+    S(3,r`Only $\theta$ itself is needed. Undo both substitutions: $\theta$ to $u$, then $u=x-2$.`,[anti(th0)],[triHead,tri(ALL),...reads]),
+    S(3,r`Swap it in. The original $x$-limits apply.`,[swapped],[triHead,tri(ALL),...reads]),
+    S(3,r`At $x=2$: $\arcsin0$. At $x=1$: $\arcsin\left(-\tfrac12\right)$.`,[swapped,V1],[triHead,tri(ALL),...reads]),
+    S(3,r`The answer is $\tfrac{\pi}{6}$, matching the shortcut $\int\frac{du}{\sqrt{a^2-u^2}}=\arcsin\frac{u}{a}$.`,[swapped,V1,V2],[triHead,tri(ALL),...reads]),
+  ];
+})()});
+
+/* ===== Helicopter view (final slide of each example) ===== */
+const ln=(t,c='ink',o={})=>({t,c,o}), bx=t=>ln(t,'ink',{cls:'boxed'});
+const HELI={
+ 1:[[ln(r`x=4\sin\theta`,'cx'),ln(r`dx=4\cos\theta\,d\theta`,'cd'),ln(r`\sqrt{16-x^2}=4\cos\theta`,'cr'),ln(r`\int_0^2\sqrt{16-x^2}\,dx`),ln(r`=16\int\cos^2\theta\,d\theta`,'ct')],
+    [ln(r`\cos^2\theta=\tfrac12(1+\cos2\theta)`,'muted'),ln(r`8\int(1+\cos2\theta)\,d\theta`),ln(r`=8\big[\theta+\tfrac12\sin2\theta\big]`),ln(r`=8\big[\theta+\sin\theta\cos\theta\big]`,'ct')],
+    [{tri:triI('x','4',r`\sqrt{16-x^2}`,ALL)},ln(r`\theta=\arcsin\tfrac{x}{4},\;\cos\theta=\tfrac{\sqrt{16-x^2}}{4}`),ln(r`8\Big[\arcsin\tfrac{x}{4}+\tfrac{x\sqrt{16-x^2}}{16}\Big]_0^2`),bx(r`\tfrac{4\pi}{3}+2\sqrt3`)]],
+ 2:[[ln(r`x=2\sin\theta`,'cx'),ln(r`dx=2\cos\theta\,d\theta`,'cd'),ln(r`x^2=4\sin^2\theta`,'cp'),ln(r`\sqrt{4-x^2}=2\cos\theta`,'cr'),ln(r`\int\frac{2\cos\theta\,d\theta}{4\sin^2\theta\cdot2\cos\theta}`),ln(r`=\tfrac14\int\csc^2\theta\,d\theta`,'ct')],
+    [ln(r`\tfrac14\int\csc^2\theta\,d\theta`),ln(r`=-\tfrac14\cot\theta`,'ct')],
+    [{tri:triI('x','2',r`\sqrt{4-x^2}`,ALL)},ln(r`\cot\theta=\frac{\sqrt{4-x^2}}{x}`),ln(r`-\tfrac14\,\frac{\sqrt{4-x^2}}{x}\,\Big|_1^{\sqrt2}`),bx(r`\frac{\sqrt3-1}{4}`)]],
+ 3:[[ln(r`(x^2+4)^{3/2}=\big(\sqrt{x^2+4}\big)^3`,'cp'),ln(r`x=2\tan\theta`,'cx'),ln(r`dx=2\sec^2\theta\,d\theta`,'cd'),ln(r`\sqrt{x^2+4}=2\sec\theta`,'cr'),ln(r`\int\frac{2\sec^2\theta\,d\theta}{8\sec^3\theta}`),ln(r`=\tfrac14\int\cos\theta\,d\theta`,'ct')],
+    [ln(r`\tfrac14\int\cos\theta\,d\theta`),ln(r`=\tfrac14\sin\theta`,'ct')],
+    [{tri:triII('x','2',r`\sqrt{x^2+4}`,ALL)},ln(r`\sin\theta=\frac{x}{\sqrt{x^2+4}}`),ln(r`\tfrac14\,\frac{x}{\sqrt{x^2+4}}\,\Big|_0^1`),bx(r`\frac{1}{4\sqrt5}`)]],
+ 4:[[ln(r`x=12\sec\theta`,'cx'),ln(r`dx=12\sec\theta\tan\theta\,d\theta`,'cd'),ln(r`\sqrt{x^2-144}=12\tan\theta`,'cr'),ln(r`\int\frac{12\tan\theta\cdot12\sec\theta\tan\theta}{12\sec\theta}\,d\theta`),ln(r`=12\int\tan^2\theta\,d\theta`,'ct')],
+    [ln(r`\tan^2\theta=\sec^2\theta-1`,'muted'),ln(r`12\int(\sec^2\theta-1)\,d\theta`),ln(r`=12(\tan\theta-\theta)+C`,'ct')],
+    [{tri:triIII('x','12',r`\sqrt{x^2-144}`,ALL)},ln(r`\tan\theta=\frac{\sqrt{x^2-144}}{12}`),ln(r`\theta=\operatorname{arcsec}\tfrac{x}{12}`),bx(r`\sqrt{x^2-144}-12\operatorname{arcsec}\tfrac{x}{12}+C`)]],
+ 5:[[ln(r`\sqrt{25x^2-9}=5\sqrt{x^2-\tfrac{9}{25}}`,'cr'),ln(r`x=\tfrac35\sec\theta`,'cx'),ln(r`dx=\tfrac35\sec\theta\tan\theta\,d\theta`,'cd'),ln(r`\sqrt{x^2-\tfrac{9}{25}}=\tfrac35\tan\theta`,'cr'),ln(r`=\int\sec\theta\,d\theta`,'ct')],
+    [ln(r`\int\sec\theta\,d\theta`),ln(r`=\ln|\sec\theta+\tan\theta|+C`,'ct')],
+    [{tri:triIII('5x','3',r`\sqrt{25x^2-9}`,ALL)},ln(r`\sec\theta=\tfrac{5x}{3},\;\tan\theta=\tfrac{\sqrt{25x^2-9}}{3}`),bx(r`\ln\left|\frac{5x+\sqrt{25x^2-9}}{3}\right|+C`)]],
+ 6:[[ln(r`4x-x^2=4-(x-2)^2`,'cr'),ln(r`u=x-2,\;du=dx`,'cx'),ln(r`u=2\sin\theta,\;du=2\cos\theta\,d\theta`,'cd'),ln(r`\sqrt{4-u^2}=2\cos\theta`,'cr'),ln(r`\int\frac{2\cos\theta\,d\theta}{2\cos\theta}=\int d\theta`,'ct')],
+    [ln(r`\int d\theta=\theta`,'ct')],
+    [{tri:triI('u','2',r`\sqrt{4-u^2}`,ALL)},ln(r`\theta=\arcsin\tfrac{u}{2}=\arcsin\tfrac{x-2}{2}`),ln(r`\arcsin\tfrac{x-2}{2}\,\Big|_1^2`),bx(r`\tfrac{\pi}{6}`)]],
+};
+const PH=['Phase 1 · Substitute','Phase 2 · Integrate','Phase 3 · Back to x'];
+examples.forEach(e=>{
+  const cols=HELI[e.n].map((lines,ci)=>ST([H('hv'+ci,PH[ci],'muted',{cls:'eyebrow'})],
+    ...lines.map((l,li)=>[l.tri?TRI('hvt'+ci+li,{...l.tri,sm:true}):T('hv'+ci+'-'+li,l.t,l.c,l.o)])));
+  e.steps.push(S(4,r`The helicopter view: every step of the problem, phase by phase. [[cx:Substitution]], [[cd:differential]] and [[cr:radical]] keep their colors throughout.`,[R('sum',...cols)],[],{layout:'full'}));
+});
+
+/* ===== Intro slides ===== */
+const intro=[
+  {id:'title',label:'Title',head:{eb:'Calculus II · Advanced Integration Techniques',prob:null},layout:'full',
+   say:r`Six worked examples. Each one runs through the same three phases. Press → or click to begin.`,
+   main:[R('eyebrow',H('t1','Nakia Rimmer · Summary notes, Section 2')),R('display',H('t2','Trigonometric Substitution','ink')),
+     R('lead',H('t3','Replace the radical with a triangle. Integrate. Come back.')),
+     R('chips',H('c1','<b>1</b>Substitute','ink',{cls:'chip'}),H('c2','<b>2</b>Integrate','ink',{cls:'chip'}),H('c3','<b>3</b>Back to x','ink',{cls:'chip'})),
+     R('sample',T('s1',r`\sqrt{a^2-x^2}`,'cr'),T('s2',r`\;\xrightarrow{\;x\,=\,a\sin\theta\;}\;`,'cx'),T('s3',r`a\cos\theta`,'cr'))],side:[]},
+  {id:'types',label:'The three substitutions',head:{eb:'Overview',prob:null},layout:'full',
+   say:r`Each substitution comes from one ratio in a right triangle. The [[cr:radical]] always becomes a side, and the Pythagorean theorem is what makes it disappear.`,
+   main:[R('cols',
+     ST([H('o1h','Type I','muted',{cls:'eyebrow'})],[T('o1f',r`\sqrt{a^2-x^2}`,'cr')],[T('o1s',r`x=a\sin\theta`,'cx')],[TRI('o1t',{...triI('x','a',r`\sqrt{a^2-x^2}`,ALL),sm:true})],[T('o1r',r`\sqrt{a^2-x^2}=a\cos\theta`,'muted')]),
+     ST([H('o2h','Type II','muted',{cls:'eyebrow'})],[T('o2f',r`\sqrt{a^2+x^2}`,'cr')],[T('o2s',r`x=a\tan\theta`,'cx')],[TRI('o2t',{...triII('x','a',r`\sqrt{a^2+x^2}`,ALL),sm:true})],[T('o2r',r`\sqrt{a^2+x^2}=a\sec\theta`,'muted')]),
+     ST([H('o3h','Type III','muted',{cls:'eyebrow'})],[T('o3f',r`\sqrt{x^2-a^2}`,'cr')],[T('o3s',r`x=a\sec\theta`,'cx')],[TRI('o3t',{...triIII('x','a',r`\sqrt{x^2-a^2}`,ALL),sm:true})],[T('o3r',r`\sqrt{x^2-a^2}=\pm a\tan\theta`,'muted')])
+   )],side:[]},
+];
+
+/* ===== Technicalities (Section 2.2) ===== */
+const RICH=(k,html,o={})=>({k,rich:html,c:'ink',...o});
+function arcsecPlot(){
+  const sx=56,x0=280,yb=262,sy=62,X=x=>x0+x*sx,Y=t=>yb-t*sy;
+  const pts=(a,b)=>{let d='';for(let i=0;i<=80;i++){const x=a+(b-a)*i/80;d+=(i?'L':'M')+X(x).toFixed(1)+' '+Y(Math.acos(2/x)).toFixed(1);}return d;};
+  let ticks='';
+  for(let i=-4;i<=4;i++){ if(!i) continue; ticks+=`<line x1="${X(i)}" x2="${X(i)}" y1="${yb-5}" y2="${yb+5}" style="stroke:var(--muted)"/><text x="${X(i)}" y="${yb+26}" text-anchor="middle">${i<0?'−'+(-i):i}</text>`; }
+  const t3=Math.acos(-2/3);
+  return `<svg class="plot" viewBox="0 0 560 300" width="560" height="300" role="img" aria-label="Graph of theta equals arcsec of x over 2, with two branches">
+   <rect x="${X(-2)}" y="${Y(3.45)}" width="${4*sx}" height="${yb-Y(3.45)}" style="fill:var(--ca);opacity:.08"/>
+   <text x="${X(0)+8}" y="${Y(2.9)}" style="fill:var(--ca)" font-size="15">no x here</text>
+   <line x1="14" x2="546" y1="${yb}" y2="${yb}" style="stroke:var(--muted)"/>
+   <line x1="${x0}" x2="${x0}" y1="${yb+8}" y2="${Y(3.5)}" style="stroke:var(--muted)"/>
+   <text x="552" y="${yb+5}">x</text><text x="${x0}" y="${Y(3.5)-8}" text-anchor="middle">θ</text>
+   <line x1="14" x2="546" y1="${Y(Math.PI/2)}" y2="${Y(Math.PI/2)}" style="stroke:var(--muted);stroke-dasharray:6 6"/>
+   <text x="${x0-8}" y="${Y(Math.PI/2)-6}" text-anchor="end">π/2</text>
+   <line x1="${x0-5}" x2="${x0+5}" y1="${Y(Math.PI)}" y2="${Y(Math.PI)}" style="stroke:var(--muted)"/><text x="${x0-10}" y="${Y(Math.PI)+5}" text-anchor="end">π</text>
+   ${ticks}
+   <path d="${pts(2,4.6)}" style="fill:none;stroke:var(--cx);stroke-width:3.5;stroke-linecap:round"/>
+   <path d="${pts(-4.6,-2)}" style="fill:none;stroke:var(--cx);stroke-width:3.5;stroke-linecap:round"/>
+   <circle cx="${X(2)}" cy="${Y(0)}" r="5.5" style="fill:var(--cx)"/><circle cx="${X(-2)}" cy="${Y(Math.PI)}" r="5.5" style="fill:var(--cx)"/>
+   <text x="${X(2.6)}" y="${Y(1.62)}" style="fill:var(--cx)" font-size="18">θ = arcsec(x/2)</text>
+   <text x="${X(3.05)}" y="${Y(0.55)}" font-size="15" style="fill:var(--cr)">tan θ ≥ 0</text>
+   <text x="${X(-4.55)}" y="${Y(2.95)}" font-size="15" style="fill:var(--ca)">tan θ ≤ 0</text>
+   <circle cx="${X(-3)}" cy="${Y(t3)}" r="7" style="fill:var(--cr);stroke:var(--paper);stroke-width:2"/>
+   <text x="${X(-3)}" y="${Y(t3)+28}" text-anchor="middle" style="fill:var(--cr)" font-size="15" font-weight="700">x = −3 ✓</text>
+   <text x="${X(1)}" y="${yb+6}" text-anchor="middle" style="fill:var(--ca)" font-size="22" font-weight="700">×</text>
+   <text x="${X(1)}" y="${yb-14}" text-anchor="middle" style="fill:var(--ca)" font-size="15" font-weight="700">x = 1 ×</text>
+  </svg>`;
+}
+const TBL=r`<table class="tt"><thead><tr><th></th><th>Type I</th><th>Type II</th><th>Type III</th></tr></thead><tbody>
+<tr><th>Radical</th><td class="c-cr">$\sqrt{a^2-x^2}$</td><td class="c-cr">$\sqrt{a^2+x^2}$</td><td class="c-cr">$\sqrt{x^2-a^2}$</td></tr>
+<tr><th>Substitution</th><td class="c-cx">$x=a\sin\theta$</td><td class="c-cx">$x=a\tan\theta$</td><td class="c-cx">$x=a\sec\theta$</td></tr>
+<tr><th>Inverse</th><td>$\theta=\arcsin\left(\tfrac{x}{a}\right)$</td><td>$\theta=\arctan\left(\tfrac{x}{a}\right)$</td><td>$\theta=\operatorname{arcsec}\left(\tfrac{x}{a}\right)$</td></tr>
+<tr class="hl"><th>Range of θ</th><td>$-\tfrac{\pi}{2}\le\theta\le\tfrac{\pi}{2}$</td><td>$-\tfrac{\pi}{2}<\theta<\tfrac{\pi}{2}$</td><td>$0\le\theta<\tfrac{\pi}{2}$ or $\tfrac{\pi}{2}<\theta\le\pi$</td></tr>
+<tr class="hl"><th>Domain of x</th><td>$-a\le x\le a$</td><td>$-\infty<x<\infty$</td><td>$x\le-a$ or $x\ge a$</td></tr>
+<tr><th>Triangle ratio</th><td>$\sin\theta=\tfrac{x}{a}=\tfrac{\text{opp}}{\text{hyp}}$</td><td>$\tan\theta=\tfrac{x}{a}=\tfrac{\text{opp}}{\text{adj}}$</td><td>$\sec\theta=\tfrac{x}{a}=\tfrac{\text{hyp}}{\text{adj}}$</td></tr>
+<tr><th>Radical becomes</th><td class="c-cr">$a\cos\theta$</td><td class="c-cr">$a\sec\theta$</td><td class="c-cr">$\pm a\tan\theta$</td></tr>
+</tbody></table>`;
+const derI=[[H('d1h','Type I · x = a sin θ','muted',{cls:'eyebrow'})],[T('d1a',r`\sqrt{a^2-x^2}`,'cr')],[T('d1b',r`=\sqrt{a^2-a^2\sin^2\theta}`)],[T('d1c',r`=\sqrt{a^2(1-\sin^2\theta)}`)],[T('d1d',r`=\sqrt{a^2\cos^2\theta}`)],[T('d1e',r`=|a\cos\theta|=a\cos\theta`,'ink',{cls:'boxed'})],[RICH('d1n',r`$\cos\theta\ge0$ for $-\tfrac{\pi}{2}\le\theta\le\tfrac{\pi}{2}$, so the absolute value drops.`,{cls:'mini'})]];
+const derII=[[H('d2h','Type II · x = a tan θ','muted',{cls:'eyebrow'})],[T('d2a',r`\sqrt{a^2+x^2}`,'cr')],[T('d2b',r`=\sqrt{a^2+a^2\tan^2\theta}`)],[T('d2c',r`=\sqrt{a^2(1+\tan^2\theta)}`)],[T('d2d',r`=\sqrt{a^2\sec^2\theta}`)],[T('d2e',r`=|a\sec\theta|=a\sec\theta`,'ink',{cls:'boxed'})],[RICH('d2n',r`$\sec\theta>0$ for $-\tfrac{\pi}{2}<\theta<\tfrac{\pi}{2}$, so the absolute value drops.`,{cls:'mini'})]];
+const derIII=[[H('d3h','Type III · x = a sec θ','muted',{cls:'eyebrow'})],[T('d3a',r`\sqrt{x^2-a^2}`,'cr')],[T('d3b',r`=\sqrt{a^2\sec^2\theta-a^2}`)],[T('d3c',r`=\sqrt{a^2(\sec^2\theta-1)}`)],[T('d3d',r`=\sqrt{a^2\tan^2\theta}=|a\tan\theta|`)],[T('d3e',r`=\begin{cases}\;a\tan\theta & x>a\\ -a\tan\theta & x<-a\end{cases}`,'ca',{cls:'boxed'})],[RICH('d3n',r`$\tan\theta$ changes sign across the range, so the absolute value <b>cannot</b> simply drop.`,{cls:'mini'})]];
+const refTri=(k,h,spec,ratio,inv)=>ST([H(k+'h',h,'muted',{cls:'eyebrow'})],[T(k+'r',spec.rad,'cr')],[TRI(k+'t',{...spec.t,sm:true})],[T(k+'q',ratio)],[T(k+'i',inv,'muted')]);
+const STEPS=r`<ol class="steps">
+<li><b>Choose the correct trig-sub</b> (Type I, II, or III) based on the radical. <span class="pill">Phase 1</span></li>
+<li><b>Substitute for every term</b> (don't forget $dx$!) and cancel. You've switched from an integral in $x$ to an integral in $\theta$. <span class="pill">Phase 1</span></li>
+<li><b>Integrate.</b> Your antiderivative will be in terms of $\theta$. <span class="pill">Phase 2</span></li>
+<li><b>Return to the original problem</b> using <b>one</b> of:
+ <div class="sub"><b>4a. Limit switch</b> · <i>only for definite integrals.</i> Convert the $x$-limits into $\theta$-limits. If the angles are recognizable unit-circle angles, there is no need to switch back into $x$.</div>
+ <div class="sub"><b>4b. Reference triangle</b> · <i>for both definite and indefinite integrals.</i> Use the triangle to rewrite the $\theta$-antiderivative in terms of $x$, then use the original $x$-limits. <span class="pill">Phase 3</span></div></li>
+</ol>`;
+const techHead={eb:'Section 2.2 · Why the substitutions work'};
+const outro=[
+  {head:techHead,layout:'full',label:'Technicalities',say:r`Each substitution is secretly an inverse trig function, so $\theta$ lives in that function's range. The range tells us the sign of the leftover trig function, and whether the absolute value can be dropped.`,
+   main:[R('tablerow',RICH('tbl',TBL,{cls:'tablecard'}))]},
+  {head:techHead,layout:'full',say:r`Type I: the Pythagorean identity collapses the radical to $|a\cos\theta|$. Since $\theta$ comes from arcsin, cosine is never negative, so the bars drop.`,main:[R('der',ST(...derI))]},
+  {head:techHead,layout:'full',say:r`Type II works the same way. $\theta$ comes from arctan, and secant is positive on that whole range.`,main:[R('der',ST(...derI),ST(...derII))]},
+  {head:techHead,layout:'full',say:r`Type III is the exception. Arcsec has two pieces, and tangent is positive on one and negative on the other. That's the [[ca:$\pm$]] in the summary chart.`,main:[R('der',ST(...derI),ST(...derII),ST(...derIII))]},
+  {head:{eb:'Section 2.2 · Type III domain'},say:r`For $\sqrt{x^2-4}$ ($a=2$) the domain is $x\le-2$ or $x\ge2$. Can $x$ be $-3$? [[cr:Yes]]: it sits on the left branch, where $\tan\theta\le0$. Can $x$ be $1$? [[ca:No]]: nothing lives between $-2$ and $2$.`,
+   main:[R('plotrow',H('plot',arcsecPlot(),'ink'))],
+   side:[R('eyebrow',H('pr0','Two branches, two signs')),R('side',T('pr1',r`x>a:\;\;0\le\theta<\tfrac{\pi}{2}`,'cr')),R('side',T('pr2',r`\sqrt{x^2-a^2}=a\tan\theta`,'cr')),R('side',T('pr3',r`x<-a:\;\;\tfrac{\pi}{2}<\theta\le\pi`,'ca')),R('side',T('pr4',r`\sqrt{x^2-a^2}=-a\tan\theta`,'ca')),R('side',RICH('pr5',r`In Example 4 we took $x>12$, which is why we could write $12\tan\theta$.`,{cls:'mini'}))]},
+  {head:{eb:'Section 2.1 · Reference triangles'},layout:'full',label:'Reference triangle summary',say:r`The reference triangle comes straight from the triangle ratio in the chart. Label the two sides named in the ratio, and the Pythagorean theorem hands you the [[cr:radical]] as the third side.`,
+   main:[R('cols',
+     refTri('rt1','Type I',{rad:r`\sqrt{a^2-x^2}`,t:triI('x','a',r`\sqrt{a^2-x^2}`,ALL)},r`\sin\theta=\frac{x}{a}`,r`\theta=\arcsin\tfrac{x}{a}`),
+     refTri('rt2','Type II',{rad:r`\sqrt{a^2+x^2}`,t:triII('x','a',r`\sqrt{a^2+x^2}`,ALL)},r`\tan\theta=\frac{x}{a}`,r`\theta=\arctan\tfrac{x}{a}`),
+     refTri('rt3','Type III',{rad:r`\sqrt{x^2-a^2}`,t:triIII('x','a',r`\sqrt{x^2-a^2}`,ALL)},r`\sec\theta=\frac{x}{a}`,r`\theta=\operatorname{arcsec}\tfrac{x}{a}`))]},
+  {head:{eb:'Trig. substitution steps'},layout:'full',label:'The four steps',say:r`Our three phases map onto these steps. Today we used 4b every time. 4a is the shortcut for definite integrals when the angles are recognizable unit-circle angles.`,
+   main:[R('steprow',RICH('steps',STEPS,{cls:'card'}))]},
+];
+
+/* ---------- flatten ---------- */
+function prefixItems(items,pre){
+  return items.map(it=>{
+    if(it.frac) return {...it,k:pre+it.k,frac:{num:prefixItems(it.frac.num,pre),den:prefixItems(it.frac.den,pre)}};
+    if(it.stack) return {...it,stack:it.stack.map(l=>prefixItems(l,pre))};
+    return {...it,k:pre+it.k,from:it.from?pre+it.from:undefined};
+  });
+}
+const prefixRows=(rows,pre)=>rows.map(r=>({...r,items:prefixItems(r.items,pre)}));
+const slides=[]; const sections=[];
+intro.forEach(s=>{sections.push({label:s.label,start:slides.length});slides.push({...s,main:prefixRows(s.main,s.id+':'),side:[],ex:null});});
+examples.forEach(e=>{
+  sections.push({label:`Example ${e.n} · ${e.type}`,start:slides.length});
+  const pre='e'+e.n+':';
+  e.steps.forEach((s,i)=>slides.push({...s,main:prefixRows(s.main,pre),side:prefixRows(s.side,pre),ex:e,stepNo:i+1,stepCount:e.steps.length}));
+});
+sections.push({label:'Technicalities (2.2)',start:slides.length});
+outro.forEach(s=>slides.push({...s,main:prefixRows(s.main,'tech:'),side:prefixRows(s.side||[],'tech:'),ex:null}));
+
+/* ---------- rendering ---------- */
+const $=s=>document.querySelector(s);
+const stage=$('#stage'), board=$('#board'), fx=$('#fx'), wrap=$('#wrap');
+const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const D=reduced?0:780, EASE='cubic-bezier(.62,0,.32,1)';
+let scale=1, cur=-1, running=[];
+
+function fit(){
+  const v=$('#viewport').getBoundingClientRect();
+  scale=Math.min(v.width/1280,v.height/720);
+  stage.style.transform=`translate(-50%,-50%) scale(${scale})`;
+}
+const texCache=new Map();
+function texNode(tex){
+  let n=texCache.get(tex);
+  if(!n){ n=MathJax.tex2svg(tex,{display:false}); texCache.set(tex,n); }
+  return n.cloneNode(true);
+}
+function mathSpan(tex){
+  const m=document.createElement('span'); m.className='m';
+  const node=texNode(tex); m.appendChild(node);
+  const svg=node.querySelector('svg');
+  if(svg){ // pad so the math axis sits at the vertical center
+    const H=parseFloat(svg.getAttribute('height'))||0;
+    const va=parseFloat((svg.style.verticalAlign||'0').replace('ex',''))||0;
+    const below=-va+0.566, above=H-below, diff=above-below;
+    if(diff>0) m.style.paddingBottom=diff+'ex'; else m.style.paddingTop=(-diff)+'ex';
+  }
+  return m;
+}
+function sigOf(t){
+  if(t.bar) return 'bar';
+  if(t.tri){ const s=t.tri; return 'tri|'+[s.opp.tex,s.adj.tex,s.hyp.tex,s.sm?'s':''].join('|'); }
+  if(t.rich!=null) return 'r:'+t.rich+'|'+(t.cls||'');
+  return (t.html!=null?'h:'+t.html:'t:'+t.tex)+'|'+t.c+'|'+(t.cls||'');
+}
+function buildTri(spec){
+  const w=document.createElement('div'); w.className='tri'+(spec.sm?' sm':'');
+  w.innerHTML=`<svg viewBox="0 0 320 222" aria-hidden="true">
+    <path class="side-l s-adj" pathLength="1" d="M40 186 L222 186"/>
+    <path class="side-l s-opp" pathLength="1" d="M222 186 L222 54"/>
+    <path class="side-l s-hyp" pathLength="1" d="M40 186 L222 54"/>
+    <path class="ra" d="M208 186 V172 H222"/>
+    <path class="arc" d="M74 186 A34 34 0 0 0 67.5 166"/></svg>`;
+  const th=document.createElement('span'); th.className='th'; th.appendChild(mathSpan(r`\theta`)); w.appendChild(th);
+  ['adj','opp','hyp'].forEach(s=>{
+    const l=document.createElement('span'); l.className='lbl l-'+s+' c-'+spec[s].c; l.dataset.s=s;
+    const role=document.createElement('span'); role.className='role'; role.textContent=s;
+    const val=document.createElement('span'); val.className='val'; val.appendChild(mathSpan(spec[s].tex));
+    l.append(role,val); w.appendChild(l);
+  });
+  w._spec=spec; return w;
+}
+function applyTri(w,spec){
+  ['adj','opp','hyp'].forEach(s=>{
+    const on=(spec.show||[]).includes(s);
+    w.querySelector('.l-'+s).classList.toggle('on',on);
+    w.querySelector('.s-'+s).style.stroke=on?`var(--${spec[s].c})`:'';
+  });
+}
+function makeTok(t){
+  const el=document.createElement('span');
+  el.className='tok'+(t.c?' c-'+t.c:'')+(t.cls?' '+t.cls:'')+(t.bar?' bar':'');
+  el.dataset.k=t.k; el.dataset.sig=sigOf(t); if(t.from) el.dataset.from=t.from;
+  if(t.tri){ const w=buildTri(t.tri); el.appendChild(w); el._tri=t.tri; }
+  else if(t.bar){}
+  else if(t.rich!=null){ el.innerHTML=sayHTML(t.rich); }
+  else if(t.html!=null){ el.innerHTML=t.html; }
+  else el.appendChild(mathSpan(t.tex));
+  return el;
+}
+function buildItem(it,make){
+  if(it.frac){
+    const f=document.createElement('span'); f.className='frac';
+    const n=document.createElement('span'); n.className='num';
+    const d=document.createElement('span'); d.className='den';
+    it.frac.num.forEach(x=>n.appendChild(buildItem(x,make)));
+    it.frac.den.forEach(x=>d.appendChild(buildItem(x,make)));
+    f.append(n,make({k:it.k+'~bar',bar:true}),d); return f;
+  }
+  if(it.stack){
+    const s=document.createElement('span'); s.className='stack';
+    it.stack.forEach(line=>{const l=document.createElement('span'); l.className='sline'; line.forEach(x=>l.appendChild(buildItem(x,make))); s.appendChild(l);});
+    return s;
+  }
+  return make(it);
+}
+function buildRegion(rows,make,id){
+  const reg=document.createElement('div'); reg.id=id;
+  rows.forEach(rw=>{const row=document.createElement('div'); row.className='row '+rw.cls; rw.items.forEach(it=>row.appendChild(buildItem(it,make))); reg.appendChild(row);});
+  return reg;
+}
+function rel(el){
+  const a=el.getBoundingClientRect(), w=wrap.getBoundingClientRect();
+  return {x:(a.left-w.left)/scale,y:(a.top-w.top)/scale,w:a.width/scale,h:a.height/scale};
+}
+function anim(el,frames,opts){ const a=el.animate(frames,{fill:'backwards',...opts}); running.push(a); return a; }
+function finishAll(){
+  running.forEach(a=>{try{a.finish()}catch(e){}}); running=[];
+  fx.replaceChildren();
+}
+function sayHTML(text){
+  return text.split('$').map((part,i)=>{
+    if(i%2){ const m=texNode(part); return m.outerHTML; }
+    return part.replace(/\[\[(\w+):(.*?)\]\]/g,(m,c,inner)=>`<span class="c-${c}" style="font-weight:700">${inner}</span>`);
+  }).join('').replace(/\[\[(\w+):/g,'<span class="c-$1" style="font-weight:700">').replace(/\]\]/g,'</span>');
+}
+function renderSay(s){
+  const say=$('#say');
+  const tag=s.ex?(s.phase===4?'Summary':`Phase ${s.phase}`):'';
+  say.innerHTML=`<span class="tag">${tag}</span><span class="txt fadein">${sayHTML(s.say||'')}</span>`;
+}
+function renderHead(s,prev){
+  const ex=$('#exlabel');
+  const key=s.ex?'ex'+s.ex.n:s.id;
+  if(!prev||ex.dataset.key!==key){
+    ex.dataset.key=key;
+    if(s.ex){ ex.innerHTML=`<span class="eb">Example ${s.ex.n} · ${s.ex.type}</span>`; }
+    else ex.innerHTML=`<span class="eb">${s.head.eb}</span>`;
+    ex.classList.remove('fadein'); void ex.offsetWidth; ex.classList.add('fadein');
+  }
+  const ph=$('#phases'); ph.hidden=!s.ex;
+  ph.querySelectorAll('.ph').forEach(p=>{const n=+p.dataset.p; p.classList.toggle('on',n===s.phase); p.classList.toggle('done',!!s.ex&&n<s.phase);});
+  renderTrack(s);
+}
+function renderTrack(s){
+  const tr=$('#track');
+  if(!s.ex){ tr.hidden=true; tr.dataset.key=''; return; }
+  tr.hidden=false;
+  const e=s.ex, nx=slides[cur+1];
+  const endP1=s.phase===1&&(!nx||nx.ex!==e||nx.phase!==1);
+  const vis=[s.phase>=2||endP1, s.phase>=3, s.stepNo>=s.stepCount-1];
+  const key=e.n+':'+vis.map(Number).join('');
+  if(tr.dataset.key===key) return;
+  const old=tr.dataset.key||'', same=old.split(':')[0]===String(e.n), oldVis=same?old.split(':')[1]:'';
+  tr.dataset.key=key;
+  const tin=document.createElement('div'); tin.className='tin';
+  const lab=document.createElement('span'); lab.className='lab'; lab.textContent=e.problem.startsWith(r`\int_`)?'Evaluate':'Find';
+  const prob=document.createElement('span'); prob.appendChild(texNode(e.problem));
+  if(!same){ lab.classList.add('fadein'); prob.classList.add('fadein'); }
+  tin.append(lab,prob);
+  e.track.forEach((tex,i)=>{
+    if(!vis[i]) return;
+    const ms=document.createElement('span'); ms.className='ms'+(i===2?' ans':'');
+    ms.innerHTML=`<span>=</span><span class="badge" title="${i===2?'Answer':'After Phase '+(i+1)}">${i===2?'✓':i+1}</span>`;
+    ms.appendChild(texNode(tex));
+    if(oldVis[i]!=='1') ms.classList.add('fadein');
+    tin.appendChild(ms);
+  });
+  tr.replaceChildren(tin);
+  const avail=tr.clientWidth-40, w=tin.scrollWidth;
+  if(w>avail) tin.style.transform=`scale(${avail/w})`;
+}
+
+function go(i,animate=true){
+  if(i<0||i>=slides.length) return;
+  finishAll();
+  const s=slides[i], prev=cur>=0?slides[cur]:null; cur=i;
+  renderHead(s,prev); renderSay(s);
+  // capture old tokens
+  const old=new Map();
+  board.querySelectorAll('.tok').forEach(el=>old.set(el.dataset.k,{el,r:rel(el),fs:getComputedStyle(el).fontSize}));
+  const reuse=new Set(), triNew=[];
+  const make=t=>{
+    const o=old.get(t.k);
+    if(o && o.el.dataset.sig===sigOf(t) && !reuse.has(t.k)){
+      reuse.add(t.k);
+      if(t.from) o.el.dataset.from=t.from; else delete o.el.dataset.from;
+      if(t.tri){ o.el._tri=t.tri; applyTri(o.el.querySelector('.tri'),t.tri); }
+      return o.el;
+    }
+    const el=makeTok(t); if(t.tri) triNew.push(el); return el;
+  };
+  const mainEl=buildRegion(s.main,make,'main'), sideEl=buildRegion(s.side,make,'side');
+  board.className=s.layout==='full'?'full':'';
+  board.replaceChildren(mainEl,sideEl);
+  try{ localStorage.setItem('trigsub-slide',String(i)); }catch(e){}
+  updateBar();
+  const doAnim=animate&&D>0;
+  triNew.forEach(el=>{
+    const w=el.querySelector('.tri');
+    if(doAnim){ w.classList.add('drawing'); const t=setTimeout(()=>applyTri(w,el._tri),850); running.push({finish(){clearTimeout(t);applyTri(w,el._tri);w.classList.remove('drawing');}}); }
+    else applyTri(w,el._tri);
+  });
+  if(!doAnim) return;
+
+  const seen=new Map();
+  board.querySelectorAll('.tok').forEach(el=>{
+    const k=el.dataset.k; const nr=rel(el); seen.set(k,{el,nr});
+    if(reuse.has(k)){
+      const o=old.get(k).r;
+      const dx=o.x-nr.x, dy=o.y-nr.y, sx=nr.w?o.w/nr.w:1, sy=nr.h?o.h/nr.h:1;
+      if(Math.abs(dx)<.5&&Math.abs(dy)<.5&&Math.abs(sx-1)<.01&&Math.abs(sy-1)<.01) return;
+      el.style.transformOrigin='0 0';
+      const a=anim(el,[{transform:`translate(${dx}px,${dy}px) scale(${sx},${sy})`},{transform:'none'}],{duration:D,easing:EASE});
+      a.onfinish=()=>{el.style.transformOrigin='';};
+      return;
+    }
+    const from=el.dataset.from;
+    const src=(from&&old.get(from))||old.get(k);
+    if(src){
+      const o=src.r;
+      const dx=(o.x+o.w/2)-(nr.x+nr.w/2), dy=(o.y+o.h/2)-(nr.y+nr.h/2);
+      const sc=Math.max(.4,Math.min(2.2,nr.h?o.h/nr.h:1));
+      el.style.transformOrigin='50% 50%';
+      const a=anim(el,[{transform:`translate(${dx}px,${dy}px) scale(${sc})`,opacity:0},{opacity:0,offset:.18},{opacity:1,offset:.7},{transform:'none',opacity:1}],{duration:D,easing:EASE});
+      a.onfinish=()=>{el.style.transformOrigin='';};
+    }else{
+      anim(el,[{opacity:0,transform:'translateY(14px)'},{opacity:1,transform:'none'}],{duration:480,delay:D*.5,easing:'cubic-bezier(.2,.7,.3,1)'});
+    }
+  });
+  old.forEach((o,k)=>{
+    if(reuse.has(k)) return;
+    const el=o.el; el.style.left=o.r.x+'px'; el.style.top=o.r.y+'px'; el.style.width=o.r.w+'px'; el.style.height=o.r.h+'px';
+    el.style.fontSize=o.fs; el.style.transform=''; fx.appendChild(el);
+    const tgt=seen.get(k); const newEl=tgt&&tgt.el;
+    let a;
+    if(tgt && !newEl.dataset.from){
+      const nr=tgt.nr;
+      const dx=(nr.x+nr.w/2)-(o.r.x+o.r.w/2), dy=(nr.y+nr.h/2)-(o.r.y+o.r.h/2);
+      const sc=Math.max(.4,Math.min(2.2,o.r.h?nr.h/o.r.h:1));
+      el.style.transformOrigin='50% 50%';
+      a=anim(el,[{transform:'none',opacity:1},{opacity:0,offset:.55},{transform:`translate(${dx}px,${dy}px) scale(${sc})`,opacity:0}],{duration:D,easing:EASE,fill:'forwards'});
+    }else{
+      a=anim(el,[{opacity:1},{opacity:0}],{duration:320,easing:'ease-out',fill:'forwards'});
+    }
+    a.onfinish=()=>el.remove();
+  });
+}
+
+/* ---------- controls ---------- */
+const jump=$('#jump');
+sections.forEach((sec,i)=>{const o=document.createElement('option'); o.value=sec.start; o.textContent=sec.label; jump.appendChild(o);});
+function updateBar(){
+  const s=slides[cur];
+  let secIdx=0; sections.forEach((sec,i)=>{ if(cur>=sec.start) secIdx=i; });
+  jump.value=sections[secIdx].start;
+  $('#count').textContent=s.ex?`Step ${s.stepNo} of ${s.stepCount}`:`${cur+1} of ${slides.length}`;
+  $('#prev').disabled=cur===0; $('#next').disabled=cur===slides.length-1;
+}
+const next=()=>go(cur+1), prev=()=>go(cur-1);
+$('#next').addEventListener('click',next);
+$('#prev').addEventListener('click',prev);
+jump.addEventListener('change',()=>{go(+jump.value); jump.blur();});
+stage.addEventListener('click',next);
+$('#fs').addEventListener('click',()=>{
+  const d=document;
+  try{
+    if(d.fullscreenElement) d.exitFullscreen().catch(()=>{});
+    else d.documentElement.requestFullscreen().catch(()=>{});
+  }catch(e){}
+});
+document.addEventListener('keydown',e=>{
+  if(e.target.tagName==='SELECT') return;
+  if(['ArrowRight','PageDown',' ','Enter'].includes(e.key)){e.preventDefault();next();}
+  else if(['ArrowLeft','PageUp','Backspace'].includes(e.key)){e.preventDefault();prev();}
+  else if(e.key==='Home'){go(0);}
+  else if(/^[1-6]$/.test(e.key)){go(sections[+e.key+1].start);}
+});
+addEventListener('resize',fit);
+new ResizeObserver(fit).observe($('#viewport'));
+fit();
+
+/* ---------- boot ---------- */
+function boot(){
+  try{ document.head.appendChild(MathJax.svgStylesheet()); }catch(e){}
+  $('#loading').remove();
+  let start=0;
+  const m=/^#ex([1-6])$/.exec(location.hash);
+  if(m) start=sections[+m[1]+1].start;
+  else { try{ const v=+localStorage.getItem('trigsub-slide'); if(v>0&&v<slides.length) start=v; }catch(e){} }
+  go(start,false);
+}
+if(window.MathJax&&MathJax.startup&&MathJax.startup.promise){
+  MathJax.startup.promise.then(()=>document.fonts.ready).then(boot).catch(err=>{$('#loading').textContent='The math renderer failed to load. Reload the page to try again.';console.error(err);});
+}else{
+  $('#loading').textContent='The math renderer failed to load. Reload the page to try again.';
+}
+</script>
+
+</body></html>
