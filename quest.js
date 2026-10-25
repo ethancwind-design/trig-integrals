@@ -324,7 +324,8 @@ function hub() {
     { h: '#/blitz', c: '--cr', tag: 'Game mode 3', name: 'Blitz', desc: 'Sixty seconds on the clock. Pick a deck and clear as many cards as you can. A miss costs 3 seconds.', meta: `Best: ${best}` },
     { h: '#/survival', c: '--ca', tag: 'Game mode 4', name: 'Survival', desc: 'Three hearts, harder problems every round. How far can you get?', meta: `Best: ${S.best.survival || 0} rounds` },
     { h: 'codex.html', c: '--cp', tag: 'Free roam', name: 'Codex', desc: 'Every formula, searchable, with a study mode that hides the answers.', meta: 'Identities · integrals · cheat sheets' },
-    { h: 'motion.html', c: '--ct', tag: 'Cutscene', name: 'Trig Substitution in Motion', desc: 'The animated lesson: six worked examples in three phases.', meta: 'Substitute → Integrate → Back to x' }
+    { h: 'motion.html', c: '--ct', tag: 'Cutscene', name: 'Trig Substitution in Motion', desc: 'The animated lesson: six worked examples in three phases.', meta: 'Substitute → Integrate → Back to x' },
+    { h: 'lesson/index.html', c: '--cd', tag: 'Cutscenes', name: 'Practice Lessons in Motion', desc: 'Every prep-quiz and practice question as its own animated lesson, with the slice diagrams.', meta: '77 lessons · 5 decks' }
   ];
   const title = () => ({
     eb: 'Calculus II · Integration techniques', ph: ['Read', 'Plan', 'Answer'], on: 0, adv: true,
