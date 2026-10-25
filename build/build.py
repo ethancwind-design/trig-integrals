@@ -12,7 +12,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 
 MODULES = ['s_start', 's_basic', 's_powers', 's_products', 's_angles', 's_rational', 's_parts',
-           's_inverse', 's_trigsub', 's_hyper', 's_definite', 's_special', 's_pdf']
+           's_inverse', 's_trigsub', 's_hyper', 's_definite', 's_special', 's_extra', 's_pdf']
 
 NS = {k: getattr(mp, k) for k in dir(mp) if not k.startswith('_')}
 NS.update(dict(
