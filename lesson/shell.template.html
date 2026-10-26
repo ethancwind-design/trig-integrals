@@ -24,6 +24,7 @@
   <select id="jump" aria-label="Jump to problem"></select>
   <span id="count">–</span>
   <button id="next" type="button" aria-label="Next step">Next →</button>
+  <button id="pdfq" type="button" aria-haspopup="dialog" hidden>Original question</button>
   <button id="fs" type="button">Full screen</button>
   <span id="hint">Click the slide or use ← → keys · [ ] jump between problems</span>
 </nav>
@@ -33,5 +34,7 @@ window.MathJax={loader:{load:['[tex]/html','[tex]/cancel']},tex:{packages:{'[+]'
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
 <script src="dsl.js"></script>
 __DECK__
+<script src="../shots.js"></script>
+<script src="../shotui.js"></script>
 <script src="engine.js"></script>
 </body></html>

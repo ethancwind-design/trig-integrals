@@ -158,6 +158,7 @@ function renderSay(s) {
   say.innerHTML = `<span class="tag">${tag}</span><span class="txt fadein">${sayHTML(s.say || '')}</span>`;
 }
 function renderHead(s, prev) {
+  syncPdf(s.ex);
   const ex = $('#exlabel');
   const key = s.ex ? 'ex' + s.ex.n : s.id;
   if (!prev || ex.dataset.key !== key) {
@@ -305,6 +306,16 @@ $('#fs').addEventListener('click', () => {
   const d = document;
   try { if (d.fullscreenElement) d.exitFullscreen().catch(() => { }); else d.documentElement.requestFullscreen().catch(() => { }); } catch (e) { }
 });
+/* ---------- original question: the crop of the source PDF for the current problem (full Canvas card for the quizzes), enlarged over the page ---------- */
+const pdfBtn = $('#pdfq');
+const PDF_RULE = { 'week-8-quizzes': [/Quiz ([AB]) · Q(\d+)/, (a, n) => `w8${a.toLowerCase()}-${n}`], 'week-9-quizzes': [/Quiz ([ABC]) · Q(\d+)/, (a, n) => `w9${a.toLowerCase()}-${n}`],
+  'lecture-23': [/(\d+)/, n => `l23-${String(n).padStart(2, '0')}`], 'lecture-30-31': [/(\d+)/, n => `l30-${String(n).padStart(2, '0')}`], 'lecture-32-33': [/(\d+)/, n => `l32-${String(n).padStart(2, '0')}`] };
+function pdfShot(ex) {
+  const rule = PDF_RULE[location.pathname.split('/').pop().replace(/\.html$/, '')], m = ex && rule && rule[0].exec(ex.label || '');
+  return m && window.shotUI ? shotUI.shot(rule[1](...m.slice(1))) : null;
+}
+function syncPdf(ex) { pdfBtn.hidden = !pdfShot(ex); if (window.shotUI) shotUI.close(); }
+pdfBtn.addEventListener('click', e => { e.stopPropagation(); const s = pdfShot(slides[cur] && slides[cur].ex); if (s) shotUI.open(s); });
 document.addEventListener('keydown', e => {
   if (e.target.tagName === 'SELECT') return;
   if (['ArrowRight', 'PageDown', ' ', 'Enter'].includes(e.key)) { e.preventDefault(); next(); }

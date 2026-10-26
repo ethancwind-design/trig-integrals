@@ -179,3 +179,6 @@ h2{font:700 21px/1.2 var(--font-display);margin:30px 0 4px;letter-spacing:-.005e
   .hero{padding:22px 18px}
 }
 @media (max-width:520px){ .grid,.grid.c2,.grid.c3{grid-template-columns:minmax(0,1fr)} .eq,.eq.prob{font-size:17px} }
+
+/* original question (crop of the source PDF; base styles live in shotui.js) */
+.pdfq{max-width:620px}

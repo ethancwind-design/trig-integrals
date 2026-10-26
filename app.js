@@ -81,8 +81,9 @@ function card(it) {
   const extra = chk || (it.k === 'ne' ? '<span class="tag definite">special function</span>' : it.k === 'no' ? '<span class="tag partial">no closed form</span>' : '');
   const meta = [it.src ? `<span class="src">${it.src}</span>` : '', extra, tagsHtml(it), it.t ? `<span class="ttl">${it.t}</span>` : ''].join('');
   const note = it.note ? `<div class="note"><b>Note.</b> ${it.note}</div>` : '';
+  const pdfq = window.shotUI ? shotUI.html(it.src, true) : '';   // crop of the problem as printed in the source PDF
   return `<article class="card k-${it.k}${wide} fadein" data-ref="${ref}" data-fn="${(it.fn || []).join(' ')}" data-m="${(it.m || []).join(' ')}">
-    <div class="meta">${meta}</div>${body}${note}
+    <div class="meta">${meta}</div>${body}${pdfq}${note}
     <button class="copy" type="button" title="Copy LaTeX" aria-label="Copy LaTeX">⧉ TeX</button></article>`;
 }
 

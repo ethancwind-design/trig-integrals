@@ -245,6 +245,7 @@ document.addEventListener('fullscreenchange', () => setTimeout(fit, 60));
 async function typeset(el) { if (mjReady && el) { try { await MathJax.typesetPromise([el]); } catch (e) { console.error(e); } } }
 const pct = (a, b) => b ? Math.round(a / b * 100) : 0;
 const big = t => `<div class="row big">${M(t)}</div>`;
+const pdfq = p => (window.shotUI ? shotUI.html(p.src, true) : '');   // crop of the problem as printed in the source PDF, when there is one
 const boxed = (t, cls = '') => `<span class="boxed ${cls}">${M(t)}</span>`;
 
 function hudUpdate() {
@@ -274,6 +275,7 @@ async function show(soft = false) {
   if (v.ph) { E.ph.hidden = false; E.ph.innerHTML = v.ph.map((l, k) => `<div class="ph ${k + 1 === v.on ? 'on' : k + 1 < v.on ? 'done' : ''}"><b>${k + 1}</b>${esc(l)}</div>`).join(''); } else E.ph.hidden = true;
   if (v.track) { E.track.hidden = false; E.track.innerHTML = v.track; } else E.track.hidden = true;
   E.board.classList.toggle('full', !v.side);
+  E.board.classList.toggle('pdf', !!v.side && v.side.includes('pdfq'));
   E.main.className = v.mainCls || ''; E.main.innerHTML = v.main || '';
   E.side.innerHTML = v.side || '';
   E.say.innerHTML = v.say ? `<span class="tag">${esc(v.say[0])}</span><span class="txt">${v.say[1]}</span>` : '';
@@ -286,6 +288,7 @@ async function show(soft = false) {
   E.next.hidden = !!v.hideNext; E.next.classList.toggle('locked', !!v.lock);
   document.title = (v.eb ? v.eb + ' · ' : '') + 'Trig Quest';
   await typeset(stage);
+  E.main.querySelectorAll('.row.big').forEach(r => { if (r.scrollWidth > r.clientWidth + 1) r.style.fontSize = Math.max(12, 52 * r.clientWidth / (2 * r.scrollWidth - r.clientWidth) * .97) + 'px'; });   // centred overflow: scrollWidth only counts one side   // long problems shrink to the column instead of clipping
 }
 function go(d) { if (!deck) return; const j = deck.i + d; if (j < 0 || j >= deck.slides.length) return; deck.i = j; show(); }
 function nextSlide() {
@@ -424,7 +427,7 @@ function slidesFor(k) {
       lock: picked ? null : 'Pick an answer first (1–4).', keys: picked ? {} : { 1: () => pick(k, 0), 2: () => pick(k, 1), 3: () => pick(k, 2), 4: () => pick(k, 3) } };
   }];
   return [
-    () => { const p = it().p; return { eb: ebFor(k), ph: phasesFor(p), on: 1, track: trackHtml(k, false), main: big(p.q), adv: true,
+    () => { const p = it().p; return { eb: ebFor(k), ph: phasesFor(p), on: 1, track: trackHtml(k, false), main: big(p.q), side: pdfq(p), adv: true,
       say: ['Your turn', 'Work it on paper first. Press → for a hint when you are ready, then → again for the answer.'] }; },
     () => { const p = it().p; return { eb: ebFor(k), ph: phasesFor(p), on: 2, track: trackHtml(k, true), adv: true,
       main: `<div class="card fadein"><div class="k">Plan</div><p>${p.hint}</p></div>`,
@@ -542,7 +545,7 @@ function quick(k) {
   if (p.opts) return { eb: `${cfg.title} · ${count}`, ph: phasesFor(p), on: graded ? 3 : 2, track: trackHtml(k, false), count, noBack: true, hideNext: true,
     main: `${big(p.q)}<div class="opts">${p.opts.map((o, i) => `<button class="opt${graded ? (o.ok ? ' right' : i === x.picked ? ' wrong' : ' dim') : ''}" data-act="qpick" data-i="${i}" ${graded ? 'disabled' : ''}><span class="k">${i + 1}</span><span class="m">${M(o.t)}</span></button>`).join('')}</div>`,
     say: ['Pick', cfg.timeMs ? 'Press 1–4. A miss costs 3 seconds.' : 'Press 1–4. A miss costs a heart.'], keys: graded ? {} : { 1: () => qpick(k, 0), 2: () => qpick(k, 1), 3: () => qpick(k, 2), 4: () => qpick(k, 3) } };
-  return { eb: `${cfg.title} · ${count}`, ph: phasesFor(p), on: x.shown ? 3 : 1, track: trackHtml(k, false), count, noBack: true, hideNext: true,
+  return { eb: `${cfg.title} · ${count}`, ph: phasesFor(p), on: x.shown ? 3 : 1, track: trackHtml(k, false), count, noBack: true, hideNext: true, side: pdfq(p),
     main: `${big(p.q)}${x.shown ? `<div class="row work">${boxed(p.a)}</div>${p.note ? `<div class="note">${p.note}</div>` : ''}<div class="btns"><button class="btn ok" data-act="qgrade" data-g="ok">✓ I got it (G)</button><button class="btn no" data-act="qgrade" data-g="no">✗ Missed it (M)</button></div>`
       : `<div class="btns"><button class="btn main" data-act="qreveal">Reveal answer (Space)</button></div>`}`,
     say: [x.shown ? 'Check' : 'Solve', x.shown ? 'Be honest: G if you had it, M if not.' : 'Solve it, then reveal.'], keys: x.shown ? { g: () => qgrade(k, 'ok'), m: () => qgrade(k, 'no') } : { ' ': () => qreveal(k), enter: () => qreveal(k) } };

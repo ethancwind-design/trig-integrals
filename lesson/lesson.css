@@ -200,3 +200,7 @@ svg .ca{fill:var(--ca)} svg .ct{fill:var(--ct)} svg .ink{fill:var(--ink)}
 .axt{font-size:16px}
 
 .pl-sm{width:340px}
+
+/* original question: crop of the source PDF, enlarged by shotui.js */
+#bar #pdfq{border-color:var(--accent);color:var(--accent)}
+#bar #pdfq[hidden]{display:none}

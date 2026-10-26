@@ -229,3 +229,8 @@ button:disabled{opacity:.4;cursor:default}
 .ml .tip{font:600 15px/1.4 var(--font-display);color:#C9D4F0;min-height:3em}
 .ml .tip b{font:400 9px var(--font-pixel);color:var(--yellow);margin-right:6px}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition:none!important}}
+
+/* ───────── original question (crop of the source PDF; base styles live in shotui.js) ───────── */
+#board.pdf{grid-template-columns:minmax(0,1fr) 440px}
+#side:has(.pdfq){border-left:0;padding-left:0;justify-content:center}
+.pdfq img{max-height:340px;width:auto}
