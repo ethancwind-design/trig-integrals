@@ -11,6 +11,7 @@
     if ((m = /^Quiz ([AB]) · Q(\d+)/.exec(src))) return 'w8' + m[1].toLowerCase() + '-' + m[2];
     if ((m = /Lectures 30[–-]31 #(\d+)/.exec(src))) return 'l30-' + pad(m[1]);
     if ((m = /Lectures 32[–-]33 #(\d+)/.exec(src))) return 'l32-' + pad(m[1]);
+    if ((m = /^Recitation · Worksheet 4 · #(\d+)/.exec(src))) return 'rec-' + m[1];
     if (/^Week 9 · area between \$e\^x/.test(src)) return 'w9a-2';
     if (/^Week 9 · area between \$\\cos/.test(src)) return 'w9a-3';
     return null;
@@ -19,11 +20,13 @@
   function shot(key, stem) {
     const s = S[key]; if (!s) return null;
     const v = (stem && s.q) || s;
-    return { src: BASE + v.f, w: v.w, h: v.h, alt: s.alt + (stem && s.q ? ' (answer options hidden)' : '') };
+    return { cap: key.startsWith('rec-') ? 'Original question · from the worksheet' : '', src: BASE + v.f, w: v.w, h: v.h, alt: s.alt + (stem && s.q ? ' (answer options hidden)' : '') };
   }
   const forSrc = (src, stem) => (src ? shot(keyFor(src), stem) : null);
+  /* handwritten worked solution that goes with a recitation problem */
+  const solFor = src => { const k = src && keyFor(src); return k && k.startsWith('rec-') ? shot('recsol-' + k.slice(4)) : null; };
   function figure(s, cap) {
-    return s ? `<figure class="pdfq"><figcaption>${cap || 'Original question · from the PDF'}</figcaption><img src="${s.src}" width="${s.w}" height="${s.h}" alt="${s.alt}" loading="lazy" decoding="async"></figure>` : '';
+    return s ? `<figure class="pdfq"><figcaption>${cap || s.cap || 'Original question · from the PDF'}</figcaption><img data-cap="${cap || s.cap || ''}" src="${s.src}" width="${s.w}" height="${s.h}" alt="${s.alt}" loading="lazy" decoding="async"></figure>` : '';
   }
   /* click an image to enlarge it over the page (the game stage and lesson stage are scaled down on small screens) */
   const css = document.createElement('style');
@@ -48,7 +51,7 @@
   function open(s) {
     close();
     box = document.createElement('div'); box.className = 'shotbox'; box.setAttribute('role', 'dialog'); box.setAttribute('aria-modal', 'true'); box.setAttribute('aria-label', 'Original question from the source PDF');
-    box.innerHTML = figure(s, 'Original question · from the PDF <button type="button" class="x">Close ✕</button>');
+    box.innerHTML = figure(s, (s.cap || 'Original question · from the PDF') + ' <button type="button" class="x">Close ✕</button>');
     box.querySelector('img').loading = 'eager';
     box.addEventListener('click', e => { e.stopPropagation(); if (e.target === box || e.target.closest('.x')) close(); });
     document.body.appendChild(box); document.addEventListener('keydown', onKey, true); box.querySelector('.x').focus();
@@ -57,7 +60,7 @@
     const im = e.target.closest && e.target.closest('.pdfq img');
     if (!im || im.closest('.shotbox')) return;
     e.stopPropagation(); e.preventDefault();
-    open({ src: im.currentSrc || im.src, w: im.getAttribute('width'), h: im.getAttribute('height'), alt: im.alt });
+    open({ src: im.currentSrc || im.src, w: im.getAttribute('width'), h: im.getAttribute('height'), alt: im.alt, cap: im.dataset.cap });
   }, true);
-  window.shotUI = { keyFor, shot, forSrc, figure, open, close, html: (src, stem) => figure(forSrc(src, stem)) };
+  window.shotUI = { keyFor, shot, forSrc, solFor, figure, open, close, html: (src, stem) => figure(forSrc(src, stem)), solHtml: src => figure(solFor(src), 'Worked solution · handwritten') };
 })();

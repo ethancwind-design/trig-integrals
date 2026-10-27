@@ -182,3 +182,7 @@ h2{font:700 21px/1.2 var(--font-display);margin:30px 0 4px;letter-spacing:-.005e
 
 /* original question (crop of the source PDF; base styles live in shotui.js) */
 .pdfq{max-width:620px}
+
+.sol summary{cursor:pointer;font:700 12px/1 var(--font-display);letter-spacing:.14em;text-transform:uppercase;color:var(--accent);padding:6px 0}
+.sol .pdfq{margin-top:6px}
+.hide-ans .card:not(.open) .sol,.quizgroup .card:not(.open) .sol{display:none}

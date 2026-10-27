@@ -31,9 +31,9 @@ const GROUPS = [
   ['Calculus cheat sheets', refIds('p5')],
   ['Quick tables (verified)', ['identities', 'derivatives']],
   ['Integral library (verified)', ['basic', 'powers', 'products', 'angles', 'rational', 'parts', 'frac', 'inverse', 'trigsub', 'hyper', 'definite', 'areavol', 'special']],
-  ['Practice', ['pdf']]
+  ['Practice', ['pdf', 'recitation']]
 ];
-const NAMES = { strategy: 'Which method?', identities: 'Identities', derivatives: 'Derivatives', areavol: 'Area & volume problems', frac: 'Partial fractions' };
+const NAMES = { strategy: 'Which method?', identities: 'Identities', derivatives: 'Derivatives', areavol: 'Area & volume problems', frac: 'Partial fractions', recitation: 'Recitation' };
 const SECTIONS = DATA.sections.concat(REFS);
 const byId = Object.fromEntries(SECTIONS.map(s => [s.id, s]));
 const count = s => { const all = s.groups.reduce((n, g) => n + g.items.length, 0); const math = s.groups.reduce((n, g) => n + g.items.filter(i => i.k !== 'txt').length, 0); return math || all; };
@@ -81,9 +81,10 @@ function card(it) {
   const extra = chk || (it.k === 'ne' ? '<span class="tag definite">special function</span>' : it.k === 'no' ? '<span class="tag partial">no closed form</span>' : '');
   const meta = [it.src ? `<span class="src">${it.src}</span>` : '', extra, tagsHtml(it), it.t ? `<span class="ttl">${it.t}</span>` : ''].join('');
   const note = it.note ? `<div class="note"><b>Note.</b> ${it.note}</div>` : '';
-  const pdfq = window.shotUI ? shotUI.html(it.src, true) : '';   // crop of the problem as printed in the source PDF
+  const pdfq = window.shotUI ? shotUI.html(it.src, true) : '';
+  const sol = window.shotUI && shotUI.solFor(it.src) ? `<details class="sol"><summary>Worked solution (handwritten)</summary>${shotUI.solHtml(it.src)}</details>` : '';   // crop of the problem as printed in the source PDF
   return `<article class="card k-${it.k}${wide} fadein" data-ref="${ref}" data-fn="${(it.fn || []).join(' ')}" data-m="${(it.m || []).join(' ')}">
-    <div class="meta">${meta}</div>${body}${pdfq}${note}
+    <div class="meta">${meta}</div>${body}${pdfq}${note}${sol}
     <button class="copy" type="button" title="Copy LaTeX" aria-label="Copy LaTeX">⧉ TeX</button></article>`;
 }
 

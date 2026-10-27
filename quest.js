@@ -190,12 +190,13 @@ const STORY = [
     C('Arc Length', '∫ √(1 + y′²) dx.', 'self', [['areavol', [3]]])
   ] },
   { id: 'exam', name: 'MATH 1400 Exam Prep', glyph: '☠', color: '#FF5D6C', tag: 'Your real problems · 3 hearts',
-    blurb: 'The actual problems from your prep quizzes and Lecture 23. Three hearts per mission: miss three and the mission fails.', chapters: [
+    blurb: 'The actual problems from your prep quizzes, Lecture 23 and recitation. Three hearts per mission: miss three and the mission fails.', chapters: [
     C('Lecture 23 · Substitute, Integrate, Come Back', 'Problems 1–7.', 'self', [['pdf', [0]]], { hearts: 3, noBoss: true }),
     C('Lecture 23 · Compute', 'Problems 8–16.', 'self', [['pdf', [1]]], { hearts: 3, noBoss: true }),
     C('Week 8 · Prep Quiz A', 'sin 2θ, tan·sec, partial fractions.', 'self', [['pdf', [2]]], { hearts: 3, noBoss: true }),
     C('Week 8 · Prep Quiz B', 'Identities, x⁴/√(x²−4), x³/√(9−x²).', 'self', [['pdf', [3]]], { hearts: 3, noBoss: true }),
-    C('Week 9 · Prep Quiz', 'Area with trig.', 'self', [['pdf', [4]]], { hearts: 3, noBoss: true })
+    C('Week 9 · Prep Quiz', 'Area with trig.', 'self', [['pdf', [4]]], { hearts: 3, noBoss: true }),
+    C('Recitation · Worksheet 4', 'Reference triangles, trig sub, Gini, polar area, a disk volume.', 'self', [['recitation']], { hearts: 3, noBoss: true })
   ] }
 ];
 
@@ -245,6 +246,7 @@ document.addEventListener('fullscreenchange', () => setTimeout(fit, 60));
 async function typeset(el) { if (mjReady && el) { try { await MathJax.typesetPromise([el]); } catch (e) { console.error(e); } } }
 const pct = (a, b) => b ? Math.round(a / b * 100) : 0;
 const big = t => `<div class="row big">${M(t)}</div>`;
+const solq = p => (window.shotUI ? shotUI.solHtml(p.src) : '');   // handwritten solution (recitation only)
 const pdfq = p => (window.shotUI ? shotUI.html(p.src, true) : '');   // crop of the problem as printed in the source PDF, when there is one
 const boxed = (t, cls = '') => `<span class="boxed ${cls}">${M(t)}</span>`;
 
@@ -288,7 +290,12 @@ async function show(soft = false) {
   E.next.hidden = !!v.hideNext; E.next.classList.toggle('locked', !!v.lock);
   document.title = (v.eb ? v.eb + ' · ' : '') + 'Trig Quest';
   await typeset(stage);
-  E.main.querySelectorAll('.row.big').forEach(r => { if (r.scrollWidth > r.clientWidth + 1) r.style.fontSize = Math.max(12, 52 * r.clientWidth / (2 * r.scrollWidth - r.clientWidth) * .97) + 'px'; });   // centred overflow: scrollWidth only counts one side   // long problems shrink to the column instead of clipping
+  E.main.querySelectorAll('.row.big').forEach(r => {   // long problems and answers shrink to the column instead of clipping
+    let k = 1;
+    if (r.scrollWidth > r.clientWidth + 1) k = r.clientWidth / (2 * r.scrollWidth - r.clientWidth);   // centred overflow: scrollWidth only counts one side
+    r.querySelectorAll('.boxed').forEach(b => { if (b.scrollWidth > b.clientWidth + 1) k = Math.min(k, b.clientWidth / b.scrollWidth); });
+    if (k < 1) r.style.fontSize = Math.max(12, 52 * k * .96) + 'px';
+  });
 }
 function go(d) { if (!deck) return; const j = deck.i + d; if (j < 0 || j >= deck.slides.length) return; deck.i = j; show(); }
 function nextSlide() {
@@ -433,7 +440,7 @@ function slidesFor(k) {
       main: `<div class="card fadein"><div class="k">Plan</div><p>${p.hint}</p></div>`,
       say: ['Plan', 'Use the hint, finish the problem on paper, then check it on the next slide.'] }; },
     () => { const x = it(), p = x.p, g = x.grade;
-      return { eb: ebFor(k), ph: phasesFor(p), on: 3, track: trackHtml(k, true),
+      return { eb: ebFor(k), ph: phasesFor(p), on: 3, track: trackHtml(k, true), side: solq(p),
         main: `<div class="row big">${boxed(p.a, g === 'ok' ? 'ok' : g === 'no' ? 'no' : '')}</div>${p.note ? `<div class="note">${p.note}</div>` : ''}
           <div class="btns">${g ? `<span class="chip flat">${g === 'ok' ? '✓ Marked correct' : '✗ Marked missed'}</span>` : `<button class="btn ok" data-act="grade" data-g="ok">✓ I got it (G)</button><button class="btn no" data-act="grade" data-g="no">✗ Missed it (M)</button>`}</div>`,
         say: ['Check', g ? 'Press → for the next problem.' : 'Compare with your work. Be honest: it only counts if you got it.'],
@@ -593,7 +600,7 @@ const DECKS = [
   { k: 'identities', name: 'Identities', mode: 'mc', v: '--cx', color: '#5B8CFF', desc: 'Pick the right side of the identity.', pool: () => ALL_MC },
   { k: 'integrals', name: 'Integrals', mode: 'self', v: '--cr', color: '#3DDC97', desc: 'Basics, powers, products, trig sub, by parts.', pool: () => ALL_SELF.filter(p => /^(basic|powers|products|angles|trigsub|parts|inverse|frac):/.test(p.id)) },
   { k: 'derivs', name: 'Derivatives', mode: 'self', v: '--cd', color: '#FFB347', desc: 'Trig, inverse trig and hyperbolic derivatives.', pool: () => ALL_SELF.filter(p => /^derivatives:/.test(p.id)) },
-  { k: 'exam', name: 'Exam Problems', mode: 'self', v: '--ca', color: '#FF5D6C', desc: 'The real MATH 1400 problems from your PDF.', pool: () => ALL_SELF.filter(p => /^pdf:/.test(p.id)) }
+  { k: 'exam', name: 'Exam Problems', mode: 'self', v: '--ca', color: '#FF5D6C', desc: 'The real MATH 1400 problems from your PDF and recitation worksheet.', pool: () => ALL_SELF.filter(p => /^(pdf|recitation):/.test(p.id)) }
 ];
 async function playBlitz(k) {
   const d = DECKS.find(x => x.k === k); if (!d) { location.hash = '#/blitz'; return; }
