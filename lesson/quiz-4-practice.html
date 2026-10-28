@@ -1,0 +1,48 @@
+<!doctype html><html lang="en"><head><meta charset="utf8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Quiz 4 Practice · in Motion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&display=swap">
+<link rel="stylesheet" href="lesson.css">
+</head><body>
+<div id="viewport">
+  <div id="stage" role="region" aria-label="Presentation slide. Click or press the right arrow to advance.">
+    <header id="head">
+      <div id="hrow">
+        <div id="exlabel"></div>
+        <div id="phases" hidden></div>
+      </div>
+      <div id="track" hidden aria-label="Problem so far"></div>
+    </header>
+    <div id="wrap"><div id="board"></div><div id="fx"></div></div>
+    <div id="say" aria-live="polite"></div>
+    <div id="loading">Loading the math…</div>
+  </div>
+</div>
+<nav id="bar" aria-label="Presentation controls">
+  <a id="back" href="../index.html" style="font:500 15px/1 var(--font-display);color:var(--accent);text-decoration:none;padding:9px 6px">← Trig Quest</a>
+  <button id="prev" type="button" aria-label="Previous step">← Back</button>
+  <select id="jump" aria-label="Jump to problem"></select>
+  <span id="count">–</span>
+  <button id="next" type="button" aria-label="Next step">Next →</button>
+  <button id="pdfq" type="button" aria-haspopup="dialog" hidden>Original question</button>
+  <button id="fs" type="button">Full screen</button>
+  <span id="hint">Click the slide or use ← → keys · [ ] jump between problems</span>
+</nav>
+<script>
+window.MathJax={loader:{load:['[tex]/html','[tex]/cancel']},tex:{packages:{'[+]':['html','cancel']}},svg:{fontCache:'none'},options:{enableAssistiveMml:false,enableMenu:false},startup:{typeset:false}};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
+<script src="dsl.js"></script>
+<script src="kit.js"></script>
+<script src="kit-area.js"></script>
+<script src="kit-vol.js"></script>
+<script src="kit-q4.js"></script>
+<script src="deck-q4a.js"></script>
+<script src="deck-q4b.js"></script>
+<script src="deck-q4c.js"></script>
+<script src="deck-q4d.js"></script>
+<script src="deck-q4z.js"></script>
+<script src="../shots.js"></script>
+<script src="../shotui.js"></script>
+<script src="engine.js"></script>
+</body></html>

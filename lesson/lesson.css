@@ -182,6 +182,7 @@ svg .ca{fill:var(--ca)} svg .ct{fill:var(--ct)} svg .ink{fill:var(--ink)}
 .row.pair{font-size:30px;gap:36px;align-items:center;flex-wrap:nowrap}
 .row.big.sm{font-size:40px}
 .row.work.sm{font-size:25px}
+.row.line.sm{font-size:25px}
 .row.note{font-size:21px;color:var(--muted);text-align:center}
 .tok.chip.wide{font-size:18px}
 .side .tok.card,.tok.card.sidecard{font-size:19px;max-width:330px;padding:14px 18px}

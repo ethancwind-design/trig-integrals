@@ -1,0 +1,32 @@
+/* Quiz 4 practice · intro slides and the LESSON() call (always the last deck loaded) */
+const introQ4 = [
+  { id: 'title', label: 'Title', head: { eb: 'MATH 1400 · Fall 26 Quiz 4 · Weeks 8 and 9', prob: null }, layout: 'full', tag: '',
+    say: r`Twenty-five practice problems for Quiz 4, each as its own lesson. Every step is animated and every answer is checked by computer. Press → or click to begin.`,
+    main: [R('eyebrow', H('t1', 'Quiz 4 practice problems')), R('display', H('t2', 'Quiz 4 Practice', 'ink')),
+      R('lead', H('t3', 'The hardest ones, one small step at a time.')),
+      R('chips', H('c1', '<b>1–7</b>trig powers', 'ink', { cls: 'chip' }), H('c2', '<b>8–12</b>trig substitution', 'ink', { cls: 'chip' }), H('c3', '<b>13–15</b>areas', 'ink', { cls: 'chip' }), H('c4', '<b>16–25</b>volumes', 'ink', { cls: 'chip' })),
+      R('sample', T('s1', r`\int\!\sin^3x\cos^8x\,dx`, 'ct'), T('s2', r`\;\xrightarrow{\;u=\cos x\;}\;`, 'cx'), T('s3', r`\int\!(1-u^2)u^8\,du`, 'ct'))], side: [] },
+  { id: 'tool1', label: 'Toolbox: integrals', head: { eb: 'Toolbox · problems 1–12', prob: null }, layout: 'full', tag: '',
+    say: r`One decision per problem: look at the integrand and pick the matching tool. Powers of sine, cosine, tangent and secant use a $u$-substitution or an identity. Radicals use a triangle.`,
+    main: [R('cols',
+      ST([H('b1h', 'Trig powers · 1–7', 'muted', { cls: 'eyebrow' })], [T('b1a', r`\sin^{\text{odd}}\;\Rightarrow\;u=\cos x`, 'ct')], [T('b1b', r`\sin^{\text{even}}\;\Rightarrow\;\text{half-angle}`, 'ct')], [T('b1c', r`\tan^m\sec^n,\;n\text{ even}\;\Rightarrow\;u=\tan x`, 'ct')], [T('b1d', r`\tan^m\sec^n,\;m\text{ odd}\;\Rightarrow\;u=\sec x`, 'ct')], [T('b1e', r`\cos Ax\cos Bx\;\Rightarrow\;\text{product-to-sum}`, 'ct')]),
+      ST([H('b2h', 'Trig substitution · 8–12', 'muted', { cls: 'eyebrow' })], [T('b2a', r`\sqrt{a^2-x^2}\;\Rightarrow\;x=a\sin\theta`, 'cr')], [T('b2b', r`\sqrt{x^2+a^2}\;\Rightarrow\;x=a\tan\theta`, 'cr')], [T('b2c', r`\sqrt{x^2-a^2}\;\Rightarrow\;x=a\sec\theta`, 'cr')], [H('b2d', 'Convert the limits too: to θ, or to the u that comes next.', 'ink', { cls: 'mini' })]))], side: [] },
+  { id: 'tool2', label: 'Toolbox: areas and volumes', head: { eb: 'Toolbox · problems 13–25', prob: null }, layout: 'full', tag: '',
+    say: r`Areas are top minus bottom, with integration by parts when logs and exponentials appear. For volumes, ask how the slice sits against the axis.`,
+    main: [R('cols',
+      ST([H('b3h', 'Areas · 13–15', 'muted', { cls: 'eyebrow' })], [T('b3a', r`G=2\int_0^1\big(x-f(x)\big)\,dx`, 'cd')], [T('b3b', r`A=\int(\text{top}-\text{bottom})`, 'cd')], [T('b3c', r`\int u\,dv=uv-\int v\,du`, 'cd')]),
+      ST([H('b4h', 'Volumes · 16–25', 'muted', { cls: 'eyebrow' })], [T('b4a', r`\text{slice}\perp\text{axis}\;\Rightarrow\;\text{disk or washer}`, 'cp')], [T('b4b', r`\pi\big(R^2-r^2\big)\,dx`, 'cp')], [T('b4c', r`\text{slice}\parallel\text{axis}\;\Rightarrow\;\text{shell}`, 'cp')], [T('b4d', r`2\pi\,r\,h\,dx`, 'cp')]))], side: [] },
+  { id: 'map1', label: 'Problems 1–12', head: { eb: 'Overview', prob: null }, layout: 'full', tag: '',
+    say: r`Problems 1 to 7 are definite trig integrals. Problems 8 to 12 are definite integrals by trig substitution.`,
+    main: [R('cols',
+      ST([H('m1h', 'Trig integrals · 1–7', 'muted', { cls: 'eyebrow' })], [T('m1a', r`\int_{\pi/2}^{\pi}99\sin^3x\cos^8x\,dx`, 'ct')], [T('m1b', r`\int_0^{\pi}9\sin^3(3x)\,dx`, 'ct')], [T('m1c', r`\int_0^{\pi}40\sin^4x\,dx`, 'ct')], [T('m1d', r`\int_0^{\pi/4}162\tan^5x\sec^2x\,dx`, 'ct')], [T('m1e', r`\int_0^{\pi/3}30\tan^5x\sec x\,dx`, 'ct')], [T('m1f', r`\int_0^{\pi/3}15\sec^4x\tan^2x\,dx`, 'ct')], [T('m1g', r`\int_0^{\pi/6}20\cos3x\cos2x\,dx`, 'ct')]),
+      ST([H('m2h', 'Trig substitution · 8–12', 'muted', { cls: 'eyebrow' })], [T('m2a', r`\int_0^{\sqrt3}\tfrac{3x^3}{\sqrt{1+x^2}}\,dx`, 'cr')], [T('m2b', r`\int_0^{\sqrt3/2}\tfrac{24x^3}{\sqrt{1-x^2}}\,dx`, 'cr')], [T('m2c', r`\int_{1/2}^{1}\tfrac{\sqrt{1-x^2}}{x^2}\,dx`, 'cr')], [T('m2d', r`\int_{\sqrt2}^{\sqrt5}\tfrac{3x^3}{\sqrt{x^2-1}}\,dx`, 'cr')], [T('m2e', r`\int_0^{1/5}\tfrac{40}{(25x^2+1)^2}\,dx`, 'cr')]))], side: [] },
+  { id: 'map2', label: 'Problems 13–25', head: { eb: 'Overview', prob: null }, layout: 'full', tag: '',
+    say: r`Problems 13 to 15 are areas. Problems 16 to 25 are volumes of revolution, and problem 22 is setup only.`,
+    main: [R('cols',
+      ST([H('m3h', 'Areas · 13–15', 'muted', { cls: 'eyebrow' })], [RICH('m3a', r`13 · Gini index of $xe^{x-1}$`, { cls: 'mini' })], [RICH('m3b', r`14 · between $x^2\ln x$ and $x^2$`, { cls: 'mini' })], [RICH('m3c', r`15 · under $\sqrt{4+x^2}$`, { cls: 'mini' })]),
+      ST([H('m4h', 'Volumes · 16–20', 'muted', { cls: 'eyebrow' })], [RICH('m4a', r`16 · $\tfrac12e^{x^2}$, about $y$-axis`, { cls: 'mini' })], [RICH('m4b', r`17 · circle and line, about $y$-axis`, { cls: 'mini' })], [RICH('m4c', r`18 · $\sin x,\cos x$, about $x$-axis`, { cls: 'mini' })], [RICH('m4d', r`19 · $e^x$, about $y=2$`, { cls: 'mini' })], [RICH('m4e', r`20 · $3\sqrt x$ and 3, find $a,b$`, { cls: 'mini' })]),
+      ST([H('m5h', 'Volumes · 21–25', 'muted', { cls: 'eyebrow' })], [RICH('m5a', r`21 · $\tfrac{x^2}{\sqrt{9-x^2}}$, shells`, { cls: 'mini' })], [RICH('m5b', r`22 · setup only, about $y=-2$`, { cls: 'mini' })], [RICH('m5c', r`23 · triangle, about $x=-3$`, { cls: 'mini' })], [RICH('m5d', r`24 · $\sqrt x$ and 1, about $y=-1$`, { cls: 'mini' })], [RICH('m5e', r`25 · $\sqrt x\,(x^2+16)^{1/4}$, disks`, { cls: 'mini' })]))], side: [] },
+];
+
+LESSON({ key: 'q4', title: 'Quiz 4 Practice · in Motion', intro: introQ4, examples });
