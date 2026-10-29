@@ -25,8 +25,11 @@
   const forSrc = (src, stem) => (src ? shot(keyFor(src), stem) : null);
   /* handwritten worked solution that goes with a recitation problem */
   const solFor = src => { const k = src && keyFor(src); return k && k.startsWith('rec-') ? shot('recsol-' + k.slice(4)) : null; };
-  function figure(s, cap) {
-    return s ? `<figure class="pdfq"><figcaption>${cap || s.cap || 'Original question · from the PDF'}</figcaption><img data-cap="${cap || s.cap || ''}" src="${s.src}" width="${s.w}" height="${s.h}" alt="${s.alt}" loading="lazy" decoding="async"></figure>` : '';
+  const esc = t => String(t).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+  /* `cap` is the caption text (also kept on the img for the enlarged view); `after` is extra caption markup such as the Close button, kept out of data-cap */
+  function figure(s, cap, after) {
+    const c = cap || s.cap || '';
+    return s ? `<figure class="pdfq"><figcaption>${c || 'Original question · from the PDF'}${after || ''}</figcaption><img data-cap="${esc(c)}" src="${esc(s.src)}" width="${esc(s.w)}" height="${esc(s.h)}" alt="${esc(s.alt)}" loading="lazy" decoding="async"></figure>` : '';
   }
   /* click an image to enlarge it over the page (the game stage and lesson stage are scaled down on small screens) */
   const css = document.createElement('style');
@@ -51,7 +54,7 @@
   function open(s) {
     close();
     box = document.createElement('div'); box.className = 'shotbox'; box.setAttribute('role', 'dialog'); box.setAttribute('aria-modal', 'true'); box.setAttribute('aria-label', 'Original question from the source PDF');
-    box.innerHTML = figure(s, (s.cap || 'Original question · from the PDF') + ' <button type="button" class="x">Close ✕</button>');
+    box.innerHTML = figure(s, s.cap || 'Original question · from the PDF', ' <button type="button" class="x">Close ✕</button>');
     box.querySelector('img').loading = 'eager';
     box.addEventListener('click', e => { e.stopPropagation(); if (e.target === box || e.target.closest('.x')) close(); });
     document.body.appendChild(box); document.addEventListener('keydown', onKey, true); box.querySelector('.x').focus();
