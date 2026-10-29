@@ -310,7 +310,7 @@ $('#fs').addEventListener('click', () => {
 const pdfBtn = $('#pdfq');
 const PDF_RULE = { 'week-8-quizzes': [/Quiz ([AB]) · Q(\d+)/, (a, n) => `w8${a.toLowerCase()}-${n}`], 'week-9-quizzes': [/Quiz ([ABC]) · Q(\d+)/, (a, n) => `w9${a.toLowerCase()}-${n}`],
   'lecture-23': [/(\d+)/, n => `l23-${String(n).padStart(2, '0')}`], 'lecture-30-31': [/(\d+)/, n => `l30-${String(n).padStart(2, '0')}`], 'lecture-32-33': [/(\d+)/, n => `l32-${String(n).padStart(2, '0')}`],
-  'quiz-4-practice': [/(\d+)/, n => `q4-${String(n).padStart(2, '0')}`] };
+  'quiz-4-practice': [/(\d+)/, n => `q4-${String(n).padStart(2, '0')}`], 'area-between-curves': [/(\d+)/, n => `abc-${String(n).padStart(2, '0')}`] };
 function pdfShot(ex) {
   const rule = PDF_RULE[location.pathname.split('/').pop().replace(/\.html$/, '')], m = ex && rule && rule[0].exec(ex.label || '');
   return m && window.shotUI ? shotUI.shot(rule[1](...m.slice(1))) : null;

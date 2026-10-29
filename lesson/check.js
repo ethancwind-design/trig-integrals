@@ -7,6 +7,7 @@ const DECKS = {
   w9: ['kit.js', 'kit-area.js', 'kit-vol.js', 'deck-w9.js'],
   l30: ['kit.js', 'kit-area.js', 'deck-l30.js', 'deck-l30b.js', 'deck-l30c.js'],
   q4: ['kit.js', 'kit-area.js', 'kit-vol.js', 'kit-q4.js', 'deck-q4a.js', 'deck-q4b.js', 'deck-q4c.js', 'deck-q4d.js', 'deck-q4z.js'],
+  abc: ['kit.js', 'kit-area.js', 'kit-polar.js', 'deck-abc.js', 'deck-abcp.js', 'deck-abcz.js'],
   l32: ['kit.js', 'kit-area.js', 'kit-vol.js', 'deck-l32.js', 'deck-l32b.js', 'deck-l32c.js', 'deck-l32d.js']
 };
 let bad = 0;

@@ -334,7 +334,7 @@ function hub() {
     { h: '#/blitz', c: '--cr', tag: 'Game mode 3', name: 'Blitz', desc: 'Sixty seconds on the clock. Pick a deck and clear as many cards as you can. A miss costs 3 seconds.', meta: `Best: ${best}` },
     { h: '#/survival', c: '--ca', tag: 'Game mode 4', name: 'Survival', desc: 'Three hearts, harder problems every round. How far can you get?', meta: `Best: ${S.best.survival || 0} rounds` },
     { h: 'codex.html', c: '--cp', tag: 'Free roam', name: 'Codex', desc: 'Every formula, searchable, with a study mode that hides the answers.', meta: 'Identities · integrals · cheat sheets' },
-    { h: 'lesson/index.html', c: '--cd', tag: 'Cutscenes', name: 'Practice Lessons in Motion', desc: 'Trig Substitution in Motion, plus every prep-quiz and practice question as its own animated lesson, with the slice diagrams.', meta: '102 lessons · 6 decks + Trig Substitution' }
+    { h: 'lesson/index.html', c: '--cd', tag: 'Cutscenes', name: 'Practice Lessons in Motion', desc: 'Trig Substitution in Motion, plus every prep-quiz and practice question as its own animated lesson, with the slice diagrams.', meta: '116 lessons · 7 decks + Trig Substitution' }
   ];
   const title = () => ({
     eb: 'Calculus II · Integration techniques', ph: ['Read', 'Plan', 'Answer'], on: 0, adv: true,
