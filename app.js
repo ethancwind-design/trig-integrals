@@ -287,6 +287,7 @@ function buildNav() {
     h += `<div class="grp">${label}</div>` + list.map(i => `<a data-id="${i}" href="#${i}"><span>${esc(NAMES[i] || byId[i].title)}</span><span class="n">${count(byId[i])}</span></a>`).join('');
   });
   h += `<a class="lesson" data-id="lesson" href="motion.html"><span>Trig substitution, animated</span></a>`;
+  h += `<a class="sheet" href="cheatsheet.html"><span>Formula sheet, typeset</span></a>`;
   $('#side').innerHTML = h;
   $('#foot').innerHTML = `<p>${DATA.meta.total} integral/identity formulas and problems: every antiderivative was differentiated and every definite integral was integrated numerically (mpmath, 30 digits) before this page was generated. The cheat-sheet sections are hand-written; every identity row that is a plain equation in sin/cos/tan… was also checked numerically (marked “checked”). Built from <i>MATH 1400 Prep Quizzes &amp; Practice Problems</i> and <i>Trig Substitution in Motion</i>. Constants of integration are omitted unless shown; Type III formulas assume x&nbsp;&gt;&nbsp;a.</p>`;
 }

@@ -71,6 +71,8 @@ table.vt tr.ax td{background:var(--accent-soft)}
 #side a .n{font:500 12px/1 var(--font-display);color:var(--muted);font-variant-numeric:tabular-nums}
 #side a.lesson{margin-top:10px;background:var(--paper);border-color:var(--rule)}
 #side a.lesson span:first-child::before{content:"▶ ";color:var(--accent)}
+#side a.sheet{margin-top:6px;background:var(--paper);border-color:var(--rule)}
+#side a.sheet span:first-child::before{content:"∫ ";color:var(--accent)}
 
 #main{min-width:0;outline:none}
 #loading{padding:80px 0;text-align:center;font:500 20px var(--font-display);color:var(--muted)}
