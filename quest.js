@@ -692,7 +692,7 @@ function boot() {
       clearInterval(tipTimer);
       status.textContent = failed ? 'Math engine offline: formulas may look raw' : 'Ready';
       startBtn.hidden = false; startBtn.focus({ preventScroll: true });
-      const go1 = () => { document.removeEventListener('keydown', go1); loader.removeEventListener('pointerdown', go1); store.sset('tq.seen', '1'); loader.classList.add('out'); hudUpdate(); route(); setTimeout(() => loader.remove(), 600); };
+      const go1 = e => { if (e && e.target.closest && e.target.closest('#ldCodex')) return; document.removeEventListener('keydown', go1); loader.removeEventListener('pointerdown', go1); store.sset('tq.seen', '1'); loader.classList.add('out'); hudUpdate(); route(); setTimeout(() => loader.remove(), 600); };
       document.addEventListener('keydown', go1); loader.addEventListener('pointerdown', go1);
       if (FAST) go1();
       return;

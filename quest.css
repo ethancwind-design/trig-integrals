@@ -215,6 +215,8 @@ button:disabled{opacity:.4;cursor:default}
 .ld-tip b{font:400 10px var(--font-pixel);color:var(--yellow);margin-right:8px;vertical-align:1px}
 .ld-start{margin-top:6px;font:400 12px/1 var(--font-pixel);color:#05080F;background:var(--yellow);border:0;border-radius:6px;padding:16px 22px;box-shadow:0 5px 0 #B38F00;animation:blink 1s steps(2) infinite;cursor:pointer}
 @keyframes blink{50%{opacity:.35}}
+.ld-codex{margin-top:12px;font:400 10px/1.4 var(--font-pixel);color:var(--teal);letter-spacing:.08em;text-transform:uppercase;text-decoration:none;border-bottom:2px solid currentColor;padding-bottom:4px}
+.ld-codex:hover,.ld-codex:focus-visible{color:#fff}
 .ld-foot{position:absolute;bottom:14px;left:0;right:0;text-align:center;font:400 9px var(--font-pixel);color:#4B5A86}
 #mload{position:fixed;inset:0;z-index:150;display:grid;place-items:center;background:rgba(5,8,15,.97);color:#E8EDF8;animation:fadein .18s ease both}
 #mload.out{opacity:0;transition:opacity .3s}
