@@ -28,8 +28,9 @@
   const esc = t => String(t).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
   /* `cap` is the caption text (also kept on the img for the enlarged view); `after` is extra caption markup such as the Close button, kept out of data-cap */
   function figure(s, cap, after) {
+    if (!s) return '';
     const c = cap || s.cap || '';
-    return s ? `<figure class="pdfq"><figcaption>${c || 'Original question · from the PDF'}${after || ''}</figcaption><img data-cap="${esc(c)}" src="${esc(s.src)}" width="${esc(s.w)}" height="${esc(s.h)}" alt="${esc(s.alt)}" loading="lazy" decoding="async"></figure>` : '';
+    return `<figure class="pdfq"><figcaption>${c || 'Original question · from the PDF'}${after || ''}</figcaption><img data-cap="${esc(c)}" src="${esc(s.src)}" width="${esc(s.w)}" height="${esc(s.h)}" alt="${esc(s.alt)}" loading="lazy" decoding="async"></figure>`;
   }
   /* click an image to enlarge it over the page (the game stage and lesson stage are scaled down on small screens) */
   const css = document.createElement('style');
