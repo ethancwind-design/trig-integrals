@@ -1,5 +1,5 @@
-/* Trig Quest — loading screen, hub, story lines, daily run, blitz, survival.
-   Problems come straight from the verified data (window.TRIG) and the cheat sheets (window.REFSECTIONS). */
+/* Calc Quest — loading screen, path chooser, story lines, daily run, blitz, survival.
+   Two paths: Trig (window.TRIG + the cheat sheets in window.REFSECTIONS) and Calc (window.CALC, build/calc_build.py). */
 (() => {
 'use strict';
 const $ = (s, r = document) => r.querySelector(s);
@@ -16,8 +16,8 @@ function hashStr(s) { let h = 2166136261; for (let i = 0; i < s.length; i++) { h
 function shuffle(arr, rnd = Math.random) { const a = arr.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
 
 /* ───────────── save file ───────────── */
-const KEY = 'trigquest.v1';
-const blank = () => ({ xp: 0, solved: {}, missions: {}, best: {}, daily: {}, streak: 0, lastDay: '', last: null });
+const KEY = 'trigquest.v1';   // kept from before the rename so existing progress carries over
+const blank = () => ({ xp: 0, solved: {}, missions: {}, best: {}, daily: {}, streak: 0, lastDay: '', last: null, path: null });
 let S = (() => { try { return Object.assign(blank(), JSON.parse(store.get(KEY) || '{}')); } catch (e) { return blank(); } })();
 const save = () => store.set(KEY, JSON.stringify(S));
 const need = l => 60 + 30 * (l - 1);
@@ -55,11 +55,17 @@ const TIPS = [
   'Odd power of x on top of √(a² − x²)? Plain u-sub. No trig sub needed.',
   'Definite integral + substitution: change the limits and skip the back-substitution.',
   'ln|3x+1| from ∫ 1/(3x+1) dx needs a ⅓. Do not forget the chain rule in reverse.',
-  'Gini index: G = 1 − 2∫₀¹ L(x) dx. Higher curve means less inequality.'
+  'Gini index: G = 1 − 2∫₀¹ L(x) dx. Higher curve means less inequality.',
+  'Arc length: before integrating, check whether 1 + (y′)² is a perfect square. On exams it usually is.',
+  'Surface of revolution: S = 2π ∫ (radius) ds. About the x-axis the radius is y; about the y-axis it is x.',
+  'Average value of f on [a, b] is the integral divided by b − a. Do not forget the division.',
+  'Centroid: x̄ = (1/A) ∫ x (top − bottom) dx and ȳ = (1/A) ∫ ½ (top² − bottom²) dx. Symmetry can give one for free.',
+  'A probability density must integrate to 1 and never go negative. Use that to find the constant.',
+  'Median: solve ∫ f = ½ from the left end. Mean: ∫ x f(x) dx. Variance: E[X²] − μ².'
 ];
 
 /* ───────────── building problems ───────────── */
-const T = window.TRIG, RS = window.REFSECTIONS || [];
+const T = window.TRIG, RS = (window.REFSECTIONS || []).concat(window.CALC ? window.CALC.sections : []);
 const secById = {}; T.sections.concat(RS).forEach(s => { secById[s.id] = s; });
 const METHOD_LABEL = { usub: 'u-substitution', parts: 'by parts', trigsub: 'trig substitution', identity: 'use an identity', reduction: 'reduction formula',
   weierstrass: 't = tan(x/2)', partial: 'partial fractions', 'complete-square': 'complete the square', definite: 'definite integral' };
@@ -199,16 +205,55 @@ const STORY = [
     C('Recitation · Worksheet 4', 'Reference triangles, trig sub, Gini, polar area, a disk volume.', 'self', [['recitation']], { hearts: 3, noBoss: true })
   ] }
 ];
+STORY.forEach(sl => { sl.path = 'trig'; });
 
-const SLV = { core: '--cx', trail: '--cr', sub: '--cd', tech: '--cp', def: '--ct', area: '--cy', exam: '--ca' };
-let ALL_SELF = [], ALL_MC = [], MISSIONS = {}, MISSION_ORDER = [], TOTAL_PROBLEMS = 0;
+/* Calc path: the four topics of weeks 10 and 11 (Quiz 5). Problems come from calcdata.js. */
+STORY.push(
+  { id: 'arc', path: 'calc', name: 'Arc Length & Surface Area', glyph: 'ℓ', color: '#5B8CFF', tag: 'Week 10 · curves and surfaces',
+    blurb: 'How long is the curve, and how much area does it sweep out when you spin it? The radical almost always collapses into a perfect square.', chapters: [
+    C('Arc Length · y = f(x)', 'L = ∫ √(1 + (f′)²) dx. Look for a perfect square under the root.', 'self', [['c_arc', [0]]]),
+    C('Arc Length · Parametric & x = g(y)', 'L = ∫ √(x′² + y′²) dt, or swap the roles of x and y.', 'self', [['c_arc', [1]]]),
+    C('Surface Area · About the x-axis', 'S = 2π ∫ y ds, where ds = √(1 + y′²) dx.', 'self', [['c_arc', [2]]]),
+    C('Surface Area · About the y-axis', 'S = 2π ∫ x ds: the radius is now x.', 'self', [['c_arc', [3]]])
+  ] },
+  { id: 'avg', path: 'calc', name: 'Averages & Centroids', glyph: 'x̄', color: '#3DDC97', tag: 'Week 10 · averages and balance points',
+    blurb: 'The average value of a function, the centroid of a region, and the center of mass when the density is not constant.', chapters: [
+    C('Average Value', 'f_avg = 1/(b − a) ∫ f dx.', 'self', [['c_avg', [0]]]),
+    C('Centroids of Regions', 'x̄ = (1/A) ∫ x (top − bottom) dx, ȳ = (1/A) ∫ ½ (top² − bottom²) dx.', 'self', [['c_avg', [1]]]),
+    C('Center of Mass with Density', 'Weight every slice by ρ: x̄ = ∫ x ρ dx / ∫ ρ dx.', 'self', [['c_avg', [2]]])
+  ] },
+  { id: 'pdf', path: 'calc', name: 'Probability Densities', glyph: 'f', color: '#FF6FD8', tag: 'Week 11 · continuous probability',
+    blurb: 'A density is a function that integrates to 1. Find the missing constant, then turn areas under the curve into probabilities.', chapters: [
+    C('Find the Constant', 'Set ∫ f = 1 and solve for C.', 'self', [['c_pdf', [0]]]),
+    C('Probabilities from a Density', 'P(a ≤ X ≤ b) = ∫ f from a to b.', 'self', [['c_pdf', [1]]])
+  ] },
+  { id: 'ev', path: 'calc', name: 'Expectation & Variance', glyph: 'μ', color: '#FFD84D', tag: 'Week 11 · mean, median, spread',
+    blurb: 'The mean, the median, and how spread out a continuous random variable is.', chapters: [
+    C('Mean (Expected Value)', 'μ = ∫ x f(x) dx.', 'self', [['c_ev', [0]]]),
+    C('Median', 'Solve ∫ f = ½ from the left end of the support.', 'self', [['c_ev', [1]]]),
+    C('Variance & Standard Deviation', 'σ² = E[X²] − μ², and σ is its square root.', 'self', [['c_ev', [2]]])
+  ] }
+);
+
+const PATHS = [
+  { id: 'trig', name: 'Trig', glyph: '∫', c: '--cr', tag: 'Path 1', blurb: 'Identities, trig integrals and substitution, by parts, partial fractions, definite integrals, area and volume, plus your MATH 1400 exam prep.' },
+  { id: 'calc', name: 'Calc', glyph: 'ℓ', c: '--cx', tag: 'Path 2', blurb: 'Arc length and surface area, averages and centroids, probability densities, expectation and variance: the weeks 10 and 11 material, with your Quiz 5 practice problems.' }
+];
+const curPath = () => S.path || 'trig';
+const pathOf = id => PATHS.find(p => p.id === id);
+const storyFor = id => STORY.filter(s => s.path === id);
+
+const SLV = { core: '--cx', trail: '--cr', sub: '--cd', tech: '--cp', def: '--ct', area: '--cy', exam: '--ca', arc: '--cx', avg: '--cr', pdf: '--cp', ev: '--cy' };
+let ALL_SELF = [], ALL_MC = [], MISSIONS = {}, MISSION_ORDER = [], TOTAL_PROBLEMS = 0, PATH_N = {};
+const inPath = p => p.path === curPath();
+const survKey = id => id === 'trig' ? 'survival' : 'survival.' + id;   // the trig best keeps its old key
 function buildAll() {
   const selfSeen = new Set(), mcSeen = new Set();
   STORY.forEach(sl => {
     sl.chapters.forEach((c, ci) => {
       c.id = `${sl.id}.${ci}`; c.sl = sl; c.n = ci + 1;
       c.problems = gather(c);
-      c.problems.forEach(p => { const pool = p.type === 'mc' ? ALL_MC : ALL_SELF, seen = p.type === 'mc' ? mcSeen : selfSeen; if (!seen.has(p.id)) { seen.add(p.id); pool.push(p); } });
+      c.problems.forEach(p => { p.path = sl.path; const pool = p.type === 'mc' ? ALL_MC : ALL_SELF, seen = p.type === 'mc' ? mcSeen : selfSeen; if (!seen.has(p.id)) { seen.add(p.id); pool.push(p); } });
       const P = c.problems, ms = [];
       if (P.length) {
         const chunks = [];
@@ -227,6 +272,7 @@ function buildAll() {
     sl.problems = new Set(); sl.chapters.forEach(c => c.problems.forEach(p => sl.problems.add(p.id)));
   });
   TOTAL_PROBLEMS = ALL_SELF.length + ALL_MC.length;
+  PATHS.forEach(pt => { PATH_N[pt.id] = ALL_SELF.concat(ALL_MC).filter(p => p.path === pt.id).length; });
   window.TQ = { STORY, ALL_SELF, ALL_MC, MISSIONS };   // handy for poking around in the console
 }
 
@@ -288,7 +334,7 @@ async function show(soft = false) {
   E.prev.disabled = deck.i === 0 || !!v.noBack;
   E.next.disabled = !deck.endless && deck.i >= n - 1;
   E.next.hidden = !!v.hideNext; E.next.classList.toggle('locked', !!v.lock);
-  document.title = (v.eb ? v.eb + ' · ' : '') + 'Trig Quest';
+  document.title = (v.eb ? v.eb + ' · ' : '') + 'Calc Quest';
   await typeset(stage);
   E.main.querySelectorAll('.row.big').forEach(r => {   // long problems and answers shrink to the column instead of clipping
     let k = 1;
@@ -326,34 +372,36 @@ const starRow = n => [1, 2, 3].map(k => `<span class="${n >= k ? 'on' : ''}">★
 let hubSeen = false;
 function hub() {
   stopRun();
-  const L = lvl(S.xp), done = S.daily[dayStr()], last = S.last;
-  const best = ['identities', 'integrals', 'derivs', 'exam'].reduce((m, k) => Math.max(m, S.best['blitz.' + k] || 0), 0);
-  const modes = [
-    { h: '#/story', c: '--cx', tag: 'Game mode 1', name: 'Story Mode', desc: 'Seven story lines. Each walks through one topic, mission by mission, with a boss at the end of every big chapter.', meta: `${clearedMissions()}/${MISSION_ORDER.length} missions cleared` },
-    { h: '#/daily', c: '--cy', tag: 'Game mode 2', name: 'Daily Run', desc: 'Five fresh problems, the same for everyone today. Bonus XP the first time you finish.', meta: done ? `Done today · ${done.score}/${done.total}` : '5 problems · +50 XP' },
-    { h: '#/blitz', c: '--cr', tag: 'Game mode 3', name: 'Blitz', desc: 'Sixty seconds on the clock. Pick a deck and clear as many cards as you can. A miss costs 3 seconds.', meta: `Best: ${best}` },
-    { h: '#/survival', c: '--ca', tag: 'Game mode 4', name: 'Survival', desc: 'Three hearts, harder problems every round. How far can you get?', meta: `Best: ${S.best.survival || 0} rounds` },
-    { h: 'codex.html', c: '--cp', tag: 'Free roam', name: 'Codex', desc: 'Every formula, searchable, with a study mode that hides the answers.', meta: 'Identities · integrals · cheat sheets' },
-    { h: 'lesson/index.html', c: '--cd', tag: 'Cutscenes', name: 'Practice Lessons in Motion', desc: 'Trig Substitution in Motion, plus every prep-quiz and practice question as its own animated lesson, with the slice diagrams.', meta: '116 lessons · 7 decks + Trig Substitution' }
-  ];
+  const L = lvl(S.xp), last = S.last, P = S.path && pathOf(S.path);
   const title = () => ({
-    eb: 'Calculus II · Integration techniques', ph: ['Read', 'Plan', 'Answer'], on: 0, adv: true,
-    main: `<div class="display">Trig Quest</div><div class="lead">Identities, integrals and exam prep, one slide at a time. ${TOTAL_PROBLEMS.toLocaleString()} problems, every answer checked.</div>
+    eb: 'Calculus II · Integration and its applications', ph: ['Read', 'Plan', 'Answer'], on: 0, adv: true,
+    main: `<div class="display">Calc Quest</div><div class="lead">Trig, integrals, arc length, centroids and probability, one slide at a time. ${TOTAL_PROBLEMS.toLocaleString()} problems, every answer checked.</div>
       <div class="statrow"><div class="stat"><b>LV ${L.l}</b><span>${rank(L.l)}</span></div><div class="stat"><b>${Object.keys(S.solved).length}</b><span>solved</span></div><div class="stat"><b>${clearedMissions()}</b><span>missions cleared</span></div><div class="stat"><b>${totalStars()}</b><span>stars</span></div></div>
-      <div class="btns">${last ? `<a class="btn main" href="${esc(last.hash)}">Continue · ${esc(last.label)}</a>` : `<a class="btn main" href="#/story">Start Story Mode</a>`}<button class="btn" data-act="toModes">All game modes →</button></div>`,
-    say: ['Welcome', 'Press → or click the slide for the game modes. The loading tips in the boot screen are real study notes.'] });
-  const modesSlide = () => ({
-    eb: 'Main menu', main: `<div class="display sm">Pick a game mode</div><div class="mcards">${modes.map(m => `<a class="mc" href="${m.h}" style="--c:var(${m.c})"><span class="tag">${m.tag}</span><h3>${m.name}</h3><p>${m.desc}</p><span class="meta">${m.meta}</span></a>`).join('')}</div>`,
-    say: ['Choose', 'Everything is unlocked. Progress, XP and stars are saved in this browser.  <button class="btn sm" data-act="reset" style="margin-left:10px">Reset progress</button>'] });
-  openDeck({ slides: [title, modesSlide], jump: [['Title', 0], ['Game modes', 1]], start: hubSeen ? 1 : 0 });
+      <div class="btns">${last ? `<a class="btn main" href="${esc(last.hash)}">Continue · ${esc(last.label)}</a>` : ''}${P ? `<a class="btn${last ? '' : ' main'}" href="#/story">Open the ${esc(P.name)} path</a>` : ''}<button class="btn${last || P ? '' : ' main'}" data-act="toPaths">${P ? 'Switch path' : 'Choose your path'} →</button></div>`,
+    say: ['Welcome', 'Press → or click the slide to pick a path. The loading tips in the boot screen are real study notes.'] });
+  const pathsSlide = () => ({
+    eb: 'Main menu', main: `<div class="display sm">Choose your path</div><div class="mcards two">${PATHS.map(p => { const sls = storyFor(p.id), solved = sls.reduce((n, sl) => n + slSolved(sl), 0);
+      return `<a class="mc" href="#/path/${p.id}" style="--c:var(${p.c})"><span class="gl">${p.glyph}</span><span class="tag">${p.tag}${S.path === p.id ? ' · current' : ''}</span><h3>${p.name}</h3><p>${p.blurb}</p><span class="meta">${sls.length} story lines · ${solved}/${PATH_N[p.id]} solved</span></a>`; }).join('')}</div>`,
+    say: ['Choose', 'Each path is one section: its story lines, Daily Run, Blitz and Survival all live together. You can switch any time. Progress, XP and stars are saved in this browser.  <button class="btn sm" data-act="reset" style="margin-left:10px">Reset progress</button>'] });
+  openDeck({ slides: [title, pathsSlide], jump: [['Title', 0], ['Paths', 1]], start: hubSeen ? 1 : 0 });
   hubSeen = true;
 }
 
+/* one section per path: its story lines, plus the other modes and links underneath */
 function storyList() {
   stopRun();
+  const P = S.path && pathOf(S.path); if (!P) { location.hash = '#/'; return; }
+  const sls = storyFor(P.id), done = S.daily[dayStr()];
+  const best = DECKS.filter(d => d.path === P.id).reduce((m, d) => Math.max(m, S.best['blitz.' + d.k] || 0), 0);
+  const modes = [
+    { h: '#/daily', name: 'Daily Run', meta: done ? `done · ${done.score}/${done.total}` : '5 problems · +50 XP' },
+    { h: '#/blitz', name: 'Blitz', meta: `best ${best}` },
+    { h: '#/survival', name: 'Survival', meta: `best ${S.best[survKey(P.id)] || 0} rounds` }
+  ].concat(P.id === 'trig' ? [{ h: 'codex.html', name: 'Codex', meta: 'every formula' }, { h: 'lesson/index.html', name: 'Lessons in Motion', meta: '116 lessons' }] : []);
   const slide = () => ({
-    eb: 'Game mode 1 · Story Mode', main: `<div class="display sm">Pick a story line</div><div class="mcards four">${STORY.map(sl => { const [st, mx] = slStars(sl), sv = slSolved(sl);
-      return `<a class="mc" href="#/story/${sl.id}" style="--c:var(${SLV[sl.id]})"><span class="gl">${sl.glyph}</span><h3 style="font-size:21px">${esc(sl.name)}</h3><p style="font-size:14.5px">${esc(sl.tag)}</p><span class="meta" style="font-size:13px">${sv}/${sl.problems.size} solved · ${st}/${mx} ★</span><span class="bar"><i style="width:${pct(sv, sl.problems.size)}%"></i></span></a>`; }).join('')}</div>`,
+    eb: `${P.name} path`, main: `<div class="display sm"><span style="color:var(${P.c})">${P.name}</span> · pick a story line</div><div class="mcards ${sls.length > 4 ? 'four' : sls.length === 4 ? 'four' : 'three'}">${sls.map(sl => { const [st, mx] = slStars(sl), sv = slSolved(sl);
+      return `<a class="mc" href="#/story/${sl.id}" style="--c:var(${SLV[sl.id]})"><span class="gl">${sl.glyph}</span><h3 style="font-size:21px">${esc(sl.name)}</h3><p style="font-size:14.5px">${esc(sl.tag)}</p><span class="meta" style="font-size:13px">${sv}/${sl.problems.size} solved · ${st}/${mx} ★</span><span class="bar"><i style="width:${pct(sv, sl.problems.size)}%"></i></span></a>`; }).join('')}</div>
+      <div class="modestrip">${modes.map(m => `<a class="btn sm" href="${m.h}">${m.name}<span class="m">${m.meta}</span></a>`).join('')}<a class="btn sm" href="#/">Switch path</a></div>`,
     say: ['Story', 'Each story line is a deck of chapters. Missions are five problems; clear one with at least one star to mark it done.'] });
   openDeck({ slides: [slide], jump: [] });
 }
@@ -380,7 +428,7 @@ function blitzMenu() {
   stopRun();
   const slide = () => ({
     eb: 'Game mode 3 · Blitz', main: `<div class="display sm">Choose a deck</div><div class="lead">60 seconds. Clear as many cards as you can. In self-graded decks, reveal and then tell the truth.</div>
-      <div class="mcards four">${DECKS.map(d => `<a class="mc" href="#/blitz/${d.k}" style="--c:var(${d.v})"><span class="tag">${d.mode === 'mc' ? 'Multiple choice' : 'Self-graded'}</span><h3>${d.name}</h3><p>${d.desc}</p><span class="meta">Best ${S.best['blitz.' + d.k] || 0} · ${d.pool().length} cards</span></a>`).join('')}</div>`,
+      <div class="mcards four">${DECKS.filter(d => d.path === curPath()).map(d => `<a class="mc" href="#/blitz/${d.k}" style="--c:var(${d.v})"><span class="tag">${d.mode === 'mc' ? 'Multiple choice' : 'Self-graded'}</span><h3>${d.name}</h3><p>${d.desc}</p><span class="meta">Best ${S.best['blitz.' + d.k] || 0} · ${d.pool().length} cards</span></a>`).join('')}</div>`,
     say: ['Blitz', 'A wrong answer costs 3 seconds. XP is capped per run so grinding does not help.'] });
   openDeck({ slides: [slide], jump: [] });
 }
@@ -488,7 +536,7 @@ function finalize(why) {
     const k = 'blitz.' + cfg.deck, best = S.best[k] || 0, rec = r.correct > best; if (rec) S.best[k] = r.correct;
     bonus = Math.min(60, r.correct * 2); headline = why === 'time' ? "Time's up" : 'Deck cleared'; extra = rec ? 'New best!' : `Best: ${best}`;
   } else if (cfg.kind === 'survival') {
-    const best = S.best.survival || 0, rec = r.correct > best; if (rec) S.best.survival = r.correct;
+    const sk = survKey(curPath()), best = S.best[sk] || 0, rec = r.correct > best; if (rec) S.best[sk] = r.correct;
     bonus = Math.min(80, r.correct * 3); headline = 'Game over'; good = false; extra = rec ? 'New best!' : `Best: ${best} rounds`;
   }
   if (bonus) { addXp(bonus); r.xp += bonus; }
@@ -587,19 +635,23 @@ async function playMission(id) {
 }
 async function playDaily() {
   stopRun(); const token = {}; playMission.token = token;
-  const today = dayStr(), rnd = mulberry(hashStr('daily' + today));
-  const mc = shuffle(ALL_MC, rnd).slice(0, 2), sf = shuffle(ALL_SELF.filter(p => !/^pdf:/.test(p.id)), rnd).slice(0, 3), problems = shuffle(mc.concat(sf), rnd);
+  const today = dayStr(), path = curPath(), rnd = mulberry(hashStr(path === 'trig' ? 'daily' + today : 'daily-' + path + today));
+  const mcPool = ALL_MC.filter(inPath), mc = shuffle(mcPool, rnd).slice(0, Math.min(2, mcPool.length)), sf = shuffle(ALL_SELF.filter(p => inPath(p) && !/^pdf:/.test(p.id)), rnd).slice(0, 5 - mc.length), problems = shuffle(mc.concat(sf), rnd);
   S.last = { hash: '#/daily', label: 'Daily Run' }; save();
   await missionLoad('DAILY RUN', today, '5 problems, the same for everyone today. +50 XP the first time you finish.', '#FFD84D', 900);
   if (playMission.token !== token) return;
-  const cfg = { kind: 'daily', title: 'Daily Run', sub: today, problems, hearts: null, replay: '#/daily', back: '#/', backLabel: 'Main menu' };
-  fixedDeck(cfg, introFor(cfg, 'Game mode 2 · Daily Run', 'Five problems picked from every story line. The same five for everyone today.'));
+  const cfg = { kind: 'daily', title: 'Daily Run', sub: today, problems, hearts: null, replay: '#/daily', back: '#/story', backLabel: 'Back to the story lines' };
+  fixedDeck(cfg, introFor(cfg, 'Game mode 2 · Daily Run', 'Five problems picked from every story line of this path. The same five for everyone today.'));
 }
 const DECKS = [
-  { k: 'identities', name: 'Identities', mode: 'mc', v: '--cx', color: '#5B8CFF', desc: 'Pick the right side of the identity.', pool: () => ALL_MC },
-  { k: 'integrals', name: 'Integrals', mode: 'self', v: '--cr', color: '#3DDC97', desc: 'Basics, powers, products, trig sub, by parts.', pool: () => ALL_SELF.filter(p => /^(basic|powers|products|angles|trigsub|parts|inverse|frac):/.test(p.id)) },
-  { k: 'derivs', name: 'Derivatives', mode: 'self', v: '--cd', color: '#FFB347', desc: 'Trig, inverse trig and hyperbolic derivatives.', pool: () => ALL_SELF.filter(p => /^derivatives:/.test(p.id)) },
-  { k: 'exam', name: 'Exam Problems', mode: 'self', v: '--ca', color: '#FF5D6C', desc: 'The real MATH 1400 problems from your PDF and recitation worksheet.', pool: () => ALL_SELF.filter(p => /^(pdf|recitation):/.test(p.id)) }
+  { path: 'trig', k: 'identities', name: 'Identities', mode: 'mc', v: '--cx', color: '#5B8CFF', desc: 'Pick the right side of the identity.', pool: () => ALL_MC },
+  { path: 'trig', k: 'integrals', name: 'Integrals', mode: 'self', v: '--cr', color: '#3DDC97', desc: 'Basics, powers, products, trig sub, by parts.', pool: () => ALL_SELF.filter(p => /^(basic|powers|products|angles|trigsub|parts|inverse|frac):/.test(p.id)) },
+  { path: 'trig', k: 'derivs', name: 'Derivatives', mode: 'self', v: '--cd', color: '#FFB347', desc: 'Trig, inverse trig and hyperbolic derivatives.', pool: () => ALL_SELF.filter(p => /^derivatives:/.test(p.id)) },
+  { path: 'trig', k: 'exam', name: 'Exam Problems', mode: 'self', v: '--ca', color: '#FF5D6C', desc: 'The real MATH 1400 problems from your PDF and recitation worksheet.', pool: () => ALL_SELF.filter(p => /^(pdf|recitation):/.test(p.id)) },
+  { path: 'calc', k: 'arc', name: 'Arc & Surface', mode: 'self', v: '--cx', color: '#5B8CFF', desc: 'Arc length and surface area of revolution.', pool: () => ALL_SELF.filter(p => /^c_arc:/.test(p.id)) },
+  { path: 'calc', k: 'avg', name: 'Averages & Centroids', mode: 'self', v: '--cr', color: '#3DDC97', desc: 'Average value, centroids and centers of mass.', pool: () => ALL_SELF.filter(p => /^c_avg:/.test(p.id)) },
+  { path: 'calc', k: 'pdf', name: 'Probability', mode: 'self', v: '--cp', color: '#FF6FD8', desc: 'Find the constant and compute probabilities.', pool: () => ALL_SELF.filter(p => /^c_pdf:/.test(p.id)) },
+  { path: 'calc', k: 'ev', name: 'Mean & Variance', mode: 'self', v: '--cy', color: '#FFD84D', desc: 'Mean, median, variance and standard deviation.', pool: () => ALL_SELF.filter(p => /^c_ev:/.test(p.id)) }
 ];
 async function playBlitz(k) {
   const d = DECKS.find(x => x.k === k); if (!d) { location.hash = '#/blitz'; return; }
@@ -613,7 +665,7 @@ async function playBlitz(k) {
 }
 async function playSurvival() {
   stopRun(); const token = {}; playMission.token = token;
-  const pool = ALL_SELF.slice().sort((a, b) => a.diff - b.diff), used = new Set();
+  const pool = ALL_SELF.filter(inPath).sort((a, b) => a.diff - b.diff), used = new Set();
   S.last = { hash: '#/survival', label: 'Survival' }; save();
   await missionLoad('SURVIVAL', 'Three hearts', 'The problems get harder every round. Miss three and it is over.', '#FF5D6C', 1000);
   if (playMission.token !== token) return;
@@ -621,7 +673,7 @@ async function playSurvival() {
     next: r => { const n = pool.length, centre = Math.min(n - 1, Math.floor(n * .08 + r.items.length * n * .035)); let cand = [];
       for (let w = 12; w < n && cand.length < 3; w += 12) cand = pool.slice(Math.max(0, centre - w), Math.min(n, centre + w)).filter(p => !used.has(p.id));
       if (!cand.length) { used.clear(); cand = pool.slice(-20); } const p = cand[Math.floor(Math.random() * cand.length)]; used.add(p.id); return p; },
-    replay: '#/survival', back: '#/', backLabel: 'Main menu' });
+    replay: '#/survival', back: '#/story', backLabel: 'Back to the story lines' });
 }
 
 /* ───────────── router ───────────── */
@@ -629,6 +681,7 @@ function route() {
   stopRun(); playMission.token = null; $('#mload').hidden = true; deck = null;
   const [a, b] = (location.hash || '#/').slice(2).split('/');
   if (!a) hub();
+  else if (a === 'path') { if (pathOf(b)) { S.path = b; save(); } location.hash = '#/story'; }
   else if (a === 'story') b ? storyMap(b) : storyList();
   else if (a === 'play') playMission(b);
   else if (a === 'daily') playDaily();
@@ -644,8 +697,8 @@ const ACTIONS = {
   pick(b) { const k = deck.v.k; if (k != null) pick(k, +b.dataset.i); },
   qreveal() { qreveal(deck.v.k); }, qgrade(b) { qgrade(deck.v.k, b.dataset.g); }, qpick(b) { qpick(deck.v.k, +b.dataset.i); },
   gotoK(b) { const k = +b.dataset.k; if (deck.jump[k + 1]) { deck.i = deck.jump[k + 1][1]; show(); } },
-  toModes() { go(1); },
-  reset() { if (confirm('Erase all Trig Quest progress in this browser?')) { S = blank(); save(); hudUpdate(); hubSeen = false; route(); toast('Progress reset'); } }
+  toPaths() { go(1); },
+  reset() { if (confirm('Erase all Calc Quest progress in this browser?')) { S = blank(); save(); hudUpdate(); hubSeen = false; route(); toast('Progress reset'); } }
 };
 document.addEventListener('click', e => {
   const a = e.target.closest('[data-act]'); if (a && ACTIONS[a.dataset.act]) { e.preventDefault(); ACTIONS[a.dataset.act](a); return; }
@@ -663,7 +716,7 @@ document.addEventListener('keydown', e => {
 /* ───────────── loading screen ───────────── */
 function boot() {
   const loader = $('#loader'), fill = $('#ldFill'), status = $('#ldStatus'), pctEl = $('#ldPct'), tipEl = $('#ldTip'), startBtn = $('#ldStart');
-  const glyphs = ['∫', 'θ', 'π', '∑', '√', 'sin', 'cos', 'tan', 'sec', 'dx', '∞', 'Δ', 'arctan', 'x²'];
+  const glyphs = ['∫', 'θ', 'π', '∑', '√', 'sin', 'cos', 'tan', 'sec', 'dx', '∞', 'Δ', 'arctan', 'x²', 'μ', 'σ²', 'x̄', 'ds', 'ρ'];
   $('#ldGlyphs').innerHTML = Array.from({ length: 26 }, () => `<span style="left:${Math.random() * 100}%;font-size:${16 + Math.random() * 30}px;animation-duration:${7 + Math.random() * 9}s;animation-delay:${-Math.random() * 12}s">${glyphs[Math.floor(Math.random() * glyphs.length)]}</span>`).join('');
   let ti = Math.floor(Math.random() * TIPS.length);
   const showTip = () => { tipEl.innerHTML = `<b>TIP</b>${esc(TIPS[ti % TIPS.length])}`; ti++; };

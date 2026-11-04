@@ -158,7 +158,7 @@ const cell = it => `<div class="csf${it.w ? ' w' : ''}">${it.t ? `<b>${esc(it.t)
 function render() {
   const total = SECTIONS.reduce((n, s) => n + s.items.filter(i => i.m).length, 0);
   const jump = SECTIONS.map(s => `<a class="stat" href="#${s.id}">${esc(s.h)}</a>`).join('');
-  $('#main').innerHTML = `<section class="hero pagehead"><div class="eyebrow"><a href="index.html">← Trig Quest hub</a> · <a href="codex.html">Codex</a> · Formula sheet</div>
+  $('#main').innerHTML = `<section class="hero pagehead"><div class="eyebrow"><a href="index.html">← Calc Quest hub</a> · <a href="codex.html">Codex</a> · Formula sheet</div>
     <h1>Every derivative and integral from the practice questions.</h1>
     <p class="lead">Typeset, in the order you will need them. Each section says which practice problems use it.</p>
     <div class="stats"><span class="stat"><b>${total}</b> formulas</span><span class="stat">every antiderivative <b>checked by differentiating</b></span></div></section>

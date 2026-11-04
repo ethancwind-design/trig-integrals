@@ -1,4 +1,4 @@
-/* Trig Quest · Codex — renders window.TRIG (build/build.py, numerically verified) and window.REFSECTIONS (refconv.js) into a searchable reference. */
+/* Calc Quest · Codex — renders window.TRIG (build/build.py, numerically verified) and window.REFSECTIONS (refconv.js) into a searchable reference. */
 (() => {
 'use strict';
 const DATA = window.TRIG;
@@ -163,7 +163,7 @@ function homeView() {
     ['Example 5 · factor first', '\\int\\frac{5\\,dx}{\\sqrt{25x^2-9}}'],
     ['Example 6 · complete the square', '\\int_1^2\\frac{dx}{\\sqrt{4x-x^2}}']
   ].map((e, i) => `<a href="motion.html#ex${i + 1}"><small>${e[0]}</small><span>\\(${e[1]}\\)</span></a>`).join('');
-  return `<section class="hero pagehead"><div class="eyebrow"><a href="index.html">← Trig Quest hub</a> · Codex</div>
+  return `<section class="hero pagehead"><div class="eyebrow"><a href="index.html">← Calc Quest hub</a> · Codex</div>
     <h1>Every identity and integral, in one place.</h1>
     <p class="lead">The free-roam library: trig identities, exact values, inverse and hyperbolic functions, triangles, limits, derivatives, every integration technique, trig substitution, partial fractions, area and volume, series and ODEs. Search anything, or hide the answers and quiz yourself.</p>
     <div class="stats"><span class="stat"><b>${total}</b> verified formulas &amp; problems</span><span class="stat"><b>${refRows}</b> cheat-sheet rows</span><span class="stat">integrals <b>checked numerically</b></span></div></section>
@@ -221,7 +221,7 @@ function route() {
   const sec = byId[id];
   if (id !== 'home' && !sec) { location.hash = '#home'; return; }
   setCurrent(id);
-  document.title = (sec ? (NAMES[id] || sec.title) + ' · ' : '') + 'Codex · Trig Quest';
+  document.title = (sec ? (NAMES[id] || sec.title) + ' · ' : '') + 'Codex · Calc Quest';
   mount(sec ? sectionView(sec) : homeView());
   if (sec) applyFilters(id);
 }
@@ -230,7 +230,7 @@ function runSearch(q) {
   if (!searching) { searching = ''; route(); return; }
   state.shown = 120;
   setCurrent('');
-  document.title = 'Search · Codex · Trig Quest';
+  document.title = 'Search · Codex · Calc Quest';
   mount(searchView(searching));
 }
 
@@ -280,7 +280,7 @@ $('#theme').addEventListener('click', () => {
 
 /* ---------------- boot ---------------- */
 function buildNav() {
-  let h = `<a class="hub" href="index.html"><span>← Trig Quest hub</span></a><a data-id="home" href="#home"><span>Codex overview</span></a>`;
+  let h = `<a class="hub" href="index.html"><span>← Calc Quest hub</span></a><a data-id="home" href="#home"><span>Codex overview</span></a>`;
   GROUPS.forEach(([label, ids]) => {
     const list = ids.filter(i => byId[i]);
     if (!list.length) return;
