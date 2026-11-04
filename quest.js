@@ -207,37 +207,45 @@ const STORY = [
 ];
 STORY.forEach(sl => { sl.path = 'trig'; });
 
-/* Calc path: the four topics of weeks 10 and 11 (Quiz 5). Problems come from calcdata.js. */
+/* Calc path: the four topics of weeks 10 and 11 (Quiz 5), organised by lecture. Problems come from calcdata.js (group indexes = build/calc_build.py ORDER). */
 STORY.push(
-  { id: 'arc', path: 'calc', name: 'Arc Length & Surface Area', glyph: 'ℓ', color: '#5B8CFF', tag: 'Week 10 · curves and surfaces',
+  { id: 'arc', path: 'calc', name: 'Arc Length & Surface Area', glyph: 'ℓ', color: '#5B8CFF', tag: 'Lectures 35–36 · curves and surfaces',
     blurb: 'How long is the curve, and how much area does it sweep out when you spin it? The radical almost always collapses into a perfect square.', chapters: [
     C('Arc Length · y = f(x)', 'L = ∫ √(1 + (f′)²) dx. Look for a perfect square under the root.', 'self', [['c_arc', [0]]]),
     C('Arc Length · Parametric & x = g(y)', 'L = ∫ √(x′² + y′²) dt, or swap the roles of x and y.', 'self', [['c_arc', [1]]]),
     C('Surface Area · About the x-axis', 'S = 2π ∫ y ds, where ds = √(1 + y′²) dx.', 'self', [['c_arc', [2]]]),
-    C('Surface Area · About the y-axis', 'S = 2π ∫ x ds: the radius is now x.', 'self', [['c_arc', [3]]])
+    C('Surface Area · About the y-axis', 'S = 2π ∫ x ds: the radius is now x.', 'self', [['c_arc', [3]]]),
+    C('Set Up the Integral', 'Choose the radius and the arc-length element, then write the integral without evaluating it.', 'self', [['c_arc', [4]]])
   ] },
-  { id: 'avg', path: 'calc', name: 'Averages & Centroids', glyph: 'x̄', color: '#3DDC97', tag: 'Week 10 · averages and balance points',
-    blurb: 'The average value of a function, the centroid of a region, and the center of mass when the density is not constant.', chapters: [
-    C('Average Value', 'f_avg = 1/(b − a) ∫ f dx.', 'self', [['c_avg', [0]]]),
-    C('Centroids of Regions', 'x̄ = (1/A) ∫ x (top − bottom) dx, ȳ = (1/A) ∫ ½ (top² − bottom²) dx.', 'self', [['c_avg', [1]]]),
-    C('Center of Mass with Density', 'Weight every slice by ρ: x̄ = ∫ x ρ dx / ∫ ρ dx.', 'self', [['c_avg', [2]]])
+  { id: 'avg', path: 'calc', name: 'Averages & Centroids', glyph: 'x̄', color: '#3DDC97', tag: 'Lectures 39–40 · averages and balance points',
+    blurb: 'The average value of a function, averages over curves and surfaces, the centroid of a region, and the center of mass when the density is not constant.', chapters: [
+    C('Average Value', 'f_avg = 1/(b − a) ∫ f dx. Check symmetry first.', 'self', [['c_avg', [0]]]),
+    C('Average Value · True or False', 'Reason about averages without computing them.', 'self', [['c_avg', [1]]]),
+    C('Averages Over Curves & Surfaces', 'Weight by arc length ds or surface area dS, not by dx.', 'self', [['c_avg', [2]]]),
+    C('Centroids of Regions', 'x̄ = (1/A) ∫ x (top − bottom) dx, ȳ = (1/A) ∫ ½ (top² − bottom²) dx.', 'self', [['c_avg', [3]]]),
+    C('Center of Mass with Density', 'Weight every slice by ρ: x̄ = ∫ x ρ dx / ∫ ρ dx.', 'self', [['c_avg', [4]]]),
+    C('Compare & Explain', 'Greater, less or equal? Use symmetry and where the density is larger.', 'self', [['c_avg', [5]]]),
+    C('Set Up Mass & Moments', 'Write m, M_x, M_y and the center of mass as integrals.', 'self', [['c_avg', [6]]])
   ] },
-  { id: 'pdf', path: 'calc', name: 'Probability Densities', glyph: 'f', color: '#FF6FD8', tag: 'Week 11 · continuous probability',
-    blurb: 'A density is a function that integrates to 1. Find the missing constant, then turn areas under the curve into probabilities.', chapters: [
-    C('Find the Constant', 'Set ∫ f = 1 and solve for C.', 'self', [['c_pdf', [0]]]),
-    C('Probabilities from a Density', 'P(a ≤ X ≤ b) = ∫ f from a to b.', 'self', [['c_pdf', [1]]])
+  { id: 'pdf', path: 'calc', name: 'Probability Densities', glyph: 'f', color: '#FF6FD8', tag: 'Lectures 42–43 · continuous probability',
+    blurb: 'A density is a function that integrates to 1. Find the missing constant, turn areas under the curve into probabilities, and use geometry when the point is uniform.', chapters: [
+    C('Find the Constant', 'Set ∫ f = 1 and solve for the unknown.', 'self', [['c_pdf', [0]]]),
+    C('Probabilities from a Density', 'P(a ≤ X ≤ b) = ∫ f from a to b.', 'self', [['c_pdf', [1]]]),
+    C('Geometric Probability', 'Uniform means probability = favorable measure ÷ total measure.', 'self', [['c_pdf', [2]]])
   ] },
-  { id: 'ev', path: 'calc', name: 'Expectation & Variance', glyph: 'μ', color: '#FFD84D', tag: 'Week 11 · mean, median, spread',
-    blurb: 'The mean, the median, and how spread out a continuous random variable is.', chapters: [
+  { id: 'ev', path: 'calc', name: 'Expectation & Variance', glyph: 'μ', color: '#FFD84D', tag: 'Lecture 44 · mean, median, spread',
+    blurb: 'The mean, the median, and how spread out a random variable is, from a density, from a cumulative probability, or from a list of values.', chapters: [
     C('Mean (Expected Value)', 'μ = ∫ x f(x) dx.', 'self', [['c_ev', [0]]]),
     C('Median', 'Solve ∫ f = ½ from the left end of the support.', 'self', [['c_ev', [1]]]),
-    C('Variance & Standard Deviation', 'σ² = E[X²] − μ², and σ is its square root.', 'self', [['c_ev', [2]]])
+    C('Variance & Standard Deviation', 'σ² = E[X²] − μ², and σ is its square root.', 'self', [['c_ev', [2]]]),
+    C('Mean from a Cumulative Probability', 'Differentiate P(X < x) to get the density, then integrate x f(x).', 'self', [['c_ev', [3]]]),
+    C('Discrete Random Variables', 'Sums instead of integrals: E[X] = Σ x P(x).', 'self', [['c_ev', [4]]])
   ] }
 );
 
 const PATHS = [
   { id: 'trig', name: 'Trig', glyph: '∫', c: '--cr', tag: 'Path 1', blurb: 'Identities, trig integrals and substitution, by parts, partial fractions, definite integrals, area and volume, plus your MATH 1400 exam prep.' },
-  { id: 'calc', name: 'Calc', glyph: 'ℓ', c: '--cx', tag: 'Path 2', blurb: 'Arc length and surface area, averages and centroids, probability densities, expectation and variance: the weeks 10 and 11 material, with your Quiz 5 practice problems.' }
+  { id: 'calc', name: 'Calc', glyph: 'ℓ', c: '--cx', tag: 'Path 2', blurb: 'Arc length and surface area, averages and centroids, probability densities, expectation and variance: lectures 35 to 44 with the Quiz 5 practice problems, the worksheets and Week 10 practice.' }
 ];
 const curPath = () => S.path || 'trig';
 const pathOf = id => PATHS.find(p => p.id === id);
