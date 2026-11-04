@@ -243,3 +243,6 @@ button:disabled{opacity:.4;cursor:default}
 #board.pdf{grid-template-columns:minmax(0,1fr) 440px}
 #side:has(.pdfq){border-left:0;padding-left:0;justify-content:center}
 .pdfq img{max-height:340px;width:auto}
+.origtop{width:100%;display:flex;justify-content:center}
+.origtop .pdfq{max-width:100%}
+.origtop .pdfq img{max-height:150px;max-width:100%;width:auto}

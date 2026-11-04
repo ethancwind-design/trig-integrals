@@ -301,7 +301,10 @@ async function typeset(el) { if (mjReady && el) { try { await MathJax.typesetPro
 const pct = (a, b) => b ? Math.round(a / b * 100) : 0;
 const big = t => `<div class="row big">${M(t)}</div>`;
 const solq = p => (window.shotUI ? shotUI.solHtml(p.src) : '');   // handwritten solution (recitation only)
-const pdfq = p => (window.shotUI ? shotUI.html(p.src, true) : '');   // crop of the problem as printed in the source PDF, when there is one
+const origShot = p => (window.shotUI && p.src ? shotUI.forSrc(p.src, true) : null);   // crop of the problem as printed in the source PDF, when there is one
+const wideShot = sh => !!sh && sh.h / sh.w < .5;
+const pdfq = p => { const sh = origShot(p); return sh && !wideShot(sh) ? shotUI.figure(sh) : ''; };   // tall crops go in the side column
+const pdfTop = p => { const sh = origShot(p); return sh && wideShot(sh) ? `<div class="origtop">${shotUI.figure(sh)}</div>` : ''; };   // short, wide crops read better as a banner above the problem
 const boxed = (t, cls = '') => `<span class="boxed ${cls}">${M(t)}</span>`;
 
 function hudUpdate() {
@@ -489,14 +492,14 @@ function slidesFor(k) {
       lock: picked ? null : 'Pick an answer first (1–4).', keys: picked ? {} : { 1: () => pick(k, 0), 2: () => pick(k, 1), 3: () => pick(k, 2), 4: () => pick(k, 3) } };
   }];
   return [
-    () => { const p = it().p; return { eb: ebFor(k), ph: phasesFor(p), on: 1, track: trackHtml(k, false), main: big(p.q), side: pdfq(p), adv: true,
+    () => { const p = it().p; return { eb: ebFor(k), ph: phasesFor(p), on: 1, track: trackHtml(k, false), main: pdfTop(p) + big(p.q), side: pdfq(p), adv: true,
       say: ['Your turn', 'Work it on paper first. Press → for a hint when you are ready, then → again for the answer.'] }; },
     () => { const p = it().p; return { eb: ebFor(k), ph: phasesFor(p), on: 2, track: trackHtml(k, true), adv: true,
-      main: `<div class="card fadein"><div class="k">Plan</div><p>${p.hint}</p></div>`,
+      side: pdfq(p), main: `${pdfTop(p)}<div class="card fadein"><div class="k">Plan</div><p>${p.hint}</p></div>`,
       say: ['Plan', 'Use the hint, finish the problem on paper, then check it on the next slide.'] }; },
     () => { const x = it(), p = x.p, g = x.grade;
-      return { eb: ebFor(k), ph: phasesFor(p), on: 3, track: trackHtml(k, true), side: solq(p),
-        main: `<div class="row big">${boxed(p.a, g === 'ok' ? 'ok' : g === 'no' ? 'no' : '')}</div>${p.note ? `<div class="note">${p.note}</div>` : ''}
+      return { eb: ebFor(k), ph: phasesFor(p), on: 3, track: trackHtml(k, true), side: solq(p) || pdfq(p),
+        main: `${pdfTop(p)}<div class="row big">${boxed(p.a, g === 'ok' ? 'ok' : g === 'no' ? 'no' : '')}</div>${p.note ? `<div class="note">${p.note}</div>` : ''}
           <div class="btns">${g ? `<span class="chip flat">${g === 'ok' ? '✓ Marked correct' : '✗ Marked missed'}</span>` : `<button class="btn ok" data-act="grade" data-g="ok">✓ I got it (G)</button><button class="btn no" data-act="grade" data-g="no">✗ Missed it (M)</button>`}</div>`,
         say: ['Check', g ? 'Press → for the next problem.' : 'Compare with your work. Be honest: it only counts if you got it.'],
         lock: g ? null : 'Mark yourself first: G for got it, M for missed.', keys: g ? {} : { g: () => grade(k, 'ok'), m: () => grade(k, 'no') } }; }
@@ -608,7 +611,7 @@ function quick(k) {
     main: `${big(p.q)}<div class="opts">${p.opts.map((o, i) => `<button class="opt${graded ? (o.ok ? ' right' : i === x.picked ? ' wrong' : ' dim') : ''}" data-act="qpick" data-i="${i}" ${graded ? 'disabled' : ''}><span class="k">${i + 1}</span><span class="m">${M(o.t)}</span></button>`).join('')}</div>`,
     say: ['Pick', cfg.timeMs ? 'Press 1–4. A miss costs 3 seconds.' : 'Press 1–4. A miss costs a heart.'], keys: graded ? {} : { 1: () => qpick(k, 0), 2: () => qpick(k, 1), 3: () => qpick(k, 2), 4: () => qpick(k, 3) } };
   return { eb: `${cfg.title} · ${count}`, ph: phasesFor(p), on: x.shown ? 3 : 1, track: trackHtml(k, false), count, noBack: true, hideNext: true, side: pdfq(p),
-    main: `${big(p.q)}${x.shown ? `<div class="row work">${boxed(p.a)}</div>${p.note ? `<div class="note">${p.note}</div>` : ''}<div class="btns"><button class="btn ok" data-act="qgrade" data-g="ok">✓ I got it (G)</button><button class="btn no" data-act="qgrade" data-g="no">✗ Missed it (M)</button></div>`
+    main: `${pdfTop(p)}${big(p.q)}${x.shown ? `<div class="row work">${boxed(p.a)}</div>${p.note ? `<div class="note">${p.note}</div>` : ''}<div class="btns"><button class="btn ok" data-act="qgrade" data-g="ok">✓ I got it (G)</button><button class="btn no" data-act="qgrade" data-g="no">✗ Missed it (M)</button></div>`
       : `<div class="btns"><button class="btn main" data-act="qreveal">Reveal answer (Space)</button></div>`}`,
     say: [x.shown ? 'Check' : 'Solve', x.shown ? 'Be honest: G if you had it, M if not.' : 'Solve it, then reveal.'], keys: x.shown ? { g: () => qgrade(k, 'ok'), m: () => qgrade(k, 'no') } : { ' ': () => qreveal(k), enter: () => qreveal(k) } };
 }

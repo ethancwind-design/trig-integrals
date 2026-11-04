@@ -203,5 +203,13 @@ svg .ca{fill:var(--ca)} svg .ct{fill:var(--ct)} svg .ink{fill:var(--ink)}
 .pl-sm{width:340px}
 
 /* original question: crop of the source PDF, enlarged by shotui.js */
-#bar #pdfq{border-color:var(--accent);color:var(--accent)}
-#bar #pdfq[hidden]{display:none}
+#bar #pdfq{display:none}
+#vrow{flex:1;min-height:0;display:flex;gap:12px}
+#vrow #viewport{flex:1;min-width:0}
+#pdfside{flex:0 0 clamp(250px,28%,420px);min-height:0;overflow:auto;align-self:stretch}
+#pdfside[hidden]{display:none}
+#pdfside .pdfq{box-shadow:0 1px 2px rgba(0,0,0,.08),0 12px 40px rgba(20,30,60,.12)}
+#vrow.top{flex-direction:column}
+#vrow.top #pdfside{order:-1;flex:0 0 auto;max-height:26vh}
+#vrow.top #pdfside .pdfq img{width:auto;max-height:calc(26vh - 44px)}
+@media (max-width:860px){#vrow{flex-direction:column}#pdfside{flex:0 0 auto;max-height:34%}}

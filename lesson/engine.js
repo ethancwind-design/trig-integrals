@@ -315,8 +315,20 @@ function pdfShot(ex) {
   const rule = PDF_RULE[location.pathname.split('/').pop().replace(/\.html$/, '')], m = ex && rule && rule[0].exec(ex.label || '');
   return m && window.shotUI ? shotUI.shot(rule[1](...m.slice(1))) : null;
 }
-function syncPdf(ex) { pdfBtn.hidden = !pdfShot(ex); if (window.shotUI) shotUI.close(); }
-pdfBtn.addEventListener('click', e => { e.stopPropagation(); const s = pdfShot(slides[cur] && slides[cur].ex); if (s) shotUI.open(s); });
+/* the crop is always on screen beside the slide (no button): #vrow holds the scaled stage and, when the problem has a crop, this side panel */
+const vrow = document.createElement('div'); vrow.id = 'vrow';
+$('#viewport').before(vrow); vrow.append($('#viewport'));
+const pdfSide = document.createElement('aside'); pdfSide.id = 'pdfside'; pdfSide.hidden = true; pdfSide.setAttribute('aria-label', 'Original question from the source PDF'); vrow.append(pdfSide);
+pdfBtn.hidden = true;
+let pdfKey = null;
+function syncPdf(ex) {
+  const shot = pdfShot(ex), key = shot ? shot.src : null;
+  if (key === pdfKey) return;
+  pdfKey = key; pdfSide.hidden = !shot; pdfSide.innerHTML = shot ? shotUI.figure(shot) : ''; pdfSide.scrollTop = 0;
+  vrow.classList.toggle('top', !!shot && shot.h / shot.w < .5);   // short, wide crops read better as a banner above the slide; tall ones (Canvas cards) as a side column
+  if (window.shotUI) shotUI.close();
+  fit();
+}
 document.addEventListener('keydown', e => {
   if (e.target.tagName === 'SELECT') return;
   if (['ArrowRight', 'PageDown', ' ', 'Enter'].includes(e.key)) { e.preventDefault(); next(); }

@@ -12,6 +12,14 @@
     if ((m = /Lectures 30[–-]31 #(\d+)/.exec(src))) return 'l30-' + pad(m[1]);
     if ((m = /Lectures 32[–-]33 #(\d+)/.exec(src))) return 'l32-' + pad(m[1]);
     if ((m = /^Recitation · Worksheet 4 · #(\d+)/.exec(src))) return 'rec-' + m[1];
+    if ((m = /Quiz 5 Practice #(\d+)/.exec(src))) return 'q5-' + pad(m[1]);
+    if ((m = /^Worksheet: Arc Length and Surface Area #(\d+)/.exec(src))) return 'ws-' + pad(m[1]);
+    if ((m = /Lectures 35[–-]36 #(\d+)/.exec(src))) return 'l35-' + pad(m[1]);
+    if ((m = /Lecture 39 #(\d+)/.exec(src))) return 'l39-' + pad(m[1]);
+    if ((m = /Lecture 40 #(\d+)/.exec(src))) return 'l40-' + pad(m[1]);
+    if ((m = /Lectures 42[–-]43 #(\d+)/.exec(src))) return 'l42-' + pad(m[1]);
+    if ((m = /Lecture 44 #(\d+)/.exec(src))) return 'l44-' + pad(m[1]);
+    if ((m = /^Week 10 In-Class Practice #(?:(A)\(|B(\d)|(\d))/.exec(src))) return 'w10-' + (m[1] || pad(m[2] || m[3]));
     if (/^Week 9 · area between \$e\^x/.test(src)) return 'w9a-2';
     if (/^Week 9 · area between \$\\cos/.test(src)) return 'w9a-3';
     return null;
