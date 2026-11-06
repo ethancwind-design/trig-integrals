@@ -1,0 +1,129 @@
+> Lecture 39: averages. Learning goals: find the average of a function over an interval, understand why different averages need different "slices" (dx, arc length, surface area, volume), and set up those averages.
+
+## The one idea behind every average here
+
+An average is always: **(add up the quantity, slice by slice) divided by (add up the size of the slices)**.
+
+$$\text{average}=\frac{\int(\text{quantity})\ d(\text{size})}{\int d(\text{size})}$$
+
+- Average over an interval: slices are $dx$, total size is $b-a$. Gives $\dfrac{1}{b-a}\int f\,dx$.
+- Average along a curve: slices are arc length $dL$. Total size is the length of the curve.
+- Average over a surface of revolution: slices are surface area $dS=2\pi r\,dL$. Total size is the surface area.
+- Average height of a solid (for a center of mass): slices are volume $dV$.
+
+If a problem says "average of $\ldots$ on this curve" or "on this surface", ask: **what is the slice, and what does it measure?** Then the numerator is the quantity times the slice, and the denominator is the slice alone.
+
+## Averages over an interval
+
+### 1. Average of sine over a full period
+Q: Compute the average value of $\sin x$ on $[0,2\pi]$.
+1. $\displaystyle\int_0^{2\pi}\sin x\,dx=\big[-\cos x\big]_0^{2\pi}=-1-(-1)=0$.
+2. Divide by $2\pi$: $0$.
+Answer: $0$ (the positive hump and negative hump cancel)
+
+### 2. True or false, with reasons
+Q: Answer true or false, with reasoning.
+(a) If $f_{avg}<g_{avg}$ on $[a,b]$, then $f(x)\le g(x)$ for all $x$ in $[a,b]$.
+(b) On any interval, the average of $f\cdot g$ is $f_{avg}\cdot g_{avg}$.
+(c) If $f$ is even, $f_{avg}$ on $[-a,a]$ equals $f_{avg}$ on $[0,a]$.
+(d) If $f$ is odd, $f_{avg}$ on $[-a,a]$ equals $0$.
+1. **(a) False.** One counterexample is enough. $f(x)=x$ has average $\tfrac12$ on $[0,1]$. $g(x)=\tfrac34$ has average $\tfrac34$. So $f_{avg}<g_{avg}$, but $f(x)>g(x)$ whenever $x>\tfrac34$. Averages hide the details.
+2. **(b) False.** It would say "the integral of a product is the product of the integrals", which is not true. Counterexample: $f=g=x$ on $[-1,1]$. $f_{avg}=0$, so $f_{avg}\cdot g_{avg}=0$. But $f\cdot g=x^2$ has average $\tfrac23$.
+3. **(c) True.** For an even function $\int_{-a}^af=2\int_0^af$. So $\dfrac1{2a}\int_{-a}^af=\dfrac{1}{2a}\cdot2\int_0^af=\dfrac1a\int_0^af$, which is the average on $[0,a]$.
+4. **(d) True.** For an odd function $\int_{-a}^af=0$ (the left half cancels the right half), so the average is $\tfrac1{2a}\cdot0=0$.
+Answer: (a) False, (b) False, (c) True, (d) True
+Careful: for "false" answers, a specific counterexample is the full answer. For "true" answers, use the definition of the average.
+
+### 3. Odd function on a symmetric interval
+Q: Find the average value of $\tan^3x\sec^4x$ on $\left[-\tfrac\pi4,\tfrac\pi4\right]$.
+Plan: Spot the symmetry first. $\tan$ is odd and $\sec$ is even, so $\tan^3x\sec^4x$ is odd. An odd function on $[-a,a]$ has average $0$. You can also verify by substitution.
+1. Symmetry gives the answer immediately: $0$.
+2. Check by integrating: $\tan^3x\sec^4x=\tan^3x\,(\tan^2x+1)\sec^2x$. Let $u=\tan x$, $du=\sec^2x\,dx$. Limits: $x=-\tfrac\pi4\to u=-1$, $x=\tfrac\pi4\to u=1$.
+3. $\displaystyle\int_{-1}^1\left(u^5+u^3\right)du=\left[\tfrac{u^6}6+\tfrac{u^4}4\right]_{-1}^1=\left(\tfrac16+\tfrac14\right)-\left(\tfrac16+\tfrac14\right)=0$.
+Answer: $0$
+
+### 4. Average of cos to the fifth
+Q: Find the average value of $\cos^5x$ on $\left[-\tfrac{3\pi}2,\pi\right]$.
+Plan: An odd power of cosine: save one $\cos x$, turn the rest into sines, substitute $u=\sin x$.
+1. $\cos^5x=\cos x\,(1-\sin^2x)^2$. Let $u=\sin x$, $du=\cos x\,dx$.
+2. $\displaystyle\int(1-u^2)^2du=\int\left(1-2u^2+u^4\right)du=u-\tfrac23u^3+\tfrac15u^5$.
+3. Limits in $u$: $x=\pi\to u=\sin\pi=0$. $x=-\tfrac{3\pi}2\to u=\sin\left(-\tfrac{3\pi}{2}\right)=1$.
+4. At $u=0$: $0$. At $u=1$: $1-\tfrac23+\tfrac15=\tfrac{15-10+3}{15}=\tfrac8{15}$. Integral $=0-\tfrac8{15}=-\tfrac8{15}$.
+5. Length of the interval: $\pi-\left(-\tfrac{3\pi}2\right)=\tfrac{5\pi}{2}$.
+6. $f_{avg}=\dfrac{2}{5\pi}\cdot\left(-\dfrac{8}{15}\right)$.
+Answer: $f_{avg}=-\dfrac{16}{75\pi}$
+
+### 5. Average of sec to the fourth
+Q: Find the average value of $\sec^4x$ on $\left[0,\tfrac\pi4\right]$.
+1. $\sec^4x=\sec^2x\,(\tan^2x+1)$. Let $u=\tan x$, $du=\sec^2x\,dx$. Limits: $0\to0$, $\tfrac\pi4\to1$.
+2. $\displaystyle\int_0^1(u^2+1)\,du=\tfrac13+1=\tfrac43$.
+3. Divide by the interval length $\tfrac\pi4$: multiply by $\tfrac4\pi$.
+Answer: $f_{avg}=\dfrac{16}{3\pi}$
+
+### 6. Average of sin cubed
+Q: Find the average value of $\sin^3x$ on $\left[\tfrac\pi6,\tfrac{5\pi}6\right]$.
+Plan: Odd power of sine: save one $\sin x$, turn the rest into cosines, substitute $u=\cos x$.
+1. $\sin^3x=\sin x\,(1-\cos^2x)$. Antiderivative: $-\cos x+\tfrac{\cos^3x}{3}$.
+2. At $x=\tfrac{5\pi}6$: $\cos=-\tfrac{\sqrt3}2$, giving $\tfrac{\sqrt3}2+\dfrac{-3\sqrt3/8}{3}=\tfrac{\sqrt3}2-\tfrac{\sqrt3}8=\tfrac{3\sqrt3}8$.
+3. At $x=\tfrac\pi6$: $\cos=\tfrac{\sqrt3}2$, giving $-\tfrac{\sqrt3}2+\tfrac{3\sqrt3/8}{3}=-\tfrac{3\sqrt3}8$.
+4. Integral: $\tfrac{3\sqrt3}8-\left(-\tfrac{3\sqrt3}8\right)=\tfrac{3\sqrt3}4$.
+5. Interval length: $\tfrac{5\pi}6-\tfrac\pi6=\tfrac{2\pi}{3}$.
+6. $f_{avg}=\dfrac{3}{2\pi}\cdot\dfrac{3\sqrt3}{4}=\dfrac{9\sqrt3}{8\pi}$.
+Answer: $f_{avg}=\dfrac{9\sqrt3}{8\pi}\approx0.620$
+Careful: the final line printed in the solutions PDF does not match this when I read it. I checked this one numerically (average of $\sin^3x$ on that interval is $0.6202\ldots$) and the value above is right. A positive function can't have a negative average, so be careful copying the PDF's last line.
+
+### 7. Expected temperature of a rod
+Q: A rod of length 10 cm has temperature $2x^2+20$ °C at position $x$ ($0\le x\le10$). A point is chosen uniformly at random. What is the expected temperature? (The PDF omits the solution.)
+Plan: "Uniformly at random along the rod" means every position is equally likely, so the expected value is the average value over $[0,10]$.
+1. $\displaystyle\int_0^{10}\left(2x^2+20\right)dx=\left[\tfrac23x^3+20x\right]_0^{10}=\tfrac{2000}{3}+200=\tfrac{2600}{3}$.
+2. Divide by the length 10.
+Answer: $\dfrac{260}{3}\approx86.7$ °C
+
+## Setting up centers of mass with new slices
+
+### 8. y-coordinate of the center of mass of a solid of revolution
+Q: The region in the first quadrant under $y=\cos x$ (bounded by the axes) is revolved about the y-axis. With constant density, $\bar x=0$ by symmetry. Set up an integral for $\bar y$.
+Plan: $\bar y$ is the **average height** of the solid, so average $y$ over the solid's volume: $\bar y=\dfrac{\int y\,dV}{\int dV}$. Choose slices (shells) so each slice has one height.
+1. Region: $0\le x\le\tfrac\pi2$ (where $\cos x$ goes from 1 down to 0).
+2. Use vertical shells. A shell at distance $x$ has volume $dV=2\pi x\cos x\,dx$ (circumference times height times thickness).
+3. The shell's points go from $y=0$ up to $y=\cos x$, so its average height is halfway, $\tfrac{\cos x}{2}$.
+Answer: $$\bar y=\frac{\displaystyle\int_0^{\pi/2}\frac{\cos x}{2}\cdot2\pi x\cos x\,dx}{\displaystyle\int_0^{\pi/2}2\pi x\cos x\,dx}=\frac{\displaystyle\int_0^{\pi/2}\pi x\cos^2x\,dx}{\displaystyle\int_0^{\pi/2}2\pi x\cos x\,dx}$$
+Another valid setup uses discs, with $x=\arccos y$ and $dV=\pi\arccos^2y\,dy$: $$\bar y=\frac{\int_0^1y\,\pi\arccos^2y\,dy}{\int_0^1\pi\arccos^2y\,dy}$$
+
+## Averages along a curve
+
+### 9. Average along a parametric curve
+Q: Find the average value of $3y^2$ on the curve $(x,y)=\left(1+\sin t,\ 2(1+\sin t)+1\right)$, $0\le t\le\tfrac\pi2$.
+Plan: Along a curve, the slice is arc length $dL$. So average $=\dfrac{\int3y^2\,dL}{\int dL}$.
+1. $y=2\sin t+3$. $x'=\cos t$, $y'=2\cos t$.
+2. $dL=\sqrt{\cos^2t+4\cos^2t}\,dt=\sqrt5\cos t\,dt$ (positive on $[0,\tfrac\pi2]$).
+3. Total length: $\displaystyle\int_0^{\pi/2}\sqrt5\cos t\,dt=\sqrt5$.
+4. Numerator: $\displaystyle\int3(2\sin t+3)^2\sqrt5\cos t\,dt$. Let $u=2\sin t+3$, $du=2\cos t\,dt$, limits $3$ to $5$: $$\frac{3\sqrt5}{2}\int_3^5u^2du=\frac{3\sqrt5}2\cdot\frac{125-27}{3}=\frac{\sqrt5}{2}\cdot98=49\sqrt5$$
+5. Divide: $\dfrac{49\sqrt5}{\sqrt5}=49$.
+Answer: $49$
+Shortcut worth knowing: eliminate $t$. Here $y=2x+1$ for $1\le x\le2$, which is a **straight line**. Along a straight line, arc length is proportional to $dx$, so you can just average $3(2x+1)^2$ over $x\in[1,2]$: $\int_1^23(2x+1)^2dx=\tfrac{(2x+1)^3}{2}\Big|_1^2=\tfrac{125-27}{2}=49$.
+
+### 10. Same line, different parametrization
+Q: Find the average value of $3y^2$ on $(x,y)=\left(1+\tan t,\ 2(1+\tan t)+1\right)$, $0\le t\le\tfrac\pi4$.
+Plan: This is the same straight line $y=2x+1$ from $x=1$ to $x=2$ (because $\tan t$ goes from 0 to 1). The average along a curve does not depend on how you parametrize it.
+1. $x'=\sec^2t$, $y'=2\sec^2t$, so $dL=\sqrt5\sec^2t\,dt$. Total length $\sqrt5\tan t\Big|_0^{\pi/4}=\sqrt5$.
+2. Numerator: $\int3(2\tan t+3)^2\sqrt5\sec^2t\,dt$. With $u=2\tan t+3$, $du=2\sec^2t\,dt$: $\tfrac{3\sqrt5}{2}\int_3^5u^2du=49\sqrt5$.
+3. Divide: $49$.
+Answer: $49$ (same as problem 9, as it should be)
+
+## Averages over a surface (set up only)
+
+### 11. Average of 2x on a surface of revolution
+Q: Take $y=\sqrt x$ for $1\le x\le4$ and rotate it about the x-axis. Set up an integral for the average of $2x$ on the resulting surface.
+Plan: The slice is surface area $dS=2\pi\cdot(\text{radius})\cdot dL$. Spun about the x-axis, radius $=y=\sqrt x$.
+1. $y'=\dfrac1{2\sqrt x}$, so $dL=\sqrt{1+\dfrac1{4x}}\,dx$.
+2. $dS=2\pi\sqrt x\sqrt{1+\dfrac1{4x}}\,dx$.
+Answer: $$\text{average}=\frac{\displaystyle\int_1^4(2x)\,2\pi\sqrt x\sqrt{1+\tfrac1{4x}}\,dx}{\displaystyle\int_1^42\pi\sqrt x\sqrt{1+\tfrac1{4x}}\,dx}$$
+
+### 12. Average of 2x² on a surface of revolution
+Q: Take $y=\sin^2x$ for $0\le x\le2\pi$ and rotate it about the y-axis. Set up an integral for the average of $2x^2$ on the surface.
+Plan: Spun about the y-axis, radius $=x$, so $dS=2\pi x\,dL$.
+1. $y'=2\sin x\cos x$, so $dL=\sqrt{1+4\sin^2x\cos^2x}\,dx$.
+2. $dS=2\pi x\sqrt{1+4\sin^2x\cos^2x}\,dx$.
+Answer: $$\text{average}=\frac{\displaystyle\int_0^{2\pi}(2x^2)\,2\pi x\sqrt{1+4\sin^2x\cos^2x}\,dx}{\displaystyle\int_0^{2\pi}2\pi x\sqrt{1+4\sin^2x\cos^2x}\,dx}$$
+Careful: the numerator is "quantity times slice", the denominator is "slice alone". Both have the same $dS$.

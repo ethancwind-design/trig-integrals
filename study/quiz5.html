@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Quiz 5 practice problems · Calc study guide</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<link rel="stylesheet" href="study.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script defer src="study.js"></script>
+</head>
+<body>
+<nav id='nav'><details id='navd' open><summary>Documents</summary><a class='home' href='index.html'>All documents</a><a class='cur' href='quiz5.html'>Quiz 5 practice problems<small>Quiz 5 Practice Problems + Answer Key</small></a><a href='worksheet.html'>Arc length and surface area worksheet<small>Fall 2026 Math 1400 worksheet + solutions</small></a><a href='lec35-36.html'>Lectures 35 and 36<small>Practice Problems + Solutions</small></a><a href='week10-notes.html'>Week 10 notes<small>Applications of Integration, Part 2</small></a><a href='week10-practice.html'>Week 10 practice<small>Week 10 Practice + Key</small></a><a href='lec39.html'>Lecture 39<small>Practice Problems + Solutions</small></a><a href='lec40.html'>Lecture 40<small>Practice Problems + Solutions</small></a><a href='week11-notes.html'>Week 11 notes<small>Probability and expectation</small></a><a href='lec42-43.html'>Lectures 42 and 43<small>Practice Problems + Solutions</small></a><a href='lec44.html'>Lecture 44<small>Practice Problems + Solutions</small></a></details></nav>
+<main>
+<header>
+<h1>Quiz 5 practice problems</h1>
+<p class="src">From: Quiz 5 Practice Problems + Answer Key</p>
+<div class="tools"><button type="button" id="collapse">Hide all solutions</button><button type="button" id="expand">Show all solutions</button></div>
+</header>
+<p class='intro'>Recent quiz problems covering Fall 26 Quiz 5 material from Weeks 10 and 11. The answer key only gives final answers, so every solution below is worked out in full and checked against that key.</p>
+<h2>The five formulas this whole quiz uses</h2>
+<ul>
+<li>Arc length of \(y=f(x)\) on \([a,b]\): \[L=\int_a^b\sqrt{1+(f'(x))^2}\,dx\]</li>
+<li>Surface area when you spin a curve: \[SA=\int 2\pi\,(\text{radius})\,ds\] Spinning about the <strong>x-axis</strong> the radius is \(y\). Spinning about the <strong>y-axis</strong> the radius is \(x\). Here \(ds=\sqrt{1+(y')^2}\,dx\) (or \(\sqrt{1+(x')^2}\,dy\) when the curve is given as \(x=g(y)\)).</li>
+<li>Average value: \[f_{avg}=\frac{1}{b-a}\int_a^b f(x)\,dx\]</li>
+<li>Centroid of the region between \(y=f(x)\) (top) and \(y=g(x)\) (bottom): \[A=\int_a^b (f-g)\,dx,\quad \bar x=\frac{1}{A}\int_a^b x\,(f-g)\,dx,\quad \bar y=\frac{1}{A}\cdot\frac12\int_a^b (f^2-g^2)\,dx\] With a density \(\rho(x)\), put \(\rho(x)\) inside every integral, including the one for mass.</li>
+<li>Probability density: total area is 1, \(P(a\le X\le b)=\int_a^b f\), mean \(=\int x f\,dx\), variance \(=\int x^2f\,dx-(\text{mean})^2\), median \(m\) solves \(\int_{\text{start}}^m f\,dx=\tfrac12\).</li>
+</ul>
+<h2>Arc length and surface area (problems 1 to 9)</h2>
+<section class='problem' id='p1'><h3><span class='num'>1</span>Arc length of a curve with fractional powers</h3>
+<div class='q'>Let \(f(x)=\tfrac23x^{3/2}-\tfrac12x^{1/2}\). Find the arc length over \(\tfrac14\le x\le 4\).</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<div class='plan'><strong>Plan.</strong> Differentiate, square, add 1, and hope it becomes a perfect square. It does. Then the square root disappears.</div>
+<ol class='steps'>
+<li>Differentiate (power rule on each term): \[f'(x)=x^{1/2}-\tfrac14x^{-1/2}\]</li>
+<li>Square it. Use \((A-B)^2=A^2-2AB+B^2\) with \(A=x^{1/2}\), \(B=\tfrac14x^{-1/2}\). The middle term is \(2AB=2\cdot x^{1/2}\cdot\tfrac14x^{-1/2}=\tfrac12\). \[(f')^2=x-\tfrac12+\tfrac1{16}x^{-1}\]</li>
+<li>Add 1. The \(-\tfrac12\) becomes \(+\tfrac12\), which is exactly the middle term of \((A+B)^2\): \[1+(f')^2=x+\tfrac12+\tfrac1{16}x^{-1}=\left(x^{1/2}+\tfrac14x^{-1/2}\right)^2\]</li>
+<li>The square root cancels the square: \[L=\int_{1/4}^{4}\left(x^{1/2}+\tfrac14x^{-1/2}\right)dx\]</li>
+<li>Integrate each term (raise the power by 1, divide by the new power): \[\left[\tfrac23x^{3/2}+\tfrac12x^{1/2}\right]_{1/4}^{4}\]</li>
+<li>Plug in \(x=4\): \(\tfrac23\cdot8+\tfrac12\cdot2=\tfrac{16}{3}+1=\tfrac{19}{3}\). Plug in \(x=\tfrac14\): \(\tfrac23\cdot\tfrac18+\tfrac12\cdot\tfrac12=\tfrac1{12}+\tfrac14=\tfrac13\).</li>
+<li>Subtract: \(\tfrac{19}{3}-\tfrac13=6\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(L=6\)</div>
+<div class='careful'><strong>Watch out.</strong> when you square \(A-B\) do not forget the middle term. If \(1+(f')^2\) is not a perfect square, recheck your derivative first.</div>
+</div></details>
+</section>
+<section class='problem' id='p2'><h3><span class='num'>2</span>Surface area, parabola spun about the y-axis</h3>
+<div class='q'>Find the surface area formed by rotating \(y=1-x^2\) for \(0\le x\le\tfrac{\sqrt3}{2}\) about the y-axis.</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<div class='plan'><strong>Plan.</strong> Spinning about the y-axis means radius \(=x\). The curve is given as \(y=f(x)\), so integrate in \(x\).</div>
+<ol class='steps'>
+<li>Slope: \(y'=-2x\), so \(ds=\sqrt{1+4x^2}\,dx\).</li>
+<li>Set up: \[SA=2\pi\int_0^{\sqrt3/2}x\sqrt{1+4x^2}\,dx\]</li>
+<li>Substitute \(u=1+4x^2\), so \(du=8x\,dx\) and \(x\,dx=\tfrac18du\).</li>
+<li>New limits: \(x=0\to u=1\). \(x=\tfrac{\sqrt3}{2}\to u=1+4\cdot\tfrac34=4\).</li>
+<li>Integrate: \[2\pi\cdot\tfrac18\int_1^4u^{1/2}du=\tfrac{\pi}{4}\cdot\tfrac23\left[u^{3/2}\right]_1^4=\tfrac{\pi}{6}(8-1)\]</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(SA=\dfrac{7\pi}{6}\)</div>
+<div class='careful'><strong>Watch out.</strong> change the limits when you substitute, or convert back to \(x\) before plugging in. Do not mix them.</div>
+</div></details>
+</section>
+<section class='problem' id='p3'><h3><span class='num'>3</span>Surface area, curve given as x in terms of y</h3>
+<div class='q'>Find the surface area generated by revolving \(x=\tfrac13(y^2+2)^{3/2}\), \(1\le y\le2\), about the x-axis.</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<div class='plan'><strong>Plan.</strong> Spinning about the x-axis means radius \(=y\). The curve is \(x=g(y)\), so integrate in \(y\) and use \(ds=\sqrt{1+(x')^2}\,dy\).</div>
+<ol class='steps'>
+<li>Differentiate with the chain rule: \(x'=\tfrac13\cdot\tfrac32(y^2+2)^{1/2}\cdot2y=y\sqrt{y^2+2}\).</li>
+<li>Square and add 1: \(1+y^2(y^2+2)=y^4+2y^2+1=(y^2+1)^2\).</li>
+<li>So \(ds=(y^2+1)\,dy\). The radical is gone.</li>
+<li>Set up: \[SA=2\pi\int_1^2 y\,(y^2+1)\,dy=2\pi\int_1^2(y^3+y)\,dy\]</li>
+<li>Integrate: \[2\pi\left[\tfrac{y^4}{4}+\tfrac{y^2}{2}\right]_1^2=2\pi\left[(4+2)-\left(\tfrac14+\tfrac12\right)\right]=2\pi\cdot\tfrac{21}{4}\]</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(SA=\dfrac{21\pi}{2}\)</div>
+</div></details>
+</section>
+<section class='problem' id='p4'><h3><span class='num'>4</span>Surface area of a piece of a circle</h3>
+<div class='q'>Find the surface area generated by revolving \(y=\sqrt{25-x^2}\) on \([3,4]\) about the x-axis.</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<div class='plan'><strong>Plan.</strong> Radius \(=y\). The messy parts cancel. This is a good one to trust the algebra on.</div>
+<ol class='steps'>
+<li>Derivative: \(y'=\dfrac{-x}{\sqrt{25-x^2}}\).</li>
+<li>\(1+(y')^2=1+\dfrac{x^2}{25-x^2}=\dfrac{25}{25-x^2}\).</li>
+<li>So \(ds=\dfrac{5}{\sqrt{25-x^2}}\,dx\).</li>
+<li>Multiply radius times \(ds\): \(\sqrt{25-x^2}\cdot\dfrac{5}{\sqrt{25-x^2}}=5\).</li>
+<li>\[SA=2\pi\int_3^4 5\,dx=10\pi\,(4-3)\]</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(SA=10\pi\)</div>
+</div></details>
+</section>
+<section class='problem' id='p5'><h3><span class='num'>5</span>Exact arc length, perfect square trick</h3>
+<div class='q'>Find the exact arc length of \(y=\dfrac{x^4}{16}+\dfrac{1}{2x^2}\) on \([1,2]\).</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<div class='plan'><strong>Plan.</strong> Rewrite with exponents, differentiate, square, add 1, recognize the perfect square.</div>
+<ol class='steps'>
+<li>Rewrite: \(y=\tfrac1{16}x^4+\tfrac12x^{-2}\).</li>
+<li>Differentiate: \(y'=\tfrac{x^3}{4}-x^{-3}\).</li>
+<li>Square (with \(A=\tfrac{x^3}{4}\), \(B=x^{-3}\), \(2AB=\tfrac12\)): \((y')^2=\tfrac{x^6}{16}-\tfrac12+x^{-6}\).</li>
+<li>Add 1: \(1+(y')^2=\tfrac{x^6}{16}+\tfrac12+x^{-6}=\left(\tfrac{x^3}{4}+x^{-3}\right)^2\).</li>
+<li>\[L=\int_1^2\left(\tfrac{x^3}{4}+x^{-3}\right)dx=\left[\tfrac{x^4}{16}-\tfrac{1}{2x^2}\right]_1^2\]</li>
+<li>At 2: \(1-\tfrac18=\tfrac78\). At 1: \(\tfrac1{16}-\tfrac12=-\tfrac7{16}\).</li>
+<li>Subtract: \(\tfrac78+\tfrac7{16}=\tfrac{14}{16}+\tfrac7{16}=\tfrac{21}{16}\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(L=\dfrac{21}{16}\)</div>
+<div class='careful'><strong>Watch out.</strong> \(\int x^{-3}dx=\dfrac{x^{-2}}{-2}\). The minus sign comes from dividing by \(-2\).</div>
+</div></details>
+</section>
+<section class='problem' id='p6'><h3><span class='num'>6</span>Arc length, power of a polynomial</h3>
+<div class='q'>Find the arc length of \(y=\tfrac23\left(4x^2+\tfrac12\right)^{3/2}\) for \(0\le x\le3\).</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<div class='plan'><strong>Plan.</strong> Chain rule, then watch the square root disappear.</div>
+<ol class='steps'>
+<li>\(y'=\tfrac23\cdot\tfrac32\left(4x^2+\tfrac12\right)^{1/2}\cdot8x=8x\sqrt{4x^2+\tfrac12}\).</li>
+<li>Square: \((y')^2=64x^2\left(4x^2+\tfrac12\right)=256x^4+32x^2\).</li>
+<li>Add 1: \(256x^4+32x^2+1=(16x^2+1)^2\). Check: \((16x^2)^2=256x^4\), \(2\cdot16x^2\cdot1=32x^2\), \(1^2=1\).</li>
+<li>\[L=\int_0^3(16x^2+1)\,dx=\left[\tfrac{16}{3}x^3+x\right]_0^3=\tfrac{16}{3}\cdot27+3=144+3\]</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(L=147\)</div>
+</div></details>
+</section>
+<section class='problem' id='p7'><h3><span class='num'>7</span>Arc length of a parametric curve</h3>
+<div class='q'>Compute the arc length of \(x=\tfrac13(2t-1)^{3/2}\), \(y=\tfrac12(t-1)^2\), for \(1\le t\le3\).</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<div class='plan'><strong>Plan.</strong> For \(x(t),y(t)\) the arc length element is \(ds=\sqrt{(x')^2+(y')^2}\,dt\).</div>
+<ol class='steps'>
+<li>\(x'=\tfrac13\cdot\tfrac32(2t-1)^{1/2}\cdot2=\sqrt{2t-1}\).</li>
+<li>\(y'=t-1\).</li>
+<li>\((x')^2+(y')^2=(2t-1)+(t^2-2t+1)=t^2\).</li>
+<li>\(\sqrt{t^2}=t\) (since \(t&gt;0\)).</li>
+<li>\[L=\int_1^3t\,dt=\tfrac12\left(9-1\right)\]</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(L=4\)</div>
+</div></details>
+</section>
+<section class='problem' id='p8'><h3><span class='num'>8</span>Surface area, x = y cubed, spun about the y-axis</h3>
+<div class='q'>Find the surface area generated by rotating \(x=y^3\) for \(0\le y\le\left(\tfrac13\right)^{1/4}\) about the y-axis.</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<div class='plan'><strong>Plan.</strong> Spinning about the y-axis means radius \(=x\). Since the curve is \(x=g(y)\), write the radius as \(y^3\) and integrate in \(y\).</div>
+<ol class='steps'>
+<li>\(x'=3y^2\), so \(ds=\sqrt{1+9y^4}\,dy\).</li>
+<li>\[SA=2\pi\int y^3\sqrt{1+9y^4}\,dy\]</li>
+<li>Substitute \(u=1+9y^4\), so \(du=36y^3dy\) and \(y^3dy=\tfrac1{36}du\).</li>
+<li>Limits: \(y=0\to u=1\). \(y^4=\tfrac13\to u=1+3=4\).</li>
+<li>\[2\pi\cdot\tfrac1{36}\int_1^4u^{1/2}du=\tfrac{\pi}{18}\cdot\tfrac23\left[u^{3/2}\right]_1^4=\tfrac{\pi}{27}(8-1)\]</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(SA=\dfrac{7\pi}{27}\)</div>
+</div></details>
+</section>
+<section class='problem' id='p9'><h3><span class='num'>9</span>Surface area of a square root curve</h3>
+<div class='q'>Find the surface area generated by revolving \(y=\sqrt x\) about the x-axis for \(0\le x\le2\).</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<div class='plan'><strong>Plan.</strong> Radius \(=y=\sqrt x\). The \(\sqrt x\) cancels against the \(ds\).</div>
+<ol class='steps'>
+<li>\(y'=\dfrac1{2\sqrt x}\). Then \(1+(y')^2=1+\dfrac1{4x}=\dfrac{4x+1}{4x}\).</li>
+<li>\(ds=\dfrac{\sqrt{4x+1}}{2\sqrt x}\,dx\).</li>
+<li>Radius times \(ds\): \(\sqrt x\cdot\dfrac{\sqrt{4x+1}}{2\sqrt x}=\dfrac{\sqrt{4x+1}}{2}\).</li>
+<li>\[SA=2\pi\int_0^2\tfrac12\sqrt{4x+1}\,dx=\pi\int_0^2\sqrt{4x+1}\,dx\]</li>
+<li>Substitute \(u=4x+1\), \(dx=\tfrac14du\). Limits: \(1\) to \(9\).</li>
+<li>\[\pi\cdot\tfrac14\cdot\tfrac23\left[u^{3/2}\right]_1^9=\tfrac{\pi}{6}(27-1)=\tfrac{26\pi}{6}\]</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(SA=\dfrac{13\pi}{3}\)</div>
+</div></details>
+</section>
+<h2>Average value (problems 10 and 11)</h2>
+<section class='problem' id='p10'><h3><span class='num'>10</span>Average value with a trig substitution</h3>
+<div class='q'>Find the average value of \(f(x)=\dfrac{16}{(x^2+4)^{3/2}}\) on \([0,2\sqrt3]\).</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<div class='plan'><strong>Plan.</strong> Average value is the integral divided by the interval length. The integral needs the substitution \(x=2\tan\theta\), because \(x^2+4\) is a square plus a number.</div>
+<ol class='steps'>
+<li>Substitute \(x=2\tan\theta\). Then \(dx=2\sec^2\theta\,d\theta\) and \(x^2+4=4\tan^2\theta+4=4\sec^2\theta\).</li>
+<li>So \((x^2+4)^{3/2}=(4\sec^2\theta)^{3/2}=8\sec^3\theta\).</li>
+<li>The integrand becomes \[\frac{16\cdot2\sec^2\theta}{8\sec^3\theta}\,d\theta=\frac{4}{\sec\theta}\,d\theta=4\cos\theta\,d\theta\]</li>
+<li>New limits: \(x=0\to\tan\theta=0\to\theta=0\). \(x=2\sqrt3\to\tan\theta=\sqrt3\to\theta=\tfrac\pi3\).</li>
+<li>\[\int_0^{\pi/3}4\cos\theta\,d\theta=4\sin\theta\Big|_0^{\pi/3}=4\cdot\tfrac{\sqrt3}{2}=2\sqrt3\]</li>
+<li>Divide by the length of the interval, \(2\sqrt3-0=2\sqrt3\): \(f_{avg}=\dfrac{2\sqrt3}{2\sqrt3}=1\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(f_{avg}=1\)</div>
+</div></details>
+</section>
+<section class='problem' id='p11'><h3><span class='num'>11</span>Average value with partial fractions</h3>
+<div class='q'>Find the average value of \(f(x)=\dfrac{6}{x^2-1}\) on \([2,5]\).</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<div class='plan'><strong>Plan.</strong> Factor the denominator and split into two simple fractions (partial fractions).</div>
+<ol class='steps'>
+<li>\(x^2-1=(x-1)(x+1)\). Write \(\dfrac{6}{(x-1)(x+1)}=\dfrac{3}{x-1}-\dfrac{3}{x+1}\). Check: \(3(x+1)-3(x-1)=6\).</li>
+<li>Integrate: \(\int\left(\dfrac3{x-1}-\dfrac3{x+1}\right)dx=3\ln|x-1|-3\ln|x+1|\).</li>
+<li>Plug in 5: \(3\ln4-3\ln6=3\ln\tfrac23\). Plug in 2: \(3\ln1-3\ln3=-3\ln3\).</li>
+<li>Subtract: \(3\ln\tfrac23+3\ln3=3\ln2\).</li>
+<li>Divide by \(5-2=3\): \(f_{avg}=\ln2\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(f_{avg}=\ln 2\)</div>
+</div></details>
+</section>
+<h2>Centroids and center of mass (problems 12 to 17)</h2>
+<section class='problem' id='p12'><h3><span class='num'>12</span>y-coordinate of a centroid between sine and cosine</h3>
+<div class='q'>Find the y-coordinate of the centroid of the region bounded by \(y=\cos x\) and \(y=\sin x\) for \(\tfrac\pi4\le x\le\tfrac{3\pi}4\).</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<div class='plan'><strong>Plan.</strong> On this interval \(\sin x\) is on top. You need the area \(A\) and the moment \(M_x=\tfrac12\int(f^2-g^2)\,dx\), then \(\bar y=M_x/A\).</div>
+<ol class='steps'>
+<li>Area: \[A=\int_{\pi/4}^{3\pi/4}(\sin x-\cos x)\,dx=\left[-\cos x-\sin x\right]_{\pi/4}^{3\pi/4}\] At \(\tfrac{3\pi}4\): \(\tfrac{\sqrt2}2-\tfrac{\sqrt2}2=0\). At \(\tfrac\pi4\): \(-\tfrac{\sqrt2}2-\tfrac{\sqrt2}2=-\sqrt2\). So \(A=0-(-\sqrt2)=\sqrt2\).</li>
+<li>Moment: \(\sin^2x-\cos^2x=-\cos2x\), so \[M_x=\tfrac12\int_{\pi/4}^{3\pi/4}(-\cos2x)\,dx=-\tfrac14\sin2x\Big|_{\pi/4}^{3\pi/4}\] \(\sin\tfrac{3\pi}2=-1\) and \(\sin\tfrac\pi2=1\), so \(M_x=-\tfrac14(-1-1)=\tfrac12\).</li>
+<li>\(\bar y=\dfrac{1/2}{\sqrt2}=\dfrac{1}{2\sqrt2}=\dfrac{\sqrt2}{4}\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(\bar y=\dfrac{\sqrt2}{4}\)</div>
+<div class='careful'><strong>Watch out.</strong> \(\sin^2x-\cos^2x=-\cos 2x\) is the identity doing the work here.</div>
+</div></details>
+</section>
+<section class='problem' id='p13'><h3><span class='num'>13</span>x-coordinate of a triangle's centroid</h3>
+<div class='q'>Find the x-coordinate of the centroid of the triangle with vertices \((0,0)\), \((0,4)\), \((6,0)\).</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<div class='plan'><strong>Plan.</strong> The centroid of any triangle is the average of its three vertices. No integral needed.</div>
+<ol class='steps'>
+<li>\(\bar x=\dfrac{0+0+6}{3}=2\).</li>
+<li>Sanity check with the right-triangle formula from the notes: legs \(b=6\) and \(h=4\) give \((\tfrac b3,\tfrac h3)=(2,\tfrac43)\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(\bar x=2\)</div>
+</div></details>
+</section>
+<section class='problem' id='p14'><h3><span class='num'>14</span>Center of mass with density</h3>
+<div class='q'>The region is bounded by \(y=\sqrt x\) and \(y=x^2\), with density \(\rho(x)=35x\). Find \(\bar x\).</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<div class='plan'><strong>Plan.</strong> With a density that only depends on \(x\), each vertical strip has mass \(\rho(x)\,(f-g)\,dx\). Then \(\bar x=\dfrac{\int x\,\rho\,(f-g)}{\int\rho\,(f-g)}\).</div>
+<ol class='steps'>
+<li>The curves meet where \(\sqrt x=x^2\), at \(x=0\) and \(x=1\). On \([0,1]\), \(\sqrt x\) is on top.</li>
+<li>Mass: \[m=\int_0^1 35x\left(x^{1/2}-x^2\right)dx=35\int_0^1\left(x^{3/2}-x^3\right)dx=35\left[\tfrac25x^{5/2}-\tfrac{x^4}{4}\right]_0^1=35\left(\tfrac25-\tfrac14\right)=35\cdot\tfrac3{20}=\tfrac{21}4\]</li>
+<li>Moment about the y-axis: \[M_y=\int_0^1 x\cdot35x\left(x^{1/2}-x^2\right)dx=35\int_0^1\left(x^{5/2}-x^4\right)dx=35\left[\tfrac27x^{7/2}-\tfrac{x^5}{5}\right]_0^1=35\left(\tfrac27-\tfrac15\right)=35\cdot\tfrac{3}{35}=3\]</li>
+<li>\(\bar x=\dfrac{3}{21/4}=\dfrac{12}{21}=\dfrac47\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(\bar x=\dfrac47\)</div>
+<div class='careful'><strong>Watch out.</strong> the density goes inside both integrals. Forgetting it in the mass integral is the usual slip.</div>
+</div></details>
+</section>
+<section class='problem' id='p15'><h3><span class='num'>15</span>Centroid between two parabolas</h3>
+<div class='q'>Find the centroid of the region bounded by \(y=2x^2\) and \(y=3-x^2\).</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<div class='plan'><strong>Plan.</strong> Find where they cross, use symmetry for \(\bar x\), then compute \(A\) and \(M_x\).</div>
+<ol class='steps'>
+<li>Intersection: \(2x^2=3-x^2\Rightarrow3x^2=3\Rightarrow x=\pm1\). The top curve is \(3-x^2\).</li>
+<li>The region is symmetric about the y-axis, so \(\bar x=0\).</li>
+<li>Area: \[A=\int_{-1}^1(3-3x^2)\,dx=2\left[3x-x^3\right]_0^1=2\cdot2=4\]</li>
+<li>Moment: \(f^2-g^2=(3-x^2)^2-(2x^2)^2=9-6x^2+x^4-4x^4=9-6x^2-3x^4\). \[M_x=\tfrac12\int_{-1}^1(9-6x^2-3x^4)\,dx=\int_0^1(9-6x^2-3x^4)\,dx=\left[9x-2x^3-\tfrac35x^5\right]_0^1=7-\tfrac35=\tfrac{32}5\]</li>
+<li>\(\bar y=\dfrac{32/5}{4}=\dfrac85\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \((\bar x,\bar y)=\left(0,\dfrac85\right)\)</div>
+</div></details>
+</section>
+<section class='problem' id='p16'><h3><span class='num'>16</span>Centroid of a triangle plus a quarter circle</h3>
+<div class='q'>Region bounded below by the x-axis, on the left by the line \(y=x+2\), and on the right by the quarter circle of radius 2 (shaded in the graph).</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<div class='plan'><strong>Plan.</strong> Do not integrate. Split the region into two shapes whose centroids you know, then take the area-weighted average of their centroids.</div>
+<ol class='steps'>
+<li>The line \(y=x+2\) runs from \((-2,0)\) up to \((0,2)\). So the left piece is a <strong>triangle</strong> with vertices \((-2,0)\), \((0,0)\), \((0,2)\). Area \(A_1=\tfrac12\cdot2\cdot2=2\). Centroid: average of vertices \(=\left(-\tfrac23,\tfrac23\right)\).</li>
+<li>The right piece is a <strong>quarter circle</strong> of radius 2 in the first quadrant. Area \(A_2=\tfrac14\pi\cdot2^2=\pi\). Its centroid is \(\left(\tfrac{4r}{3\pi},\tfrac{4r}{3\pi}\right)=\left(\tfrac8{3\pi},\tfrac8{3\pi}\right)\).</li>
+<li>Total area: \(2+\pi\).</li>
+<li>\[\bar x=\frac{2\left(-\tfrac23\right)+\pi\cdot\tfrac{8}{3\pi}}{\pi+2}=\frac{-\tfrac43+\tfrac83}{\pi+2}=\frac{4}{3(\pi+2)}\]</li>
+<li>\[\bar y=\frac{2\cdot\tfrac23+\pi\cdot\tfrac{8}{3\pi}}{\pi+2}=\frac{\tfrac43+\tfrac83}{\pi+2}=\frac{4}{\pi+2}\]</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \((\bar x,\bar y)=\left(\dfrac{4}{3(\pi+2)},\ \dfrac{4}{\pi+2}\right)\approx(0.259,\ 0.778)\)</div>
+<div class='careful'><strong>Watch out.</strong> the triangle is on the <strong>left</strong> of the y-axis, so its x-coordinate is negative. The \(\pi\) in the quarter circle's area cancels the \(\pi\) in its centroid.</div>
+</div></details>
+</section>
+<section class='problem' id='p17'><h3><span class='num'>17</span>ȳ with density, quarter circle region</h3>
+<div class='q'>The region in the first quadrant is bounded by \(y=\sqrt{4-x^2}\), the x-axis and the y-axis. The density is \(\rho(x)=x\). Find \(\bar y\).</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<div class='plan'><strong>Plan.</strong> Each vertical strip has mass \(\rho(x)f(x)\,dx\) and its own center sits at height \(\tfrac f2\). So \(M_x=\int\rho\cdot\tfrac12f^2\,dx\) and \(\bar y=M_x/m\).</div>
+<ol class='steps'>
+<li>Mass: \[m=\int_0^2x\sqrt{4-x^2}\,dx\] Substitute \(u=4-x^2\), \(du=-2x\,dx\): \(m=-\tfrac12\int_4^0u^{1/2}du=\tfrac12\cdot\tfrac23\left[u^{3/2}\right]_0^4=\tfrac13\cdot8=\tfrac83\).</li>
+<li>Moment about the x-axis: \[M_x=\int_0^2x\cdot\tfrac12(4-x^2)\,dx=\tfrac12\left[2x^2-\tfrac{x^4}{4}\right]_0^2=\tfrac12(8-4)=2\]</li>
+<li>\(\bar y=\dfrac{2}{8/3}=\dfrac34\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(\bar y=\dfrac34\)</div>
+</div></details>
+</section>
+<h2>Probability densities, mean, median, standard deviation (problems 18 to 25)</h2>
+<section class='problem' id='p18'><h3><span class='num'>18</span>Probability from a density (answer of the form √a over b)</h3>
+<div class='q'>\(f(x)=\dfrac{75/4}{(25-x^2)^{3/2}}\) for \(0\le x\le4\) (zero otherwise) is a probability density. Find \(P\left(X\le\tfrac52\right)\). The answer is \(\dfrac{\sqrt a}{b}\); enter \(a\) and \(b\).</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<div class='plan'><strong>Plan.</strong> Integrate \(f\) from 0 to \(\tfrac52\). The integral needs \(x=5\sin\theta\) (because of \(25-x^2\)).</div>
+<ol class='steps'>
+<li>Substitute \(x=5\sin\theta\). Then \(dx=5\cos\theta\,d\theta\) and \(25-x^2=25\cos^2\theta\), so \((25-x^2)^{3/2}=125\cos^3\theta\).</li>
+<li>\[\int\frac{dx}{(25-x^2)^{3/2}}=\int\frac{5\cos\theta}{125\cos^3\theta}\,d\theta=\tfrac1{25}\int\sec^2\theta\,d\theta=\tfrac1{25}\tan\theta\] and \(\tan\theta=\dfrac{x}{\sqrt{25-x^2}}\), so the antiderivative is \(\dfrac{x}{25\sqrt{25-x^2}}\).</li>
+<li>Multiply by \(\tfrac{75}{4}\): the antiderivative of \(f\) is \(F(x)=\tfrac34\cdot\dfrac{x}{\sqrt{25-x^2}}\).</li>
+<li>Check the total: \(F(4)=\tfrac34\cdot\tfrac43=1\). Good, that is why the constant is \(\tfrac{75}4\).</li>
+<li>\(P(X\le\tfrac52)=F(\tfrac52)-F(0)=\tfrac34\cdot\dfrac{5/2}{\sqrt{25-25/4}}=\tfrac34\cdot\dfrac{5/2}{\tfrac{5\sqrt3}{2}}=\tfrac34\cdot\dfrac1{\sqrt3}=\dfrac{\sqrt3}{4}\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(P=\dfrac{\sqrt3}{4}\), so \(a=3\) and \(b=4\).</div>
+</div></details>
+</section>
+<section class='problem' id='p19'><h3><span class='num'>19</span>Find the constant C</h3>
+<div class='q'>\(f(x)=Cxe^{-x/2}\) for \(x\ge0\) (zero for \(x&lt;0\)). Find \(C\) so that \(f\) is a probability density.</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<div class='plan'><strong>Plan.</strong> The total area must be 1. Integrate by parts.</div>
+<ol class='steps'>
+<li>Need \(\displaystyle\int_0^\infty xe^{-x/2}dx\). Integration by parts: \(u=x\), \(dv=e^{-x/2}dx\), so \(du=dx\), \(v=-2e^{-x/2}\).</li>
+<li>\[\int xe^{-x/2}dx=-2xe^{-x/2}+2\int e^{-x/2}dx=-2xe^{-x/2}-4e^{-x/2}\]</li>
+<li>From 0 to \(\infty\): the upper limit goes to 0 (exponentials beat \(x\)). The lower limit at \(0\) gives \(-4\). So the integral is \(0-(-4)=4\).</li>
+<li>Set \(C\cdot4=1\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(C=\dfrac14\)</div>
+</div></details>
+</section>
+<section class='problem' id='p20'><h3><span class='num'>20</span>Same density, strict inequality</h3>
+<div class='q'>Same \(f\) as problem 18. Find \(P\left(X&lt;\tfrac52\right)\).</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<div class='plan'><strong>Plan.</strong> Same integral. For a continuous density, "less than" and "less than or equal" give the same probability, because a single point has zero area.</div>
+<ol class='steps'>
+<li>Use \(F(x)=\tfrac34\cdot\dfrac{x}{\sqrt{25-x^2}}\) from problem 18.</li>
+<li>\(F\left(\tfrac52\right)-F(0)=\dfrac{\sqrt3}{4}\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(P=\dfrac{\sqrt3}{4}\approx0.433\)</div>
+</div></details>
+</section>
+<section class='problem' id='p21'><h3><span class='num'>21</span>Median</h3>
+<div class='q'>\(g(x)=3\sin(3x)\) for \(0\le x\le\tfrac\pi6\) is a density. Find the median.</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<div class='plan'><strong>Plan.</strong> The median \(m\) is the point where half the area is on each side: \(\int_0^mg=\tfrac12\).</div>
+<ol class='steps'>
+<li>\(\displaystyle\int_0^m3\sin3x\,dx=\left[-\cos3x\right]_0^m=1-\cos3m\).</li>
+<li>Set equal to \(\tfrac12\): \(\cos3m=\tfrac12\).</li>
+<li>\(3m=\tfrac\pi3\) (the angle in \([0,\tfrac\pi2]\) whose cosine is \(\tfrac12\)). So \(m=\tfrac\pi9\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> median \(=\dfrac\pi9\)</div>
+<div class='careful'><strong>Watch out.</strong> the angle is \(3m\), not \(m\). Divide by 3 at the end.</div>
+</div></details>
+</section>
+<section class='problem' id='p22'><h3><span class='num'>22</span>Mean</h3>
+<div class='q'>Same \(g\). Find the mean.</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<div class='plan'><strong>Plan.</strong> Mean \(=\int x\,g(x)\,dx\). Integration by parts.</div>
+<ol class='steps'>
+<li>\(\displaystyle\mu=\int_0^{\pi/6}x\cdot3\sin3x\,dx\). Let \(u=x\), \(dv=3\sin3x\,dx\), so \(v=-\cos3x\).</li>
+<li>\[\mu=\left[-x\cos3x\right]_0^{\pi/6}+\int_0^{\pi/6}\cos3x\,dx\]</li>
+<li>First part: at \(\tfrac\pi6\), \(\cos\tfrac\pi2=0\); at \(0\), it is \(0\). So it is \(0\).</li>
+<li>Second part: \(\left[\tfrac13\sin3x\right]_0^{\pi/6}=\tfrac13(1-0)=\tfrac13\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> mean \(=\dfrac13\)</div>
+</div></details>
+</section>
+<section class='problem' id='p23'><h3><span class='num'>23</span>Standard deviation</h3>
+<div class='q'>\(g(x)=\dfrac3{x^4}\) for \(x\ge1\) is a density. Find the standard deviation.</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<div class='plan'><strong>Plan.</strong> Standard deviation \(=\sqrt{\text{variance}}\) and variance \(=E[X^2]-(E[X])^2\). Compute both \(E[X]\) and \(E[X^2]\).</div>
+<ol class='steps'>
+<li>\(E[X]=\displaystyle\int_1^\infty x\cdot3x^{-4}dx=3\int_1^\infty x^{-3}dx=3\left[-\tfrac{1}{2x^2}\right]_1^\infty=\tfrac32\).</li>
+<li>\(E[X^2]=\displaystyle\int_1^\infty x^2\cdot3x^{-4}dx=3\int_1^\infty x^{-2}dx=3\left[-\tfrac1x\right]_1^\infty=3\).</li>
+<li>Variance: \(3-\left(\tfrac32\right)^2=3-\tfrac94=\tfrac34\).</li>
+<li>\(\sigma=\sqrt{\tfrac34}=\dfrac{\sqrt3}{2}\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(\sigma=\dfrac{\sqrt3}{2}\)</div>
+</div></details>
+</section>
+<section class='problem' id='p24'><h3><span class='num'>24</span>Median of an exponential density</h3>
+<div class='q'>\(f(x)=\tfrac13e^{-x/3}\) for \(x\ge0\). Find the median.</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<div class='plan'><strong>Plan.</strong> Same idea as problem 21: solve \(\int_0^mf=\tfrac12\).</div>
+<ol class='steps'>
+<li>\(\displaystyle\int_0^m\tfrac13e^{-x/3}dx=\left[-e^{-x/3}\right]_0^m=1-e^{-m/3}\).</li>
+<li>Set equal to \(\tfrac12\): \(e^{-m/3}=\tfrac12\).</li>
+<li>Take \(\ln\) of both sides: \(-\tfrac m3=\ln\tfrac12=-\ln2\).</li>
+<li>\(m=3\ln2\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> median \(=3\ln2\approx2.079\)</div>
+</div></details>
+</section>
+<section class='problem' id='p25'><h3><span class='num'>25</span>Mean with a logarithm</h3>
+<div class='q'>\(f(x)=\dfrac{2\ln x}{x}\) for \(1\le x\le e\). Find the mean.</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<div class='plan'><strong>Plan.</strong> Mean \(=\int xf(x)\,dx\). The \(x\) cancels the \(\tfrac1x\).</div>
+<ol class='steps'>
+<li>\(\displaystyle\mu=\int_1^ex\cdot\frac{2\ln x}{x}\,dx=2\int_1^e\ln x\,dx\).</li>
+<li>\(\int\ln x\,dx=x\ln x-x\) (this one is worth memorizing).</li>
+<li>\(2\left[x\ln x-x\right]_1^e=2\left[(e-e)-(0-1)\right]=2\cdot1\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> mean \(=2\)</div>
+</div></details>
+</section>
+<footer>Study guide built from your class PDFs. Needs internet once to load the math fonts.</footer>
+</main>
+</body>
+</html>

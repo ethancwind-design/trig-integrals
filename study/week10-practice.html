@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Week 10 practice · Calc study guide</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<link rel="stylesheet" href="study.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script defer src="study.js"></script>
+</head>
+<body>
+<nav id='nav'><details id='navd' open><summary>Documents</summary><a class='home' href='index.html'>All documents</a><a href='quiz5.html'>Quiz 5 practice problems<small>Quiz 5 Practice Problems + Answer Key</small></a><a href='worksheet.html'>Arc length and surface area worksheet<small>Fall 2026 Math 1400 worksheet + solutions</small></a><a href='lec35-36.html'>Lectures 35 and 36<small>Practice Problems + Solutions</small></a><a href='week10-notes.html'>Week 10 notes<small>Applications of Integration, Part 2</small></a><a class='cur' href='week10-practice.html'>Week 10 practice<small>Week 10 Practice + Key</small></a><a href='lec39.html'>Lecture 39<small>Practice Problems + Solutions</small></a><a href='lec40.html'>Lecture 40<small>Practice Problems + Solutions</small></a><a href='week11-notes.html'>Week 11 notes<small>Probability and expectation</small></a><a href='lec42-43.html'>Lectures 42 and 43<small>Practice Problems + Solutions</small></a><a href='lec44.html'>Lecture 44<small>Practice Problems + Solutions</small></a></details></nav>
+<main>
+<header>
+<h1>Week 10 practice</h1>
+<p class="src">From: Week 10 Practice + Key</p>
+<div class="tools"><button type="button" id="collapse">Hide all solutions</button><button type="button" id="expand">Show all solutions</button></div>
+</header>
+<p class='intro'>Week 10 in-class practice: average value, center of mass and centroids. Solutions follow the answer key, with the algebra written out.</p>
+<h2>Formulas you will need (from the top of the handout)</h2>
+<ul>
+<li>Average value: \[f_{avg}=\frac{1}{b-a}\int_a^bf(x)\,dx\]</li>
+<li>Mass and moments of a region between \(y=f(x)\) (top) and \(y=g(x)\) (bottom), density \(\rho(x)\): \[m=\int_a^b\rho\,(f-g)\,dx,\qquad M_y=\int_a^bx\,\rho\,(f-g)\,dx,\qquad M_x=\tfrac12\int_a^b\rho\,(f^2-g^2)\,dx\] \[\bar x=\frac{M_y}{m},\qquad\bar y=\frac{M_x}{m}\]</li>
+<li>Uniform density (a plain centroid): take \(\rho=1\), so \(m\) is just the area \(A\).</li>
+<li>For a rod (one dimension): \(m=\int\rho\,dx\), \(M_0=\int x\rho\,dx\), \(\bar x=\dfrac{M_0}{m}\).</li>
+<li>Why \(M_x\) has a \(\tfrac12\) and \(f^2\): a vertical strip of height \(f-g\) balances at its midpoint height \(\tfrac{f+g}{2}\). Its moment is \(\tfrac{f+g}2\cdot(f-g)=\tfrac12(f^2-g^2)\).</li>
+</ul>
+<h2>Part A: set up, don't evaluate</h2>
+<section class='problem' id='pa-a-'><h3><span class='num'>A(a)</span>Mass of a rod</h3>
+<div class='q'>The mass of a rod on \(0\le x\le3\) with density \(\rho(x)=\sqrt{1+x}\).</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<div class='plan'><strong>Plan.</strong> Mass of a rod is the integral of its density.</div>
+<ol class='steps'>
+<li>\[m=\int_0^3\sqrt{1+x}\,dx\]</li>
+<li>(Check, if you want to evaluate it.) \(\tfrac23(1+x)^{3/2}\Big|_0^3=\tfrac23(8-1)=\tfrac{14}{3}\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(m=\displaystyle\int_0^3\sqrt{1+x}\,dx=\dfrac{14}{3}\)</div>
+</div></details>
+</section>
+<section class='problem' id='pa-b-'><h3><span class='num'>A(b)</span>Moment M_x of a region</h3>
+<div class='q'>The moment \(M_x\) of the region between \(y=\sqrt x\) and \(y=x^2\) for \(0\le x\le1\) (uniform density).</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<div class='plan'><strong>Plan.</strong> Decide which curve is on top, then use \(M_x=\tfrac12\int(f^2-g^2)\,dx\) with \(\rho=1\).</div>
+<ol class='steps'>
+<li>On \([0,1]\), \(\sqrt x\ge x^2\), so \(f=\sqrt x\) and \(g=x^2\).</li>
+<li>\(f^2=x\) and \(g^2=x^4\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \[M_x=\tfrac12\int_0^1\left(x-x^4\right)dx=\tfrac12\left(\tfrac12-\tfrac15\right)=\dfrac{3}{20}\]</div>
+<div class='careful'><strong>Watch out.</strong> square the <strong>whole</strong> function: \((x^2)^2=x^4\), not \(x^2\).</div>
+</div></details>
+</section>
+<h2>Part B: average value</h2>
+<section class='problem' id='p1'><h3><span class='num'>1</span>Average value, integration by parts</h3>
+<div class='q'>Find the average value of \(f(x)=xe^{-x}\) on \([0,2]\).</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<div class='plan'><strong>Plan.</strong> Integrate by parts, then divide by the interval length 2.</div>
+<ol class='steps'>
+<li>By parts: \(u=x\), \(dv=e^{-x}dx\), so \(du=dx\) and \(v=-e^{-x}\).</li>
+<li>\[\int xe^{-x}dx=-xe^{-x}+\int e^{-x}dx=-xe^{-x}-e^{-x}\]</li>
+<li>At 2: \(-2e^{-2}-e^{-2}=-3e^{-2}\). At 0: \(0-1=-1\).</li>
+<li>Definite integral: \(-3e^{-2}-(-1)=1-3e^{-2}\).</li>
+<li>Divide by \(b-a=2\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(f_{avg}=\dfrac{1-3e^{-2}}{2}\)</div>
+</div></details>
+</section>
+<section class='problem' id='p2'><h3><span class='num'>2</span>Mean Value Theorem for Integrals, sin squared</h3>
+<div class='q'>Let \(f(x)=\sin^2x\) on \([0,\pi]\). (a) Find the average value. (b) Find every \(c\) in \((0,\pi)\) with \(f(c)=f_{avg}\). (c) Explain why there is more than one.</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<div class='plan'><strong>Plan.</strong> Use the power-reducing identity \(\sin^2x=\dfrac{1-\cos2x}{2}\) to integrate.</div>
+<ol class='steps'>
+<li>(a) \[\int_0^\pi\sin^2x\,dx=\int_0^\pi\frac{1-\cos2x}{2}dx=\left[\frac x2-\frac{\sin2x}{4}\right]_0^\pi=\frac\pi2\]</li>
+<li>Divide by \(\pi\): \(f_{avg}=\dfrac{\pi/2}{\pi}=\dfrac12\).</li>
+<li>(b) Solve \(\sin^2c=\tfrac12\). Then \(\sin c=\pm\dfrac{\sqrt2}2\). On \((0,\pi)\), \(\sin c&gt;0\), so \(\sin c=\dfrac{\sqrt2}2\), giving \(c=\dfrac\pi4\) or \(c=\dfrac{3\pi}4\).</li>
+<li>(c) The graph of \(\sin^2x\) rises from 0 up to 1 at \(x=\tfrac\pi2\) and falls back to 0. It is symmetric about \(x=\tfrac\pi2\). The height \(\tfrac12\) is crossed once on the way up and once on the way down, so there are two values. The theorem only promises <strong>at least one</strong>.</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> (a) \(\tfrac12\). (b) \(c=\dfrac\pi4\) and \(c=\dfrac{3\pi}4\). (c) Two crossings, by the symmetry of the graph.</div>
+</div></details>
+</section>
+<h2>Part C: center of mass and centroids</h2>
+<section class='problem' id='p3'><h3><span class='num'>3</span>A rod heavier on one end</h3>
+<div class='q'>A thin rod on \(0\le x\le1\) has density \(\rho(x)=\dfrac1{1+x^2}\). (a) Is \(\bar x\) left or right of \(\tfrac12\)? (b) Find \(m\), \(M_0\) and \(\bar x\).</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<div class='plan'><strong>Plan.</strong> For part (a), look at where the density is bigger. For (b), use the rod formulas.</div>
+<ol class='steps'>
+<li>(a) \(\rho(0)=1\) and \(\rho(1)=\tfrac12\). The density decreases from left to right, so the rod is heavier near \(x=0\). The balance point is pulled left: \(\bar x&lt;\tfrac12\).</li>
+<li>(b) Mass: \[m=\int_0^1\frac{dx}{1+x^2}=\arctan x\Big|_0^1=\frac\pi4\]</li>
+<li>Moment: \[M_0=\int_0^1\frac{x\,dx}{1+x^2}\] Let \(u=1+x^2\), \(du=2x\,dx\). Then \(M_0=\tfrac12\ln(1+x^2)\Big|_0^1=\tfrac12\ln2\).</li>
+<li>\(\bar x=\dfrac{M_0}{m}=\dfrac{\tfrac12\ln2}{\pi/4}=\dfrac{2\ln2}{\pi}\).</li>
+<li>Check against (a): \(\dfrac{2(0.693)}{3.1416}\approx0.441&lt;0.5\). Good.</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(m=\dfrac\pi4\), \(M_0=\dfrac{\ln2}{2}\), \(\bar x=\dfrac{2\ln2}{\pi}\)</div>
+</div></details>
+</section>
+<section class='problem' id='p4'><h3><span class='num'>4</span>Centroid under one arch of sine</h3>
+<div class='q'>Find the centroid of the region under \(y=\sin x\), \(0\le x\le\pi\), above the x-axis. Use symmetry.</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<div class='plan'><strong>Plan.</strong> The arch is symmetric about \(x=\tfrac\pi2\), so \(\bar x=\tfrac\pi2\) for free. Then compute \(A\) and \(M_x\).</div>
+<ol class='steps'>
+<li>Symmetry: \(\bar x=\dfrac\pi2\).</li>
+<li>Area: \(A=\displaystyle\int_0^\pi\sin x\,dx=[-\cos x]_0^\pi=1+1=2\).</li>
+<li>Moment: \(M_x=\tfrac12\displaystyle\int_0^\pi\sin^2x\,dx=\tfrac12\cdot\dfrac\pi2=\dfrac\pi4\) (using \(\int_0^\pi\sin^2x\,dx=\tfrac\pi2\) from problem 2).</li>
+<li>\(\bar y=\dfrac{M_x}{A}=\dfrac{\pi/4}{2}=\dfrac\pi8\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \((\bar x,\bar y)=\left(\dfrac\pi2,\dfrac\pi8\right)\)</div>
+</div></details>
+</section>
+<section class='problem' id='p5'><h3><span class='num'>5</span>An arched window (no integrals)</h3>
+<div class='q'>A window is a \(4\times2\) rectangle (\(-2\le x\le2\), \(0\le y\le2\)) topped by a semicircle of radius 2. Find the centroid.</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<div class='plan'><strong>Plan.</strong> Use the composite formula: weight each piece's centroid by its area. The semicircle's centroid is \(\dfrac{4r}{3\pi}\) above its flat edge.</div>
+<ol class='steps'>
+<li>Symmetric about the y-axis, so \(\bar x=0\).</li>
+<li>Rectangle: area \(4\cdot2=8\), centroid height \(\bar y_1=1\).</li>
+<li>Semicircle: area \(\tfrac12\pi(2)^2=2\pi\). It sits on top of the rectangle, so its flat edge is at \(y=2\). Its centroid height is \(\bar y_2=2+\dfrac{4\cdot2}{3\pi}=2+\dfrac{8}{3\pi}\).</li>
+<li>\[\bar y=\frac{8(1)+2\pi\left(2+\frac{8}{3\pi}\right)}{8+2\pi}=\frac{8+4\pi+\frac{16}{3}}{8+2\pi}=\frac{\frac{40}{3}+4\pi}{8+2\pi}\]</li>
+<li>Multiply top and bottom by 3: \(\dfrac{40+12\pi}{24+6\pi}\). Divide top and bottom by 2: \(\dfrac{20+6\pi}{12+3\pi}\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \((\bar x,\bar y)=\left(0,\ \dfrac{20+6\pi}{12+3\pi}\right)\)</div>
+<div class='careful'><strong>Watch out.</strong> the semicircle's centroid is measured from its <strong>own</strong> flat edge. Add the 2 to place it on the window.</div>
+</div></details>
+</section>
+<section class='problem' id='p6'><h3><span class='num'>6</span>When density varies</h3>
+<div class='q'>The lamina under \(y=4-x^2\) for \(0\le x\le2\) (above the x-axis) has density \(\rho(x)=x\). (a) Find its mass and center of mass. (b) The uniform-density centroid is \(\left(\tfrac34,\tfrac85\right)\). Compare and explain the shift.</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<div class='plan'><strong>Plan.</strong> Put \(\rho(x)=x\) inside all three integrals. Here \(f=4-x^2\), \(g=0\).</div>
+<ol class='steps'>
+<li>Mass: \[m=\int_0^2x(4-x^2)\,dx=\left[2x^2-\tfrac{x^4}{4}\right]_0^2=8-4=4\]</li>
+<li>\(M_y\): \[M_y=\int_0^2x\cdot x(4-x^2)\,dx=\int_0^2(4x^2-x^4)\,dx=\left[\tfrac43x^3-\tfrac{x^5}{5}\right]_0^2=\tfrac{32}3-\tfrac{32}5=\tfrac{64}{15}\]</li>
+<li>\(M_x\): \[M_x=\tfrac12\int_0^2x(4-x^2)^2dx=\tfrac12\int_0^2\left(16x-8x^3+x^5\right)dx=\tfrac12\left[8x^2-2x^4+\tfrac{x^6}{6}\right]_0^2=\tfrac12\left(32-32+\tfrac{32}{3}\right)=\tfrac{16}{3}\] (You can also substitute \(u=4-x^2\).)</li>
+<li>\(\bar x=\dfrac{64/15}{4}=\dfrac{16}{15}\) and \(\bar y=\dfrac{16/3}{4}=\dfrac43\).</li>
+<li>(b) \(\bar x\) moves <strong>right</strong>, from \(\tfrac34\) to \(\tfrac{16}{15}\), because the density \(x\) puts more mass on the right side. \(\bar y\) moves <strong>down</strong>, from \(\tfrac85\) to \(\tfrac43\), because the region is shorter on the right, so the extra mass there sits lower.</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(m=4\), \((\bar x,\bar y)=\left(\dfrac{16}{15},\dfrac43\right)\)</div>
+</div></details>
+</section>
+<h2>Challenge</h2>
+<section class='problem' id='p7'><h3><span class='num'>7</span>Parts, twice</h3>
+<div class='q'>Find the centroid of the region bounded by \(y=\ln x\), the x-axis and the line \(x=e\).</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<div class='plan'><strong>Plan.</strong> The curve crosses the x-axis at \(x=1\), so the region is \(1\le x\le e\). Two integrals need integration by parts.</div>
+<ol class='steps'>
+<li>Area: \(\displaystyle A=\int_1^e\ln x\,dx=\big[x\ln x-x\big]_1^e=(e-e)-(0-1)=1\).</li>
+<li>\(M_y=\displaystyle\int_1^ex\ln x\,dx\). By parts with \(u=\ln x\), \(dv=x\,dx\): \(=\left[\tfrac{x^2}{2}\ln x-\tfrac{x^2}{4}\right]_1^e=\left(\tfrac{e^2}2-\tfrac{e^2}4\right)-\left(0-\tfrac14\right)=\dfrac{e^2+1}{4}\).</li>
+<li>\(M_x=\tfrac12\displaystyle\int_1^e(\ln x)^2dx\). By parts twice gives \(\int(\ln x)^2dx=x(\ln x)^2-2x\ln x+2x\). At \(e\): \(e-2e+2e=e\). At 1: \(2\). So \(M_x=\tfrac12(e-2)\).</li>
+<li>Since \(A=1\), the coordinates equal the moments.</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \((\bar x,\bar y)=\left(\dfrac{e^2+1}{4},\ \dfrac{e-2}{2}\right)\)</div>
+</div></details>
+</section>
+<footer>Study guide built from your class PDFs. Needs internet once to load the math fonts.</footer>
+</main>
+</body>
+</html>

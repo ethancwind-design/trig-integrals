@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lectures 42 and 43 · Calc study guide</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<link rel="stylesheet" href="study.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script defer src="study.js"></script>
+</head>
+<body>
+<nav id='nav'><details id='navd' open><summary>Documents</summary><a class='home' href='index.html'>All documents</a><a href='quiz5.html'>Quiz 5 practice problems<small>Quiz 5 Practice Problems + Answer Key</small></a><a href='worksheet.html'>Arc length and surface area worksheet<small>Fall 2026 Math 1400 worksheet + solutions</small></a><a href='lec35-36.html'>Lectures 35 and 36<small>Practice Problems + Solutions</small></a><a href='week10-notes.html'>Week 10 notes<small>Applications of Integration, Part 2</small></a><a href='week10-practice.html'>Week 10 practice<small>Week 10 Practice + Key</small></a><a href='lec39.html'>Lecture 39<small>Practice Problems + Solutions</small></a><a href='lec40.html'>Lecture 40<small>Practice Problems + Solutions</small></a><a href='week11-notes.html'>Week 11 notes<small>Probability and expectation</small></a><a class='cur' href='lec42-43.html'>Lectures 42 and 43<small>Practice Problems + Solutions</small></a><a href='lec44.html'>Lecture 44<small>Practice Problems + Solutions</small></a></details></nav>
+<main>
+<header>
+<h1>Lectures 42 and 43</h1>
+<p class="src">From: Practice Problems + Solutions</p>
+<div class="tools"><button type="button" id="collapse">Hide all solutions</button><button type="button" id="expand">Show all solutions</button></div>
+</header>
+<p class='intro'>Lectures 42 and 43: probability with areas and with density functions. Several problems the PDF leaves unsolved (7 is solved there, 10 and 12 are not) are worked out here.</p>
+<h2>What to remember</h2>
+<ul>
+<li><strong>Geometric probability.</strong> If a point is chosen uniformly at random in a region, then \[P(\text{point lands in a part})=\frac{\text{size of the part}}{\text{size of the whole}}\] where "size" is length, area, or volume, whatever fits the problem. Draw the whole region, shade the part you want, find both areas.</li>
+<li><strong>Probability density function (pdf).</strong> A function \(f\) is a pdf on its domain if (1) \(f(x)\ge0\) everywhere, and (2) the total area under it is 1: \(\int f\,dx=1\).</li>
+<li><strong>Probabilities from a pdf.</strong> \(P(a\le X\le b)=\int_a^bf(x)\,dx\). For a continuous variable, \(P(X=a)=0\), so "\(&lt;\)" and "\(\le\)" give the same answer.</li>
+<li><strong>Fixing a pdf.</strong> If \(f\) almost works, multiply by a constant \(C\) chosen so the total area is 1: \(C=\dfrac{1}{\int f\,dx}\). Or solve for an unknown endpoint.</li>
+<li><strong>Exponential distribution.</strong> \(f(x)=\lambda e^{-\lambda x}\) for \(x\ge0\). Total area: \(\int_0^\infty\lambda e^{-\lambda x}dx=1\). \(P(X&lt;c)=1-e^{-\lambda c}\) and \(P(X&gt;c)=e^{-\lambda c}\).</li>
+<li><strong>Improper integral habit.</strong> An integral to \(\infty\) means a limit: \(\int_k^\infty=\lim_{t\to\infty}\int_k^t\). Terms like \(e^{-t}\) go to 0.</li>
+</ul>
+<h2>Geometric probability (problems 1, 4, 5, 6, 7, 11)</h2>
+<section class='problem' id='p1'><h3><span class='num'>1</span>Region between a parabola and a line inside a rectangle</h3>
+<div class='q'>\(A\) is the region bounded by \(x=y^2\) and \(x=9\). \(R\) is the rectangle with vertices \((0,-4),(0,4),(10,4),(10,-4)\). Find the probability that a random point in \(R\) lies in \(A\).</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<ol class='steps'>
+<li>\(P=\dfrac{\text{Area}(A)}{\text{Area}(R)}\).</li>
+<li>Area of \(R\): width \(10\), height \(8\), so \(80\).</li>
+<li>Area of \(A\): the curve \(x=y^2\) meets \(x=9\) at \(y=\pm3\). Integrate in \(y\) (right edge minus left edge): \[\int_{-3}^3\left(9-y^2\right)dy=\left[9y-\tfrac{y^3}3\right]_{-3}^3=(27-9)-(-27+9)=36\]</li>
+<li>\(P=\dfrac{36}{80}\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(P=\dfrac{9}{20}=0.45\), which is \(45\%\). (The PDF writes "0.45%"; that percent sign is a typo. \(0.45\) already means \(45\%\).)</div>
+</div></details>
+</section>
+<section class='problem' id='p4'><h3><span class='num'>4</span>A drop landing outside a circle in a bucket</h3>
+<div class='q'>Water drips uniformly at random into a circular bucket 10 inches across. What is the probability a drop lands more than 3 inches from the center?</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<ol class='steps'>
+<li>Diameter 10 means radius 5. Whole region: area \(\pi\cdot5^2=25\pi\).</li>
+<li>"More than 3 inches from center" is the ring outside the radius-3 circle. Its area is \(25\pi-9\pi=16\pi\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(P=\dfrac{16\pi}{25\pi}=\dfrac{16}{25}\)</div>
+<div class='careful'><strong>Watch out.</strong> the \(\pi\) cancels. If you still have a \(\pi\) at the end, recheck.</div>
+</div></details>
+</section>
+<section class='problem' id='p5'><h3><span class='num'>5</span>Bait drifting less than 5 degrees</h3>
+<div class='q'>A bait is cast from the center of a circular lake and ends up at a uniformly random position. What is the probability it is within 5 degrees of its starting direction?</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<ol class='steps'>
+<li>"Less than 5 degrees on either side" is a sector with total angle \(10^\circ\).</li>
+<li>\(P=\dfrac{\text{sector area}}{\text{circle area}}=\dfrac{10^\circ}{360^\circ}\). (Equivalently \(\dfrac{\tfrac12\theta r^2}{\pi r^2}\) with \(\theta=\tfrac{\pi}{18}\).)</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(P=\dfrac{1}{36}\)</div>
+</div></details>
+</section>
+<section class='problem' id='p6'><h3><span class='num'>6</span>Baseball hitting the high part of a barn</h3>
+<div class='q'>The barn face is a right triangle. The hypotenuse is the 20-foot base and the height is 10 feet. A baseball hits a uniformly random spot. What is the probability it hits higher than 7 feet?</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<ol class='steps'>
+<li>The base is 20 and the height is 10, so total area \(=\tfrac12\cdot20\cdot10=100\).</li>
+<li>Put the apex at \((0,10)\) and the base from \(x=-10\) to \(x=10\). The right side is the line \(y=-x+10\).</li>
+<li>At height \(y=7\): \(7=-x+10\), so \(x=3\). The part above \(y=7\) is a small triangle of base \(6\) (from \(x=-3\) to \(3\)) and height \(3\).</li>
+<li>Its area: \(\tfrac12\cdot6\cdot3=9\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(P=\dfrac{9}{100}\)</div>
+</div></details>
+</section>
+<section class='problem' id='p7'><h3><span class='num'>7</span>Football through the goalposts</h3>
+<div class='q'>The posts are a rectangle 10 feet wide and 8 feet high. A football passes through at a uniformly random point. Find the probability that \(y\ge\tfrac45x+4\).</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<ol class='steps'>
+<li>Whole region: \(0\le x\le10\), \(0\le y\le8\). Area \(80\).</li>
+<li>The line \(y=\tfrac45x+4\) starts at height \(4\) when \(x=0\) and reaches \(y=8\) when \(\tfrac45x=4\), so \(x=5\).</li>
+<li>The region above the line inside the rectangle is a triangle with height \(8-4=4\) and base \(5\). Its area is \(\tfrac12\cdot4\cdot5=10\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(P=\dfrac{10}{80}=\dfrac18\)</div>
+</div></details>
+</section>
+<section class='problem' id='p11'><h3><span class='num'>11</span>Oil drop landing in a rectangle near the center</h3>
+<div class='q'>Oil drips uniformly into a circular pan of radius 14 inches. What is the probability it lands no more than 4 inches horizontally and no more than 2 inches vertically from the center?</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<ol class='steps'>
+<li>The target is the rectangle \(-4\le x\le4\), \(-2\le y\le2\). Its area is \(8\cdot4=32\).</li>
+<li>(It fits in the pan: its corner is \(\sqrt{4^2+2^2}=\sqrt{20}\approx4.5\) inches from the center, less than 14.)</li>
+<li>The whole pan has area \(\pi\cdot14^2=196\pi\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(P=\dfrac{32}{196\pi}=\dfrac{8}{49\pi}\approx0.052\)</div>
+</div></details>
+</section>
+<h2>Probability density functions (problems 2, 3, 8, 9, 10)</h2>
+<section class='problem' id='p2'><h3><span class='num'>2</span>Find the endpoint that makes a pdf</h3>
+<div class='q'>Find \(A&gt;0\) so that \(f(x)=\dfrac4\pi\cdot\dfrac{1}{\sqrt{(3+x)(3-x)}}\) is a pdf on \([0,A]\).</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<div class='plan'><strong>Plan.</strong> Total area must equal 1. First recognize \((3+x)(3-x)=9-x^2\), so the integral is an arcsine.</div>
+<ol class='steps'>
+<li>\(f(x)=\dfrac4\pi\cdot\dfrac1{\sqrt{9-x^2}}\).</li>
+<li>\(\displaystyle\int\frac{dx}{\sqrt{9-x^2}}=\arcsin\frac x3\).</li>
+<li>\[\int_0^Af\,dx=\frac4\pi\arcsin\frac A3=1\ \Rightarrow\ \arcsin\frac A3=\frac\pi4\]</li>
+<li>\(\dfrac A3=\sin\dfrac\pi4=\dfrac{\sqrt2}2\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(A=\dfrac{3\sqrt2}{2}\)</div>
+</div></details>
+</section>
+<section class='problem' id='p3'><h3><span class='num'>3</span>Find k from a tail probability</h3>
+<div class='q'>\(\rho(x)=2xe^{-x^2}\) for \(x\ge0\). Find \(k&gt;0\) with \(P(X&gt;k)=\tfrac13\).</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<div class='plan'><strong>Plan.</strong> The tail probability is an improper integral. The substitution \(u=x^2\) does it.</div>
+<ol class='steps'>
+<li>\[P(X&gt;k)=\int_k^\infty2xe^{-x^2}dx=\lim_{t\to\infty}\Big[-e^{-x^2}\Big]_k^t=\lim_{t\to\infty}\left(-e^{-t^2}+e^{-k^2}\right)=e^{-k^2}\] (The first term goes to \(0\).)</li>
+<li>Set \(e^{-k^2}=\tfrac13\), so \(e^{k^2}=3\).</li>
+<li>Take \(\ln\): \(k^2=\ln3\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(k=\sqrt{\ln3}\approx1.05\)</div>
+</div></details>
+</section>
+<section class='problem' id='p8'><h3><span class='num'>8</span>Verify a function is a pdf</h3>
+<div class='q'>\(f(x)=\dfrac{3}{64}x\sqrt{16-x^2}\) for \(0\le x\le4\), and \(0\) otherwise. Verify that it is a pdf.</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<div class='plan'><strong>Plan.</strong> Two checks: \(f\ge0\), and total area equals 1.</div>
+<ol class='steps'>
+<li><strong>Nonnegative.</strong> On \([0,4]\), \(x\ge0\) and \(\sqrt{16-x^2}\ge0\), so \(f\ge0\). Elsewhere \(f=0\).</li>
+<li><strong>Total area.</strong> Let \(u=16-x^2\), so \(du=-2x\,dx\) and \(x\,dx=-\tfrac12du\). Limits: \(x=0\to u=16\), \(x=4\to u=0\).</li>
+<li>\[\int_0^4\tfrac{3}{64}x\sqrt{16-x^2}\,dx=\tfrac{3}{64}\cdot\left(-\tfrac12\right)\int_{16}^0u^{1/2}du=\tfrac3{128}\int_0^{16}u^{1/2}du=\tfrac{3}{128}\cdot\tfrac23\cdot16^{3/2}=\tfrac1{64}\cdot64=1\]</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> both conditions hold, so \(f\) is a pdf.</div>
+</div></details>
+</section>
+<section class='problem' id='p9'><h3><span class='num'>9</span>Find the upper endpoint</h3>
+<div class='q'>\(f(x)=\dfrac1{\sqrt x}\) for \(1\le x\le\alpha\), zero otherwise, is a pdf. Find \(\alpha\).</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<ol class='steps'>
+<li>\(\displaystyle\int_1^\alpha x^{-1/2}dx=\big[2\sqrt x\big]_1^\alpha=2\sqrt\alpha-2\).</li>
+<li>Set equal to 1: \(2\sqrt\alpha=3\), so \(\sqrt\alpha=\tfrac32\).</li>
+<li>Square: \(\alpha=\tfrac94\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(\alpha=\dfrac94\)</div>
+</div></details>
+</section>
+<section class='problem' id='p10'><h3><span class='num'>10</span>A density defined by a differential equation</h3>
+<div class='q'>\(X\) has a pdf \(\rho(t)\) with \(\dfrac{d\rho}{dt}=-7\rho(t)\). Find \(P(X&lt;7)\). (The PDF omits the solution.)</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<div class='plan'><strong>Plan.</strong> Solve the differential equation, then use "total area equals 1" to find the constant. The problem does not say where \(X\) lives, so the natural reading (exponential distribution) is \(t\ge0\).</div>
+<ol class='steps'>
+<li>\(\dfrac{d\rho}{dt}=-7\rho\) has solutions \(\rho(t)=Ce^{-7t}\).</li>
+<li>Assume \(\rho\) is supported on \(t\ge0\). Total area: \(\displaystyle\int_0^\infty Ce^{-7t}dt=\dfrac C7=1\), so \(C=7\) and \(\rho(t)=7e^{-7t}\).</li>
+<li>\[P(X&lt;7)=\int_0^77e^{-7t}dt=\big[-e^{-7t}\big]_0^7=1-e^{-49}\]</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(P(X&lt;7)=1-e^{-49}\) (essentially 1)</div>
+<div class='careful'><strong>Watch out.</strong> the domain assumption (\(t\ge0\)) is what fixes \(C=7\). State it when you write this on a quiz.</div>
+</div></details>
+</section>
+<h2>Probability inside a solid (problem 12)</h2>
+<section class='problem' id='p12'><h3><span class='num'>12</span>A solid of revolution and a random point in it</h3>
+<div class='q'>Rotate the region between \(y=x\), the circle \(x^2+y^2=1\), and the x-axis (first quadrant) about the y-axis. (a) Use horizontal cross-sections to set up the volume. (b) A point is uniformly random in the solid. Set up the probability that its \(y\)-coordinate is greater than \(\tfrac12\). (c) What is the probability its \(y\)-coordinate is exactly \(\tfrac12\)? (The PDF omits this solution.)</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<div class='plan'><strong>Plan.</strong> Draw the region first. It is a slice of pie: below the line \(y=x\), inside the circle, above the x-axis. The line meets the circle where \(x=y=\tfrac1{\sqrt2}\).</div>
+<ol class='steps'>
+<li><strong>Cross-section at height \(y\)</strong> (for \(0\le y\le\tfrac1{\sqrt2}\)): the region runs in \(x\) from the line, \(x=y\), to the circle, \(x=\sqrt{1-y^2}\). Rotating about the y-axis turns this into a washer with inner radius \(y\) and outer radius \(\sqrt{1-y^2}\).</li>
+<li>Washer area: \(\pi\left[(1-y^2)-y^2\right]=\pi(1-2y^2)\).</li>
+<li><strong>(a)</strong> \[V=\int_0^{1/\sqrt2}\pi\left(1-2y^2\right)dy=\pi\left[y-\tfrac23y^3\right]_0^{1/\sqrt2}=\pi\left(\tfrac1{\sqrt2}-\tfrac1{3\sqrt2}\right)=\frac{\pi\sqrt2}{3}\]</li>
+<li><strong>(b)</strong> Probability \(=\dfrac{\text{volume above }y=\tfrac12}{\text{total volume}}\). \[P(y&gt;\tfrac12)=\frac{\displaystyle\int_{1/2}^{1/\sqrt2}\pi(1-2y^2)\,dy}{\displaystyle\int_0^{1/\sqrt2}\pi(1-2y^2)\,dy}\]</li>
+<li>If you want the number: the top integral is \(\pi\left(\tfrac{\sqrt2}3-\tfrac5{12}\right)\) and the bottom is \(\tfrac{\pi\sqrt2}3\). \[P=1-\frac{5}{4\sqrt2}=1-\frac{5\sqrt2}{8}\approx0.116\]</li>
+<li><strong>(c)</strong> A single value of \(y\) is a slice of zero thickness and zero volume.</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> (a) \(V=\dfrac{\pi\sqrt2}3\) (b) the ratio of integrals above, about \(0.116\) (c) \(0\)</div>
+</div></details>
+</section>
+<footer>Study guide built from your class PDFs. Needs internet once to load the math fonts.</footer>
+</main>
+</body>
+</html>

@@ -1,0 +1,121 @@
+> Week 11 notes (probability with calculus), reorganized: densities and probabilities, mean/median/spread, the exponential and normal models, geometric probability, then the CDF. Each part has the rule and the worked examples from the notes.
+
+## 1. Probability density functions
+
+A **continuous random variable** $X$ is described by a density function $f(x)$. For $f$ to be a valid pdf:
+
+1. $f(x)\ge0$ for all $x$.
+2. The total area is 1: $\displaystyle\int_{-\infty}^\infty f(x)\,dx=1$.
+
+Probability of a window: $\displaystyle P(a\le X\le b)=\int_a^bf(x)\,dx$.
+
+The density is **not** a probability (it can be bigger than 1). Probability is the **area** under it.
+
+### Example 1: verify a pdf and find a probability
+Q: $f(x)=\tfrac2{27}x(x-1)$ on $1\le x\le4$, and $0$ otherwise. Verify it is a pdf and find $P(2\le X\le3)$.
+1. Nonnegative: on $[1,4]$ both $x$ and $x-1$ are $\ge0$.
+2. Total area: $$\int_1^4\tfrac2{27}\left(x^2-x\right)dx=\tfrac2{27}\left[\tfrac{x^3}3-\tfrac{x^2}2\right]_1^4=\tfrac2{27}\left[\left(\tfrac{64}3-8\right)-\left(\tfrac13-\tfrac12\right)\right]=\tfrac{2}{27}\cdot\tfrac{27}{2}=1\ \checkmark$$
+3. Probability: $$P(2\le X\le3)=\tfrac2{27}\left[\tfrac{x^3}3-\tfrac{x^2}2\right]_2^3=\tfrac2{27}\left[\left(9-\tfrac92\right)-\left(\tfrac83-2\right)\right]=\tfrac2{27}\cdot\tfrac{23}6$$
+Answer: $P(2\le X\le3)=\dfrac{23}{81}\approx0.284$
+
+## 2. Center and spread
+
+- **Mean** $\mu=\displaystyle\int xf(x)\,dx$ is the balance point of the density.
+- **Median** $m$: half the area on each side, $\displaystyle\int_{-\infty}^mf=\tfrac12$ (or $\displaystyle\int_m^\infty f=\tfrac12$).
+- **Variance** $\sigma^2=\displaystyle\int(x-\mu)^2f\,dx=\int x^2f\,dx-\mu^2$. **Standard deviation** $\sigma=\sqrt{\sigma^2}$.
+
+### Example 2: a median
+Q: Find the median of $f(x)=\tfrac1{39}x^2$ on $2\le x\le5$.
+1. Total area check: $\int_2^5\tfrac{x^2}{39}dx=\tfrac{125-8}{117}=1$.
+2. Median: half of the area lies to the right of $m$: $$\int_m^5\frac{x^2}{39}dx=\frac{125-m^3}{117}=\frac12$$
+3. $250-2m^3=117$, so $2m^3=133$ and $m^3=\tfrac{133}{2}$.
+Answer: $m=\sqrt[3]{\dfrac{133}2}\approx4.05$
+
+## 3. Special models
+
+**Exponential** (waiting times, lifetimes): $f(x)=ke^{-kx}$ for $x\ge0$ (and 0 for $x<0$), $k>0$. Its mean is $\mu=\tfrac1k$, so you can write $$f(x)=\frac1\mu e^{-x/\mu},\quad x\ge0$$ and the standard deviation always equals the mean: $\sigma=\mu$. Useful results: $P(X>x)=e^{-x/\mu}$ and the median is $\mu\ln2$.
+
+**Normal** (the bell curve): $f(x)=\dfrac{1}{\sigma\sqrt{2\pi}}e^{-(x-\mu)^2/(2\sigma^2)}$. With $\mu=0$ and $\sigma=1$ it is the **standard normal**, $f(x)=\dfrac1{\sqrt{2\pi}}e^{-x^2/2}$, used with z-scores: $z=\dfrac{x-\mu}\sigma$.
+
+### Example 3: waiting time at a bank
+Q: Waiting times are exponential with mean $\mu=8$ minutes. Find the probability someone waits more than 10 minutes, and the median wait.
+1. $f(x)=\tfrac18e^{-x/8}$ for $x\ge0$.
+2. $$P(X>10)=\int_{10}^\infty\tfrac18e^{-x/8}dx=\lim_{b\to\infty}\Big[-e^{-x/8}\Big]_{10}^b=0+e^{-10/8}=e^{-5/4}\approx0.2865$$
+3. Median: $\displaystyle\int_0^m\tfrac18e^{-x/8}dx=1-e^{-m/8}=\tfrac12$, so $e^{-m/8}=\tfrac12$ and $e^{m/8}=2$. Take $\ln$: $\tfrac m8=\ln2$.
+Answer: $P(X>10)=e^{-5/4}\approx0.287$ and $m=8\ln2\approx5.55$ minutes
+
+## 4. Geometric probability
+
+If a point is chosen **uniformly at random** in a region $R$ (every spot equally likely), then for a part $A$ of $R$: $$P(\text{in }A)=\frac{\text{Area}(A)}{\text{Area}(R)}$$
+
+- On an interval: $P(c\le X\le d)=\dfrac{d-c}{b-a}$ (ratio of lengths).
+- **Complement rule:** $P(\text{not in }A)=1-P(\text{in }A)$. Use it when the part you do not want is easier to measure.
+- If $A$ is bounded by curves, find its area with $\int(\text{top}-\text{bottom})\,dx$.
+- Dart board problems assume the dart always hits the board and is not aimed, so only area matters.
+
+### Example 4: the dart board
+Q: A board has radius 12 in. The bullseye has radius 2. A scoring ring lies between radii 6 and 8. A dart lands uniformly at random. Find the probability it lands (a) in the bullseye, (b) in the ring, (c) outside radius 8.
+1. Total area $=\pi\cdot12^2=144\pi$.
+2. (a) $\dfrac{\pi\cdot2^2}{144\pi}=\dfrac{4}{144}=\dfrac1{36}\approx0.028$.
+3. (b) The ring is a big disk minus a small disk: $\pi\cdot8^2-\pi\cdot6^2=28\pi$, so $\dfrac{28\pi}{144\pi}=\dfrac7{36}\approx0.194$.
+4. (c) Inside radius 8 has probability $\dfrac{64\pi}{144\pi}=\dfrac49$, so outside is $1-\dfrac49=\dfrac59\approx0.556$.
+Answer: (a) $\dfrac1{36}$, (b) $\dfrac7{36}$, (c) $\dfrac59$. The $\pi$ always cancels.
+
+### Example 5: regions under curves in a rectangle
+Q: A point is chosen at random in $0\le x\le2$, $0\le y\le4$. Find the probability it lies (a) below $y=x^2$, (b) between $y=x^2$ and $y=2x$.
+1. Rectangle area: $2\cdot4=8$.
+2. (a) Area under the parabola: $\displaystyle\int_0^2x^2dx=\tfrac83$. $P=\dfrac{8/3}{8}=\dfrac13$.
+3. (b) The curves meet at $x=0$ and $x=2$, and $2x\ge x^2$ between them. Area: $\displaystyle\int_0^2\left(2x-x^2\right)dx=4-\tfrac83=\tfrac43$. $P=\dfrac{4/3}{8}=\dfrac16$.
+Answer: (a) $\dfrac13$, (b) $\dfrac16$
+
+### Example 6: the meeting problem
+Q: Two students each arrive at a uniformly random time between 3:00 and 4:00 and wait 15 minutes. What is the probability they meet?
+1. Let $x$ and $y$ be their arrival times in minutes after 3:00. The pair $(x,y)$ is uniform on the square $[0,60]\times[0,60]$, area $3600$.
+2. They meet when $|x-y|\le15$. They miss each other in two corner triangles, each with legs $60-15=45$.
+3. Area of missing: $2\cdot\tfrac12\cdot45\cdot45=2025$.
+4. $P(\text{meet})=1-\dfrac{2025}{3600}=1-\dfrac9{16}$.
+Answer: $P=\dfrac{7}{16}=0.4375$
+
+## 5. The cumulative distribution function (CDF)
+
+$$F(x)=P(X\le x)=\int_{-\infty}^xf(t)\,dt$$ Use $t$ as the dummy variable inside, because $x$ is the upper limit.
+
+**Properties:** $0\le F\le1$; non-decreasing; $F\to0$ as $x\to-\infty$ and $F\to1$ as $x\to\infty$; continuous, so $P(X=a)=0$ and strict versus non-strict inequalities give the same probability.
+
+**The connection (Fundamental Theorem of Calculus):** $$F(x)=\int_{-\infty}^xf(t)\,dt\iff f(x)=F'(x)$$ Integrate the density to get the CDF. Differentiate the CDF to get the density.
+
+| Quantity | With the CDF |
+|---|---|
+| $P(X\le b)$ | $F(b)$ |
+| $P(X>a)$ | $1-F(a)$ |
+| $P(a\le X\le b)$ | $F(b)-F(a)$ |
+| Median $m$ | solve $F(m)=\tfrac12$ |
+| $p$-th percentile | solve $F(x_p)=p$ |
+
+**Writing a CDF in pieces.** If $f$ is nonzero only on $[a,b]$: $F(x)=0$ for $x<a$, $F(x)=\int_a^xf(t)\,dt$ for $a\le x\le b$, and $F(x)=1$ for $x>b$. Check that the middle piece is $0$ at $x=a$ and $1$ at $x=b$.
+
+**Exponential CDF** with mean $\mu$: $F(x)=1-e^{-x/\mu}$ for $x\ge0$ (and 0 for $x<0$). So $P(X>x)=e^{-x/\mu}$ and the median is $\mu\ln2$.
+
+### Example 7: build a CDF from a pdf
+Q: Find the CDF of $f(x)=\tfrac2{27}(x^2-x)$ on $[1,4]$, and use it to recompute $P(2\le X\le3)$.
+1. For $1\le x\le4$: $$F(x)=\int_1^x\tfrac2{27}\left(t^2-t\right)dt=\tfrac2{27}\left[\tfrac{t^3}3-\tfrac{t^2}2\right]_1^x=\tfrac2{27}\left(\tfrac{x^3}3-\tfrac{x^2}2+\tfrac16\right)=\frac{2x^3-3x^2+1}{81}$$
+2. Piecewise: $F(x)=0$ for $x<1$, $\dfrac{2x^3-3x^2+1}{81}$ for $1\le x\le4$, and $1$ for $x>4$.
+3. Check: $F(1)=\tfrac{2-3+1}{81}=0$ and $F(4)=\tfrac{128-48+1}{81}=1$.
+4. $F(3)=\tfrac{54-27+1}{81}=\tfrac{28}{81}$ and $F(2)=\tfrac{16-12+1}{81}=\tfrac5{81}$.
+Answer: $P(2\le X\le3)=F(3)-F(2)=\dfrac{23}{81}$, matching Example 1.
+
+### Example 8: recover a pdf from a CDF
+Q: $F(x)=0$ for $x<0$ and $F(x)=1-(1+x)e^{-x}$ for $x\ge0$. Find the pdf, $P(1\le X\le2)$ and $P(X>3)$.
+1. Differentiate with the product rule: $$f(x)=-\left[(1)e^{-x}+(1+x)(-e^{-x})\right]=-e^{-x}+(1+x)e^{-x}=xe^{-x}\quad(x\ge0)$$
+2. $P(1\le X\le2)=F(2)-F(1)=\left(1-3e^{-2}\right)-\left(1-2e^{-1}\right)=2e^{-1}-3e^{-2}\approx0.330$.
+3. $P(X>3)=1-F(3)=1-\left(1-4e^{-3}\right)=4e^{-3}\approx0.199$.
+Answer: $f(x)=xe^{-x}$ for $x\ge0$; $P(1\le X\le2)=2e^{-1}-3e^{-2}$; $P(X>3)=4e^{-3}$. No integration by parts was needed because the CDF already did it.
+
+### Example 9: distance of a dart from the center
+Q: A dart lands uniformly on a board of radius 12. Let $R$ be its distance from the center. Find the CDF and pdf of $R$, then the mean and median.
+1. **CDF from geometry.** $R\le r$ means the dart is inside a disk of radius $r$: $F(r)=\dfrac{\pi r^2}{144\pi}=\dfrac{r^2}{144}$ for $0\le r\le12$ (and 0 below, 1 above).
+2. **PDF.** $f(r)=F'(r)=\dfrac{2r}{144}=\dfrac r{72}$ for $0\le r\le12$. It grows with $r$, since a ring far from the center has more area.
+3. **Mean.** $\mu=\displaystyle\int_0^{12}r\cdot\dfrac r{72}dr=\dfrac1{72}\cdot\dfrac{12^3}{3}=\dfrac{1728}{216}=8$.
+4. **Median.** $F(m)=\dfrac{m^2}{144}=\dfrac12$, so $m^2=72$ and $m=6\sqrt2\approx8.49$.
+Answer: $F(r)=\dfrac{r^2}{144}$, $f(r)=\dfrac{r}{72}$, $\mu=8$ in, median $=6\sqrt2\approx8.49$ in.
+Check: $F(2)=\dfrac4{144}=\dfrac1{36}$, the bullseye probability from Example 4.

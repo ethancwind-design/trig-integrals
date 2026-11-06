@@ -11,6 +11,10 @@ Open `index.html` (needs internet once for MathJax and fonts; add `?fast` to ski
 Everything is presented like *Trig Substitution in Motion*: a 16:9 graph-paper stage, eyebrow + title, phase pills,
 caption bar, and a Back / jump / "n of N" / Next / Full screen toolbar.
 
+## Plain study guide
+
+`study/` is a plain, game-free study guide for the Calc path: one page per class PDF (Quiz 5 practice, the arc length worksheet, Lectures 35-36, Week 10 notes and practice, Lectures 39, 40, 42-43, 44, Week 11 notes), every problem worked out step by step with a plan and a "watch out" note. Open `study/index.html`; it is also linked from the game's title screen. Pages are generated: edit `study/src/<page>.txt` and run `python3 study/build.py`. Needs internet once for the KaTeX math fonts.
+
 | File | What it is |
 |---|---|
 | `index.html`, `quest.js`, `quest.css` | The game: boot screen, main menu, the path chooser, Story Mode (7 Trig story lines and 4 Calc story lines, missions, bosses), Daily Run, Blitz, Survival. Progress is saved in localStorage (`trigquest.v1`; the key kept its old name so existing progress carries over). |

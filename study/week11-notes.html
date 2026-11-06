@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Week 11 notes · Calc study guide</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<link rel="stylesheet" href="study.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script defer src="study.js"></script>
+</head>
+<body>
+<nav id='nav'><details id='navd' open><summary>Documents</summary><a class='home' href='index.html'>All documents</a><a href='quiz5.html'>Quiz 5 practice problems<small>Quiz 5 Practice Problems + Answer Key</small></a><a href='worksheet.html'>Arc length and surface area worksheet<small>Fall 2026 Math 1400 worksheet + solutions</small></a><a href='lec35-36.html'>Lectures 35 and 36<small>Practice Problems + Solutions</small></a><a href='week10-notes.html'>Week 10 notes<small>Applications of Integration, Part 2</small></a><a href='week10-practice.html'>Week 10 practice<small>Week 10 Practice + Key</small></a><a href='lec39.html'>Lecture 39<small>Practice Problems + Solutions</small></a><a href='lec40.html'>Lecture 40<small>Practice Problems + Solutions</small></a><a class='cur' href='week11-notes.html'>Week 11 notes<small>Probability and expectation</small></a><a href='lec42-43.html'>Lectures 42 and 43<small>Practice Problems + Solutions</small></a><a href='lec44.html'>Lecture 44<small>Practice Problems + Solutions</small></a></details></nav>
+<main>
+<header>
+<h1>Week 11 notes</h1>
+<p class="src">From: Probability and expectation</p>
+<div class="tools"><button type="button" id="collapse">Hide all solutions</button><button type="button" id="expand">Show all solutions</button></div>
+</header>
+<p class='intro'>Week 11 notes (probability with calculus), reorganized: densities and probabilities, mean/median/spread, the exponential and normal models, geometric probability, then the CDF. Each part has the rule and the worked examples from the notes.</p>
+<h2>1. Probability density functions</h2>
+<p>A <strong>continuous random variable</strong> \(X\) is described by a density function \(f(x)\). For \(f\) to be a valid pdf:</p>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<ol class='steps'>
+<li>\(f(x)\ge0\) for all \(x\).</li>
+<li>The total area is 1: \(\displaystyle\int_{-\infty}^\infty f(x)\,dx=1\).<br>Probability of a window: \(\displaystyle P(a\le X\le b)=\int_a^bf(x)\,dx\).<br>The density is <strong>not</strong> a probability (it can be bigger than 1). Probability is the <strong>area</strong> under it.</li>
+</ol>
+</div></details>
+<section class='problem' id='pex-1'><h3><span class='num'>Ex. 1</span>verify a pdf and find a probability</h3>
+<div class='q'>\(f(x)=\tfrac2{27}x(x-1)\) on \(1\le x\le4\), and \(0\) otherwise. Verify it is a pdf and find \(P(2\le X\le3)\).</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<ol class='steps'>
+<li>Nonnegative: on \([1,4]\) both \(x\) and \(x-1\) are \(\ge0\).</li>
+<li>Total area: \[\int_1^4\tfrac2{27}\left(x^2-x\right)dx=\tfrac2{27}\left[\tfrac{x^3}3-\tfrac{x^2}2\right]_1^4=\tfrac2{27}\left[\left(\tfrac{64}3-8\right)-\left(\tfrac13-\tfrac12\right)\right]=\tfrac{2}{27}\cdot\tfrac{27}{2}=1\ \checkmark\]</li>
+<li>Probability: \[P(2\le X\le3)=\tfrac2{27}\left[\tfrac{x^3}3-\tfrac{x^2}2\right]_2^3=\tfrac2{27}\left[\left(9-\tfrac92\right)-\left(\tfrac83-2\right)\right]=\tfrac2{27}\cdot\tfrac{23}6\]</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(P(2\le X\le3)=\dfrac{23}{81}\approx0.284\)</div>
+</div></details>
+</section>
+<h2>2. Center and spread</h2>
+<ul>
+<li><strong>Mean</strong> \(\mu=\displaystyle\int xf(x)\,dx\) is the balance point of the density.</li>
+<li><strong>Median</strong> \(m\): half the area on each side, \(\displaystyle\int_{-\infty}^mf=\tfrac12\) (or \(\displaystyle\int_m^\infty f=\tfrac12\)).</li>
+<li><strong>Variance</strong> \(\sigma^2=\displaystyle\int(x-\mu)^2f\,dx=\int x^2f\,dx-\mu^2\). <strong>Standard deviation</strong> \(\sigma=\sqrt{\sigma^2}\).</li>
+</ul>
+<section class='problem' id='pex-2'><h3><span class='num'>Ex. 2</span>a median</h3>
+<div class='q'>Find the median of \(f(x)=\tfrac1{39}x^2\) on \(2\le x\le5\).</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<ol class='steps'>
+<li>Total area check: \(\int_2^5\tfrac{x^2}{39}dx=\tfrac{125-8}{117}=1\).</li>
+<li>Median: half of the area lies to the right of \(m\): \[\int_m^5\frac{x^2}{39}dx=\frac{125-m^3}{117}=\frac12\]</li>
+<li>\(250-2m^3=117\), so \(2m^3=133\) and \(m^3=\tfrac{133}{2}\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(m=\sqrt[3]{\dfrac{133}2}\approx4.05\)</div>
+</div></details>
+</section>
+<h2>3. Special models</h2>
+<p><strong>Exponential</strong> (waiting times, lifetimes): \(f(x)=ke^{-kx}\) for \(x\ge0\) (and 0 for \(x&lt;0\)), \(k&gt;0\). Its mean is \(\mu=\tfrac1k\), so you can write \[f(x)=\frac1\mu e^{-x/\mu},\quad x\ge0\] and the standard deviation always equals the mean: \(\sigma=\mu\). Useful results: \(P(X&gt;x)=e^{-x/\mu}\) and the median is \(\mu\ln2\).</p>
+<p><strong>Normal</strong> (the bell curve): \(f(x)=\dfrac{1}{\sigma\sqrt{2\pi}}e^{-(x-\mu)^2/(2\sigma^2)}\). With \(\mu=0\) and \(\sigma=1\) it is the <strong>standard normal</strong>, \(f(x)=\dfrac1{\sqrt{2\pi}}e^{-x^2/2}\), used with z-scores: \(z=\dfrac{x-\mu}\sigma\).</p>
+<section class='problem' id='pex-3'><h3><span class='num'>Ex. 3</span>waiting time at a bank</h3>
+<div class='q'>Waiting times are exponential with mean \(\mu=8\) minutes. Find the probability someone waits more than 10 minutes, and the median wait.</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<ol class='steps'>
+<li>\(f(x)=\tfrac18e^{-x/8}\) for \(x\ge0\).</li>
+<li>\[P(X&gt;10)=\int_{10}^\infty\tfrac18e^{-x/8}dx=\lim_{b\to\infty}\Big[-e^{-x/8}\Big]_{10}^b=0+e^{-10/8}=e^{-5/4}\approx0.2865\]</li>
+<li>Median: \(\displaystyle\int_0^m\tfrac18e^{-x/8}dx=1-e^{-m/8}=\tfrac12\), so \(e^{-m/8}=\tfrac12\) and \(e^{m/8}=2\). Take \(\ln\): \(\tfrac m8=\ln2\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(P(X&gt;10)=e^{-5/4}\approx0.287\) and \(m=8\ln2\approx5.55\) minutes</div>
+</div></details>
+</section>
+<h2>4. Geometric probability</h2>
+<p>If a point is chosen <strong>uniformly at random</strong> in a region \(R\) (every spot equally likely), then for a part \(A\) of \(R\): \[P(\text{in }A)=\frac{\text{Area}(A)}{\text{Area}(R)}\]</p>
+<ul>
+<li>On an interval: \(P(c\le X\le d)=\dfrac{d-c}{b-a}\) (ratio of lengths).</li>
+<li><strong>Complement rule:</strong> \(P(\text{not in }A)=1-P(\text{in }A)\). Use it when the part you do not want is easier to measure.</li>
+<li>If \(A\) is bounded by curves, find its area with \(\int(\text{top}-\text{bottom})\,dx\).</li>
+<li>Dart board problems assume the dart always hits the board and is not aimed, so only area matters.</li>
+</ul>
+<section class='problem' id='pex-4'><h3><span class='num'>Ex. 4</span>the dart board</h3>
+<div class='q'>A board has radius 12 in. The bullseye has radius 2. A scoring ring lies between radii 6 and 8. A dart lands uniformly at random. Find the probability it lands (a) in the bullseye, (b) in the ring, (c) outside radius 8.</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<ol class='steps'>
+<li>Total area \(=\pi\cdot12^2=144\pi\).</li>
+<li>(a) \(\dfrac{\pi\cdot2^2}{144\pi}=\dfrac{4}{144}=\dfrac1{36}\approx0.028\).</li>
+<li>(b) The ring is a big disk minus a small disk: \(\pi\cdot8^2-\pi\cdot6^2=28\pi\), so \(\dfrac{28\pi}{144\pi}=\dfrac7{36}\approx0.194\).</li>
+<li>(c) Inside radius 8 has probability \(\dfrac{64\pi}{144\pi}=\dfrac49\), so outside is \(1-\dfrac49=\dfrac59\approx0.556\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> (a) \(\dfrac1{36}\), (b) \(\dfrac7{36}\), (c) \(\dfrac59\). The \(\pi\) always cancels.</div>
+</div></details>
+</section>
+<section class='problem' id='pex-5'><h3><span class='num'>Ex. 5</span>regions under curves in a rectangle</h3>
+<div class='q'>A point is chosen at random in \(0\le x\le2\), \(0\le y\le4\). Find the probability it lies (a) below \(y=x^2\), (b) between \(y=x^2\) and \(y=2x\).</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<ol class='steps'>
+<li>Rectangle area: \(2\cdot4=8\).</li>
+<li>(a) Area under the parabola: \(\displaystyle\int_0^2x^2dx=\tfrac83\). \(P=\dfrac{8/3}{8}=\dfrac13\).</li>
+<li>(b) The curves meet at \(x=0\) and \(x=2\), and \(2x\ge x^2\) between them. Area: \(\displaystyle\int_0^2\left(2x-x^2\right)dx=4-\tfrac83=\tfrac43\). \(P=\dfrac{4/3}{8}=\dfrac16\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> (a) \(\dfrac13\), (b) \(\dfrac16\)</div>
+</div></details>
+</section>
+<section class='problem' id='pex-6'><h3><span class='num'>Ex. 6</span>the meeting problem</h3>
+<div class='q'>Two students each arrive at a uniformly random time between 3:00 and 4:00 and wait 15 minutes. What is the probability they meet?</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<ol class='steps'>
+<li>Let \(x\) and \(y\) be their arrival times in minutes after 3:00. The pair \((x,y)\) is uniform on the square \([0,60]\times[0,60]\), area \(3600\).</li>
+<li>They meet when \(|x-y|\le15\). They miss each other in two corner triangles, each with legs \(60-15=45\).</li>
+<li>Area of missing: \(2\cdot\tfrac12\cdot45\cdot45=2025\).</li>
+<li>\(P(\text{meet})=1-\dfrac{2025}{3600}=1-\dfrac9{16}\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(P=\dfrac{7}{16}=0.4375\)</div>
+</div></details>
+</section>
+<h2>5. The cumulative distribution function (CDF)</h2>
+<p>\[F(x)=P(X\le x)=\int_{-\infty}^xf(t)\,dt\] Use \(t\) as the dummy variable inside, because \(x\) is the upper limit.</p>
+<p><strong>Properties:</strong> \(0\le F\le1\); non-decreasing; \(F\to0\) as \(x\to-\infty\) and \(F\to1\) as \(x\to\infty\); continuous, so \(P(X=a)=0\) and strict versus non-strict inequalities give the same probability.</p>
+<p><strong>The connection (Fundamental Theorem of Calculus):</strong> \[F(x)=\int_{-\infty}^xf(t)\,dt\iff f(x)=F'(x)\] Integrate the density to get the CDF. Differentiate the CDF to get the density.</p>
+<div class='tablewrap'><table>
+<tr><th>Quantity</th><th>With the CDF</th></tr>
+<tr><td>\(P(X\le b)\)</td><td>\(F(b)\)</td></tr>
+<tr><td>\(P(X&gt;a)\)</td><td>\(1-F(a)\)</td></tr>
+<tr><td>\(P(a\le X\le b)\)</td><td>\(F(b)-F(a)\)</td></tr>
+<tr><td>Median \(m\)</td><td>solve \(F(m)=\tfrac12\)</td></tr>
+<tr><td>\(p\)-th percentile</td><td>solve \(F(x_p)=p\)</td></tr>
+</table></div>
+<p><strong>Writing a CDF in pieces.</strong> If \(f\) is nonzero only on \([a,b]\): \(F(x)=0\) for \(x&lt;a\), \(F(x)=\int_a^xf(t)\,dt\) for \(a\le x\le b\), and \(F(x)=1\) for \(x&gt;b\). Check that the middle piece is \(0\) at \(x=a\) and \(1\) at \(x=b\).</p>
+<p><strong>Exponential CDF</strong> with mean \(\mu\): \(F(x)=1-e^{-x/\mu}\) for \(x\ge0\) (and 0 for \(x&lt;0\)). So \(P(X&gt;x)=e^{-x/\mu}\) and the median is \(\mu\ln2\).</p>
+<section class='problem' id='pex-7'><h3><span class='num'>Ex. 7</span>build a CDF from a pdf</h3>
+<div class='q'>Find the CDF of \(f(x)=\tfrac2{27}(x^2-x)\) on \([1,4]\), and use it to recompute \(P(2\le X\le3)\).</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<ol class='steps'>
+<li>For \(1\le x\le4\): \[F(x)=\int_1^x\tfrac2{27}\left(t^2-t\right)dt=\tfrac2{27}\left[\tfrac{t^3}3-\tfrac{t^2}2\right]_1^x=\tfrac2{27}\left(\tfrac{x^3}3-\tfrac{x^2}2+\tfrac16\right)=\frac{2x^3-3x^2+1}{81}\]</li>
+<li>Piecewise: \(F(x)=0\) for \(x&lt;1\), \(\dfrac{2x^3-3x^2+1}{81}\) for \(1\le x\le4\), and \(1\) for \(x&gt;4\).</li>
+<li>Check: \(F(1)=\tfrac{2-3+1}{81}=0\) and \(F(4)=\tfrac{128-48+1}{81}=1\).</li>
+<li>\(F(3)=\tfrac{54-27+1}{81}=\tfrac{28}{81}\) and \(F(2)=\tfrac{16-12+1}{81}=\tfrac5{81}\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(P(2\le X\le3)=F(3)-F(2)=\dfrac{23}{81}\), matching Example 1.</div>
+</div></details>
+</section>
+<section class='problem' id='pex-8'><h3><span class='num'>Ex. 8</span>recover a pdf from a CDF</h3>
+<div class='q'>\(F(x)=0\) for \(x&lt;0\) and \(F(x)=1-(1+x)e^{-x}\) for \(x\ge0\). Find the pdf, \(P(1\le X\le2)\) and \(P(X&gt;3)\).</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<ol class='steps'>
+<li>Differentiate with the product rule: \[f(x)=-\left[(1)e^{-x}+(1+x)(-e^{-x})\right]=-e^{-x}+(1+x)e^{-x}=xe^{-x}\quad(x\ge0)\]</li>
+<li>\(P(1\le X\le2)=F(2)-F(1)=\left(1-3e^{-2}\right)-\left(1-2e^{-1}\right)=2e^{-1}-3e^{-2}\approx0.330\).</li>
+<li>\(P(X&gt;3)=1-F(3)=1-\left(1-4e^{-3}\right)=4e^{-3}\approx0.199\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(f(x)=xe^{-x}\) for \(x\ge0\); \(P(1\le X\le2)=2e^{-1}-3e^{-2}\); \(P(X&gt;3)=4e^{-3}\). No integration by parts was needed because the CDF already did it.</div>
+</div></details>
+</section>
+<section class='problem' id='pex-9'><h3><span class='num'>Ex. 9</span>distance of a dart from the center</h3>
+<div class='q'>A dart lands uniformly on a board of radius 12. Let \(R\) be its distance from the center. Find the CDF and pdf of \(R\), then the mean and median.</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<ol class='steps'>
+<li><strong>CDF from geometry.</strong> \(R\le r\) means the dart is inside a disk of radius \(r\): \(F(r)=\dfrac{\pi r^2}{144\pi}=\dfrac{r^2}{144}\) for \(0\le r\le12\) (and 0 below, 1 above).</li>
+<li><strong>PDF.</strong> \(f(r)=F'(r)=\dfrac{2r}{144}=\dfrac r{72}\) for \(0\le r\le12\). It grows with \(r\), since a ring far from the center has more area.</li>
+<li><strong>Mean.</strong> \(\mu=\displaystyle\int_0^{12}r\cdot\dfrac r{72}dr=\dfrac1{72}\cdot\dfrac{12^3}{3}=\dfrac{1728}{216}=8\).</li>
+<li><strong>Median.</strong> \(F(m)=\dfrac{m^2}{144}=\dfrac12\), so \(m^2=72\) and \(m=6\sqrt2\approx8.49\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(F(r)=\dfrac{r^2}{144}\), \(f(r)=\dfrac{r}{72}\), \(\mu=8\) in, median \(=6\sqrt2\approx8.49\) in.</div>
+<p>Check: \(F(2)=\dfrac4{144}=\dfrac1{36}\), the bullseye probability from Example 4.</p>
+</div></details>
+</section>
+<footer>Study guide built from your class PDFs. Needs internet once to load the math fonts.</footer>
+</main>
+</body>
+</html>

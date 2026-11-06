@@ -1,0 +1,99 @@
+> Arc Length and Surface Area of Revolution worksheet. Give exact answers, no calculators. Eight problems: four arc lengths, four surface areas.
+
+## How to set up any surface area problem (two questions)
+
+- **Which axis is it spun about?** That decides the radius. About the **x-axis** the radius is $y$. About the **y-axis** the radius is $x$.
+- **What is the curve given as, and what is the range?** If it is $y=f(x)$ with $a\le x\le b$, integrate in $x$ and use $ds=\sqrt{1+(y')^2}\,dx$. If it is $x=g(y)$ with $c\le y\le d$, integrate in $y$ and use $ds=\sqrt{1+(x')^2}\,dy$.
+- Then write the radius **in terms of the variable you are integrating**. Spun about the x-axis but integrating in $x$? Replace $y$ with $f(x)$. Spun about the x-axis but integrating in $y$? Leave it as $y$.
+- Then $$SA=\int 2\pi\,(\text{radius})\,ds.$$
+
+## Part I: arc length
+
+### 1. Arc length, a simple power
+Q: Find the length of the curve $y=\tfrac43x^{3/2}$, $0\le x\le2$.
+Plan: Differentiate, square, add 1. Here the result is not a perfect square, but it is a simple linear expression so a substitution finishes it.
+1. $y'=\tfrac43\cdot\tfrac32x^{1/2}=2\sqrt x$.
+2. $(y')^2=4x$, so $1+(y')^2=1+4x$.
+3. $$L=\int_0^2\sqrt{1+4x}\,dx$$
+4. Substitute $u=1+4x$, $du=4\,dx$. Limits: $x=0\to u=1$, $x=2\to u=9$.
+5. $$L=\tfrac14\int_1^9u^{1/2}du=\tfrac14\cdot\tfrac23\left[u^{3/2}\right]_1^9=\tfrac16(27-1)=\tfrac{26}{6}$$
+Answer: $L=\dfrac{13}{3}$
+
+### 2. Arc length, perfect square trick
+Q: Find the length of the curve $y=\dfrac{x^3}{6}+\dfrac{1}{2x}$, $1\le x\le3$.
+Plan: Rewrite as $\tfrac16x^3+\tfrac12x^{-1}$, differentiate, square, add 1, and look for a perfect square.
+1. $y'=\dfrac{x^2}{2}-\dfrac{1}{2x^2}$.
+2. Square. The middle term is $2\cdot\dfrac{x^2}{2}\cdot\left(-\dfrac1{2x^2}\right)=-\dfrac12$. $$(y')^2=\dfrac{x^4}{4}-\dfrac12+\dfrac1{4x^4}$$
+3. Add 1. The middle term flips to $+\tfrac12$: $$1+(y')^2=\dfrac{x^4}{4}+\dfrac12+\dfrac1{4x^4}=\left(\dfrac{x^2}{2}+\dfrac1{2x^2}\right)^2$$
+4. The square root removes the square (the inside is positive): $$L=\int_1^3\left(\dfrac{x^2}{2}+\dfrac1{2x^2}\right)dx=\left[\dfrac{x^3}{6}-\dfrac1{2x}\right]_1^3$$
+5. At 3: $\tfrac{27}{6}-\tfrac16=\tfrac{26}{6}=\tfrac{13}{3}$. At 1: $\tfrac16-\tfrac12=-\tfrac13$.
+6. Subtract: $\tfrac{13}{3}+\tfrac13=\tfrac{14}{3}$.
+Answer: $L=\dfrac{14}{3}$
+
+### 3. Arc length of a log curve
+Q: Find the length of the curve $y=\ln\left(1-x^2\right)$, $0\le x\le\tfrac12$.
+Plan: Chain rule for the derivative. The expression under the root turns into a perfect square again, but you then have to integrate a fraction by long division and partial fractions.
+1. $y'=\dfrac{-2x}{1-x^2}$.
+2. $$1+(y')^2=\frac{(1-x^2)^2+4x^2}{(1-x^2)^2}=\frac{1+2x^2+x^4}{(1-x^2)^2}=\frac{(1+x^2)^2}{(1-x^2)^2}$$
+3. On $[0,\tfrac12]$ both $1+x^2$ and $1-x^2$ are positive, so $\sqrt{\ \ }=\dfrac{1+x^2}{1-x^2}$.
+4. The top and bottom have the same degree, so divide first: $\dfrac{1+x^2}{1-x^2}=-1+\dfrac{2}{1-x^2}$.
+5. Partial fractions on $\dfrac{2}{1-x^2}=\dfrac{2}{(1-x)(1+x)}=\dfrac1{1-x}+\dfrac1{1+x}$. Check: $(1+x)+(1-x)=2$.
+6. $$L=\int_0^{1/2}\left(-1+\frac1{1-x}+\frac1{1+x}\right)dx=\Big[-x-\ln|1-x|+\ln|1+x|\Big]_0^{1/2}$$
+7. At $\tfrac12$: $-\tfrac12-\ln\tfrac12+\ln\tfrac32=-\tfrac12+\ln\dfrac{3/2}{1/2}=-\tfrac12+\ln3$. At 0: $0$.
+Answer: $L=\ln3-\dfrac12$
+Careful: $\int\dfrac1{1-x}dx=-\ln|1-x|$. The minus sign comes from the chain rule.
+
+### 4. Arc length of ln(cos x)
+Q: Find the length of the curve $y=\ln(\cos x)$, $0\le x\le\tfrac\pi3$.
+Plan: The derivative becomes $-\tan x$, and the identity $1+\tan^2x=\sec^2x$ kills the square root.
+1. $y'=\dfrac{-\sin x}{\cos x}=-\tan x$.
+2. $1+(y')^2=1+\tan^2x=\sec^2x$.
+3. On $[0,\tfrac\pi3]$, $\sec x>0$, so $\sqrt{\sec^2x}=\sec x$.
+4. $$L=\int_0^{\pi/3}\sec x\,dx=\Big[\ln|\sec x+\tan x|\Big]_0^{\pi/3}$$ (This integral is a formula to memorize.)
+5. At $\tfrac\pi3$: $\sec=2$, $\tan=\sqrt3$, giving $\ln(2+\sqrt3)$. At 0: $\ln(1+0)=0$.
+Answer: $L=\ln\left(2+\sqrt3\right)$
+
+## Part II: surface area of revolution
+
+### 5. Surface area, curve with a fourth-root limit
+Q: The curve $y=\dfrac{x^3}{3}$, $0\le x\le\sqrt[4]{8}$, is rotated about the x-axis. Find the surface area.
+Plan: About the x-axis, radius $=y=\tfrac{x^3}{3}$. The curve is $y=f(x)$, so integrate in $x$.
+1. $y'=x^2$, so $ds=\sqrt{1+x^4}\,dx$.
+2. $$SA=\int_0^{\sqrt[4]{8}}2\pi\cdot\frac{x^3}{3}\sqrt{1+x^4}\,dx$$
+3. Substitute $u=1+x^4$, $du=4x^3dx$, so $x^3dx=\tfrac14du$.
+4. Limits: $x=0\to u=1$. $x=\sqrt[4]8\to x^4=8\to u=9$.
+5. $$SA=\frac{2\pi}{3}\cdot\frac14\int_1^9u^{1/2}du=\frac{\pi}{6}\cdot\frac23\left[u^{3/2}\right]_1^9=\frac\pi9(27-1)$$
+Answer: $SA=\dfrac{26\pi}{9}$
+
+### 6. Surface area, half circle spun about the y-axis
+Q: The curve $x=\sqrt{4-y^2}$, $-1\le y\le1$, is rotated about the y-axis. Find the surface area.
+Plan: About the y-axis, radius $=x=\sqrt{4-y^2}$. The curve is $x=g(y)$, so integrate in $y$. Things cancel nicely.
+1. $x'=\dfrac{-y}{\sqrt{4-y^2}}$.
+2. $1+(x')^2=\dfrac{4-y^2+y^2}{4-y^2}=\dfrac{4}{4-y^2}$, so $ds=\dfrac{2}{\sqrt{4-y^2}}\,dy$.
+3. Radius times $ds$: $\sqrt{4-y^2}\cdot\dfrac{2}{\sqrt{4-y^2}}=2$.
+4. $$SA=2\pi\int_{-1}^{1}2\,dy=4\pi\cdot2$$
+Answer: $SA=8\pi$ (a band cut from a sphere of radius 2)
+
+### 7. Surface area, x = (2/3) y to the 3/2, about the x-axis
+Q: The curve $x=\tfrac23y^{3/2}$, $0\le y\le3$, is rotated about the x-axis. Find the surface area.
+Plan: About the x-axis, radius $=y$. The curve is $x=g(y)$, so integrate in $y$. The radius is already $y$, so leave it alone.
+1. $x'=y^{1/2}$, so $1+(x')^2=1+y$ and $ds=\sqrt{1+y}\,dy$.
+2. $$SA=2\pi\int_0^3y\sqrt{1+y}\,dy$$
+3. Substitute $u=1+y$. Then $y=u-1$ and $dy=du$. Limits: $y=0\to u=1$, $y=3\to u=4$.
+4. $$2\pi\int_1^4(u-1)u^{1/2}du=2\pi\int_1^4\left(u^{3/2}-u^{1/2}\right)du=2\pi\left[\tfrac25u^{5/2}-\tfrac23u^{3/2}\right]_1^4$$
+5. At 4: $\tfrac25\cdot32-\tfrac23\cdot8=\tfrac{64}{5}-\tfrac{16}{3}=\tfrac{112}{15}$. At 1: $\tfrac25-\tfrac23=-\tfrac4{15}$.
+6. Subtract: $\tfrac{112}{15}+\tfrac{4}{15}=\tfrac{116}{15}$. Multiply by $2\pi$.
+Answer: $SA=\dfrac{232\pi}{15}$
+Careful: when the substitution is $u=1+y$, you must replace the extra $y$ with $u-1$. Forgetting that is the most common error here.
+
+### 8. Surface area of a cosh curve
+Q: The curve $y=\dfrac{e^x+e^{-x}}{2}$, $0\le x\le\ln2$, is rotated about the x-axis. Find the surface area.
+Plan: Radius $=y$. Integrating in $x$, so replace $y$ with $f(x)$. The square root again becomes a perfect square.
+1. $y'=\dfrac{e^x-e^{-x}}{2}$.
+2. Square: the middle term is $2\cdot\dfrac{e^x}{2}\cdot\left(-\dfrac{e^{-x}}{2}\right)=-\dfrac12$. $$(y')^2=\frac{e^{2x}}4-\frac12+\frac{e^{-2x}}4$$
+3. Add 1: $1+(y')^2=\dfrac{e^{2x}}4+\dfrac12+\dfrac{e^{-2x}}4=\left(\dfrac{e^x+e^{-x}}{2}\right)^2$. So $ds=\dfrac{e^x+e^{-x}}{2}\,dx$.
+4. Radius times $ds$ is the same factor twice: $$SA=2\pi\int_0^{\ln2}\left(\frac{e^x+e^{-x}}2\right)^2dx=\frac\pi2\int_0^{\ln2}\left(e^{2x}+2+e^{-2x}\right)dx$$
+5. Integrate: $\dfrac\pi2\left[\dfrac{e^{2x}}2+2x-\dfrac{e^{-2x}}2\right]_0^{\ln2}$.
+6. Use $e^{2\ln2}=4$ and $e^{-2\ln2}=\tfrac14$. At $\ln2$: $2+2\ln2-\tfrac18$. At 0: $\tfrac12-\tfrac12=0$.
+7. $SA=\dfrac\pi2\left(\dfrac{15}8+2\ln2\right)$.
+Answer: $SA=\dfrac{15\pi}{16}+\pi\ln2$

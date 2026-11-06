@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lecture 44 · Calc study guide</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<link rel="stylesheet" href="study.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script defer src="study.js"></script>
+</head>
+<body>
+<nav id='nav'><details id='navd' open><summary>Documents</summary><a class='home' href='index.html'>All documents</a><a href='quiz5.html'>Quiz 5 practice problems<small>Quiz 5 Practice Problems + Answer Key</small></a><a href='worksheet.html'>Arc length and surface area worksheet<small>Fall 2026 Math 1400 worksheet + solutions</small></a><a href='lec35-36.html'>Lectures 35 and 36<small>Practice Problems + Solutions</small></a><a href='week10-notes.html'>Week 10 notes<small>Applications of Integration, Part 2</small></a><a href='week10-practice.html'>Week 10 practice<small>Week 10 Practice + Key</small></a><a href='lec39.html'>Lecture 39<small>Practice Problems + Solutions</small></a><a href='lec40.html'>Lecture 40<small>Practice Problems + Solutions</small></a><a href='week11-notes.html'>Week 11 notes<small>Probability and expectation</small></a><a href='lec42-43.html'>Lectures 42 and 43<small>Practice Problems + Solutions</small></a><a class='cur' href='lec44.html'>Lecture 44<small>Practice Problems + Solutions</small></a></details></nav>
+<main>
+<header>
+<h1>Lecture 44</h1>
+<p class="src">From: Practice Problems + Solutions</p>
+<div class="tools"><button type="button" id="collapse">Hide all solutions</button><button type="button" id="expand">Show all solutions</button></div>
+</header>
+<p class='intro'>Lecture 44: expected value (mean), median, and variance. Many answers in the PDF are printed with no work, and a few problems have the work only partly shown. Everything is written out here.</p>
+<h2>The formulas, and how to choose</h2>
+<ul>
+<li><strong>Mean (expected value)</strong> of a density \(f\): \[\mu=E[X]=\int x\,f(x)\,dx\]</li>
+<li><strong>Variance</strong>: \[\sigma^2=V(X)=\int(x-\mu)^2f(x)\,dx=\underbrace{\int x^2f(x)\,dx}_{E[X^2]}-\mu^2\] The right-hand form is faster. Compute \(E[X]\), then \(E[X^2]\), then subtract. <strong>Standard deviation</strong> is \(\sigma=\sqrt{\sigma^2}\).</li>
+<li><strong>Median</strong> \(m\): the point with half the probability on each side, so \(\int_{\text{start}}^mf\,dx=\tfrac12\). Solve for \(m\).</li>
+<li><strong>Given \(P(X&lt;x)\) instead of \(f\)</strong> (a cumulative probability): the density is its derivative, \(f(x)=\dfrac{d}{dx}P(X&lt;x)\). Then compute the mean as usual. Check with the endpoints: \(P(X&lt;\text{start})\) must be 0 and \(P(X&lt;\text{end})\) must be 1.</li>
+<li><strong>Discrete random variable</strong> (finitely or countably many values): \(E[X]=\sum x\,P(X=x)\) and \(V(X)=\sum(x-\mu)^2P(X=x)\).</li>
+<li><strong>Find the constant first.</strong> If \(f\) has an unknown constant, make the total area 1 first. Everything else uses that value.</li>
+</ul>
+<h2>Problems</h2>
+<section class='problem' id='p1'><h3><span class='num'>1</span>Find c, then the mean</h3>
+<div class='q'>Find \(c\) so that \(f(x)=\tfrac12e^{-x}-ce^{-2x}\) is a pdf on \([0,\infty)\). What is the mean \(\mu\)?</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<div class='plan'><strong>Plan.</strong> The total area must be 1. Then compute \(\int xf\,dx\).</div>
+<ol class='steps'>
+<li>\(\displaystyle\int_0^\infty\tfrac12e^{-x}dx=\tfrac12\) and \(\displaystyle\int_0^\infty ce^{-2x}dx=\tfrac c2\).</li>
+<li>\(\tfrac12-\tfrac c2=1\), so \(c=-1\). The density is \(f(x)=\tfrac12e^{-x}+e^{-2x}\), which is positive.</li>
+<li>Mean: \(\mu=\displaystyle\int_0^\infty x\left(\tfrac12e^{-x}+e^{-2x}\right)dx=\tfrac12\int_0^\infty xe^{-x}dx+\int_0^\infty xe^{-2x}dx\).</li>
+<li>Useful facts: \(\int_0^\infty xe^{-x}dx=1\) and \(\int_0^\infty xe^{-2x}dx=\tfrac14\). (By parts: \(\int_0^\infty xe^{-ax}dx=\tfrac1{a^2}\).)</li>
+<li>\(\mu=\tfrac12\cdot1+\tfrac14\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(c=-1\) and \(\mu=\dfrac34\)</div>
+</div></details>
+</section>
+<section class='problem' id='p2'><h3><span class='num'>2</span>A root density on [1, 2]</h3>
+<div class='q'>Find \(C\) so that \(f(x)=C\sqrt{x-1}\) is a pdf on \([1,2]\). Then find the mean.</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<ol class='steps'>
+<li>\(\displaystyle\int_1^2\sqrt{x-1}\,dx=\tfrac23(x-1)^{3/2}\Big|_1^2=\tfrac23\). So \(C\cdot\tfrac23=1\) and \(C=\tfrac32\).</li>
+<li>Mean: \(\mu=\tfrac32\displaystyle\int_1^2x\sqrt{x-1}\,dx\). Let \(u=x-1\), so \(x=u+1\). Limits \(0\) to \(1\).</li>
+<li>\(\displaystyle\int_0^1(u+1)u^{1/2}du=\int_0^1\left(u^{3/2}+u^{1/2}\right)du=\tfrac25+\tfrac23=\tfrac{16}{15}\).</li>
+<li>\(\mu=\tfrac32\cdot\tfrac{16}{15}=\tfrac{8}{5}\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(C=\dfrac32\) and \(\mu=\dfrac85\)</div>
+</div></details>
+</section>
+<section class='problem' id='p3'><h3><span class='num'>3</span>Mean and variance of an arcsine density</h3>
+<div class='q'>\(X\) takes values in \((-1,1)\) with \(f(x)=\dfrac{1}{\pi\sqrt{1-x^2}}\). Find \(\mu\) and \(\sigma^2\).</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<ol class='steps'>
+<li><strong>Mean.</strong> \(xf(x)\) is an odd function and the interval is symmetric, so \(\mu=0\).</li>
+<li><strong>Variance.</strong> Since \(\mu=0\), \(\sigma^2=E[X^2]=\displaystyle\int_{-1}^1\frac{x^2}{\pi\sqrt{1-x^2}}dx\).</li>
+<li>Substitute \(x=\sin\theta\), \(dx=\cos\theta\,d\theta\), \(\sqrt{1-x^2}=\cos\theta\). Limits \(-\tfrac\pi2\) to \(\tfrac\pi2\). \[\frac1\pi\int_{-\pi/2}^{\pi/2}\sin^2\theta\,d\theta=\frac1\pi\cdot\frac\pi2\]</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(\mu=0\) and \(\sigma^2=\dfrac12\)</div>
+</div></details>
+</section>
+<section class='problem' id='p4'><h3><span class='num'>4</span>Uniform distribution on [3, 5]</h3>
+<div class='q'>A real number is chosen uniformly between 3 and 5. Find \(\mu\) and \(\sigma^2\).</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<ol class='steps'>
+<li>The density is flat: \(f=\tfrac{1}{5-3}=\tfrac12\) on \([3,5]\).</li>
+<li>\(\mu=\displaystyle\int_3^5\tfrac x2dx=\left[\tfrac{x^2}{4}\right]_3^5=\tfrac{25-9}{4}=4\) (the midpoint, as expected).</li>
+<li>\(\sigma^2=\displaystyle\int_3^5\tfrac{(x-4)^2}{2}dx=\left[\tfrac{(x-4)^3}{6}\right]_3^5=\tfrac{1-(-1)}{6}=\tfrac13\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(\mu=4\) and \(\sigma^2=\dfrac13\)</div>
+<p>Check: for a uniform distribution on an interval of length \(L\), \(\sigma^2=\dfrac{L^2}{12}=\dfrac{4}{12}=\dfrac13\).</p>
+</div></details>
+</section>
+<section class='problem' id='p5'><h3><span class='num'>5</span>Variance of a parabola density</h3>
+<div class='q'>\(\rho(x)=\tfrac34\left(2x-x^2\right)\) on \([0,2]\). Find \(V(X)\).</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<div class='plan'><strong>Plan.</strong> Mean first, then \(E[X^2]\), then subtract.</div>
+<ol class='steps'>
+<li>\(E[X]=\tfrac34\displaystyle\int_0^2\left(2x^2-x^3\right)dx=\tfrac34\left[\tfrac{2x^3}{3}-\tfrac{x^4}{4}\right]_0^2=\tfrac34\left(\tfrac{16}3-4\right)=\tfrac34\cdot\tfrac43=1\).</li>
+<li>\(E[X^2]=\tfrac34\displaystyle\int_0^2\left(2x^3-x^4\right)dx=\tfrac34\left[\tfrac{x^4}{2}-\tfrac{x^5}{5}\right]_0^2=\tfrac34\left(8-\tfrac{32}{5}\right)=\tfrac34\cdot\tfrac85=\tfrac65\).</li>
+<li>\(V(X)=E[X^2]-\mu^2=\tfrac65-1\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(V(X)=\dfrac15\)</div>
+</div></details>
+</section>
+<section class='problem' id='p6'><h3><span class='num'>6</span>Find C from a tail probability, then decide if the mean is finite</h3>
+<div class='q'>\(X\) takes values in \((1,\infty)\) and \(P(X&gt;a)=C\ln\dfrac{a^3+1}{a^3}\) for every \(a&gt;1\). Find \(C\) and decide whether \(\mu\) is finite. (Hint: you can find \(C\) without any integral.)</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<ol class='steps'>
+<li>\(X\) is always greater than 1, so \(P(X&gt;1)=1\). Put \(a=1\): \(1=C\ln\dfrac{2}{1}=C\ln2\). So \(C=\dfrac1{\ln2}\).</li>
+<li>The density is minus the derivative of the tail probability: \(f(a)=-\dfrac{d}{da}P(X&gt;a)\). Write \(\ln\dfrac{a^3+1}{a^3}=\ln(a^3+1)-3\ln a\).</li>
+<li>\(f(a)=-\dfrac1{\ln2}\left(\dfrac{3a^2}{a^3+1}-\dfrac3a\right)=\dfrac{1}{\ln2}\cdot\dfrac{3(a^3+1)-3a^3}{a(a^3+1)}=\dfrac{3}{\ln2}\cdot\dfrac{1}{a(a^3+1)}\).</li>
+<li>Mean: \(\mu=\displaystyle\int_1^\infty a\,f(a)\,da=\dfrac3{\ln2}\int_1^\infty\dfrac{da}{a^3+1}\). For large \(a\) the integrand behaves like \(\dfrac1{a^3}\), and \(\int_1^\infty a^{-3}da\) converges. Since \(\dfrac1{a^3+1}&lt;\dfrac1{a^3}\), comparison says our integral converges too.</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(C=\dfrac{1}{\ln2}\) and \(\mu\) is <strong>finite</strong> (about \(1.62\)).</div>
+</div></details>
+</section>
+<section class='problem' id='p7'><h3><span class='num'>7</span>Mean and variance of f = 2x</h3>
+<div class='q'>\(f(x)=2x\) on \([0,1]\). Find \(\mu\) and \(\sigma^2\).</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<ol class='steps'>
+<li>\(\mu=\displaystyle\int_0^1x\cdot2x\,dx=\tfrac23\).</li>
+<li>\(E[X^2]=\displaystyle\int_0^1x^2\cdot2x\,dx=\tfrac12\).</li>
+<li>\(\sigma^2=\tfrac12-\left(\tfrac23\right)^2=\tfrac12-\tfrac49=\tfrac{9-8}{18}\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(\mu=\dfrac23\) and \(\sigma^2=\dfrac1{18}\)</div>
+</div></details>
+</section>
+<section class='problem' id='p8'><h3><span class='num'>8</span>Mean and variance of f = 2(1 − x)</h3>
+<div class='q'>\(f(x)=2(1-x)\) on \([0,1]\). Find \(\mu\) and \(\sigma^2\).</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<ol class='steps'>
+<li>\(\mu=\displaystyle\int_0^1x\cdot2(1-x)dx=\left[x^2-\tfrac23x^3\right]_0^1=\tfrac13\).</li>
+<li>\(E[X^2]=\displaystyle\int_0^1x^2\cdot2(1-x)dx=\left[\tfrac23x^3-\tfrac12x^4\right]_0^1=\tfrac16\).</li>
+<li>\(\sigma^2=\tfrac16-\tfrac19=\tfrac{3-2}{18}\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(\mu=\dfrac13\) and \(\sigma^2=\dfrac1{18}\)</div>
+</div></details>
+</section>
+<section class='problem' id='p9'><h3><span class='num'>9</span>Mean and median of f = 3x²</h3>
+<div class='q'>\(f(x)=3x^2\) on \([0,1]\). Find \(\mu\) and the median \(m\).</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<ol class='steps'>
+<li>\(\mu=\displaystyle\int_0^1x\cdot3x^2dx=\tfrac34\).</li>
+<li>\(P(X\le m)=\displaystyle\int_0^m3x^2dx=m^3\). Set equal to \(\tfrac12\): \(m^3=\tfrac12\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(\mu=\dfrac34\) and \(m=\dfrac{1}{\sqrt[3]{2}}\approx0.794\)</div>
+</div></details>
+</section>
+<section class='problem' id='p10'><h3><span class='num'>10</span>Mean and median of f = 3(1 − x)²</h3>
+<div class='q'>\(f(x)=3(1-x)^2\) on \([0,1]\). Find \(\mu\) and \(m\).</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<ol class='steps'>
+<li>\(\mu=\displaystyle\int_0^13x(1-x)^2dx=\int_0^1\left(3x-6x^2+3x^3\right)dx=\tfrac32-2+\tfrac34=\tfrac14\).</li>
+<li>\(P(X\le m)=\displaystyle\int_0^m3(1-x)^2dx=\left[-(1-x)^3\right]_0^m=1-(1-m)^3\).</li>
+<li>Set equal to \(\tfrac12\): \((1-m)^3=\tfrac12\), so \(1-m=\dfrac1{\sqrt[3]2}\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(\mu=\dfrac14\) and \(m=1-\dfrac1{\sqrt[3]2}\approx0.206\)</div>
+</div></details>
+</section>
+<section class='problem' id='p11'><h3><span class='num'>11</span>Mean and median of f = 4x³</h3>
+<div class='q'>\(f(x)=4x^3\) on \([0,1]\). Find \(\mu\) and \(m\).</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<ol class='steps'>
+<li>\(\mu=\displaystyle\int_0^1x\cdot4x^3dx=\tfrac45\).</li>
+<li>\(P(X\le m)=\displaystyle\int_0^m4x^3dx=m^4\). Set equal to \(\tfrac12\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(\mu=\dfrac45\) and \(m=\dfrac1{\sqrt[4]2}\approx0.841\)</div>
+</div></details>
+</section>
+<h2>When you are given P(X &lt; x) instead of the density (problems 12 to 18)</h2>
+<p>Same three steps every time: <strong>(1)</strong> differentiate to get the density. <strong>(2)</strong> Write \(\mu=\int xf\,dx\). <strong>(3)</strong> Integrate (substitution or by parts).</p>
+<section class='problem' id='p12'><h3><span class='num'>12</span>P(X &lt; x) = (4/π) arctan x</h3>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<ol class='steps'>
+<li>\(f(x)=\dfrac{d}{dx}\left[\dfrac4\pi\arctan x\right]=\dfrac4\pi\cdot\dfrac{1}{1+x^2}\).</li>
+<li>\(\mu=\dfrac4\pi\displaystyle\int_0^1\dfrac{x}{1+x^2}dx\). Let \(u=1+x^2\), \(du=2x\,dx\): \(\dfrac4\pi\cdot\dfrac12\ln(1+x^2)\Big|_0^1=\dfrac2\pi\ln2\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(\mu=\dfrac{2\ln2}{\pi}\approx0.441\)</div>
+</div></details>
+</section>
+<section class='problem' id='p13'><h3><span class='num'>13</span>P(X &lt; x) = ln(1 + x) / ln 2</h3>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<ol class='steps'>
+<li>\(f(x)=\dfrac1{\ln2}\cdot\dfrac1{1+x}\).</li>
+<li>\(\mu=\dfrac1{\ln2}\displaystyle\int_0^1\dfrac{x}{1+x}dx\). Divide: \(\dfrac{x}{1+x}=1-\dfrac1{1+x}\).</li>
+<li>\(\displaystyle\int_0^1\left(1-\dfrac1{1+x}\right)dx=\big[x-\ln(1+x)\big]_0^1=1-\ln2\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(\mu=\dfrac{1-\ln2}{\ln2}=\dfrac1{\ln2}-1\approx0.443\)</div>
+</div></details>
+</section>
+<section class='problem' id='p14'><h3><span class='num'>14</span>P(X &lt; x) = ln(1 + x²) / ln 2</h3>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<ol class='steps'>
+<li>\(f(x)=\dfrac{1}{\ln2}\cdot\dfrac{2x}{1+x^2}\).</li>
+<li>\(\mu=\dfrac2{\ln2}\displaystyle\int_0^1\dfrac{x^2}{1+x^2}dx\). Divide: \(\dfrac{x^2}{1+x^2}=1-\dfrac1{1+x^2}\).</li>
+<li>\(\displaystyle\int_0^1\left(1-\dfrac1{1+x^2}\right)dx=\big[x-\arctan x\big]_0^1=1-\dfrac\pi4\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(\mu=\dfrac{2}{\ln2}\left(1-\dfrac\pi4\right)\approx0.619\)</div>
+</div></details>
+</section>
+<section class='problem' id='p15'><h3><span class='num'>15</span>P(X &lt; x) = 2x / (1 + x)</h3>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<ol class='steps'>
+<li>Differentiate with the quotient rule: \(\dfrac{d}{dx}\dfrac{2x}{1+x}=\dfrac{2(1+x)-2x}{(1+x)^2}=\dfrac{2}{(1+x)^2}\). So \(f(x)=\dfrac2{(1+x)^2}\).</li>
+<li>\(\mu=2\displaystyle\int_0^1\dfrac{x}{(1+x)^2}dx\). Let \(u=1+x\), so \(x=u-1\). Limits \(1\) to \(2\).</li>
+<li>\(2\displaystyle\int_1^2\dfrac{u-1}{u^2}du=2\int_1^2\left(\dfrac1u-\dfrac1{u^2}\right)du=2\left[\ln u+\dfrac1u\right]_1^2=2\left[\left(\ln2+\tfrac12\right)-1\right]=2\ln2-1\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(\mu=2\ln2-1=\ln4-1\approx0.386\)</div>
+</div></details>
+</section>
+<section class='problem' id='p16'><h3><span class='num'>16</span>P(X &lt; x) = (4/3)(1 − 1/(1 + x)²)</h3>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<ol class='steps'>
+<li>\(f(x)=\dfrac43\cdot\dfrac{2}{(1+x)^3}=\dfrac{8}{3(1+x)^3}\).</li>
+<li>\(\mu=\dfrac83\displaystyle\int_0^1\dfrac{x}{(1+x)^3}dx\). Let \(u=1+x\): \(\dfrac83\displaystyle\int_1^2\dfrac{u-1}{u^3}du=\dfrac83\int_1^2\left(u^{-2}-u^{-3}\right)du\).</li>
+<li>\(\displaystyle\int_1^2\left(u^{-2}-u^{-3}\right)du=\left[-\dfrac1u+\dfrac1{2u^2}\right]_1^2=\left(-\dfrac12+\dfrac18\right)-\left(-1+\dfrac12\right)=\dfrac18\).</li>
+<li>\(\mu=\dfrac83\cdot\dfrac18=\dfrac13\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(\mu=\dfrac13\)</div>
+</div></details>
+</section>
+<section class='problem' id='p17'><h3><span class='num'>17</span>P(X &lt; t) = 2^t − 1</h3>
+<div class='q'>\(X\) takes values between 0 and 1 and \(P(X&lt;t)=2^t-1\). Find \(E[X]\). (This reads as \(2^t-1\). It is the only version that is \(0\) at \(t=0\) and \(1\) at \(t=1\).)</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<ol class='steps'>
+<li>\(f(t)=\dfrac{d}{dt}\left(2^t-1\right)=(\ln2)\,2^t\).</li>
+<li>\(E[X]=\displaystyle\int_0^1t\,(\ln2)\,2^tdt\). By parts: \(u=t\), \(dv=(\ln2)2^tdt\), so \(v=2^t\).</li>
+<li>\(\displaystyle\Big[t\,2^t\Big]_0^1-\int_0^12^tdt=2-\dfrac{2^t}{\ln2}\Big|_0^1=2-\dfrac{2-1}{\ln2}\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(E[X]=2-\dfrac1{\ln2}\approx0.557\)</div>
+</div></details>
+</section>
+<section class='problem' id='p18'><h3><span class='num'>18</span>P(X &lt; t) = sin(πt/2)</h3>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<ol class='steps'>
+<li>\(f(t)=\dfrac\pi2\cos\left(\dfrac{\pi t}{2}\right)\).</li>
+<li>\(E[X]=\displaystyle\int_0^1t\cdot\dfrac\pi2\cos\left(\dfrac{\pi t}2\right)dt\). By parts: \(u=t\), \(dv=\dfrac\pi2\cos\left(\dfrac{\pi t}2\right)dt\), so \(v=\sin\left(\dfrac{\pi t}2\right)\).</li>
+<li>\(\displaystyle\Big[t\sin\tfrac{\pi t}2\Big]_0^1-\int_0^1\sin\tfrac{\pi t}2dt=1-\left[-\tfrac2\pi\cos\tfrac{\pi t}2\right]_0^1=1-\tfrac2\pi(0+1)\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(E[X]=1-\dfrac2\pi\approx0.363\)</div>
+</div></details>
+</section>
+<h2>Discrete random variables (problems 19 and 20)</h2>
+<section class='problem' id='p19'><h3><span class='num'>19</span>A random variable on the positive whole numbers</h3>
+<div class='q'>\(P(X=n)=\dfrac{12}{2\pi^2-9}\left(\dfrac1{n^2}-\dfrac1{n(n+2)}\right)\) for \(n=1,2,3,\ldots\) Find \(E[X]\).</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<div class='plan'><strong>Plan.</strong> \(E[X]=\sum nP(X=n)\). Multiplying by \(n\) makes the sum telescope.</div>
+<ol class='steps'>
+<li>\(n\left(\dfrac1{n^2}-\dfrac1{n(n+2)}\right)=\dfrac1n-\dfrac1{n+2}\).</li>
+<li>\(\displaystyle\sum_{n=1}^\infty\left(\dfrac1n-\dfrac1{n+2}\right)=\left(1-\tfrac13\right)+\left(\tfrac12-\tfrac14\right)+\left(\tfrac13-\tfrac15\right)+\left(\tfrac14-\tfrac16\right)+\cdots\) Every term cancels except the first two (\(1\) and \(\tfrac12\)): the sum is \(\tfrac32\).</li>
+<li>Multiply by the constant out front.</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(E[X]=\dfrac{12}{2\pi^2-9}\cdot\dfrac32=\dfrac{18}{2\pi^2-9}\approx1.68\)</div>
+</div></details>
+</section>
+<section class='problem' id='p20'><h3><span class='num'>20</span>A die with alternating signs</h3>
+<div class='q'>A fair six-sided die has \((-1)^{n+1}(2n)\) dollars written on side \(n\). (a) What is the probability you do not lose money? (b) What is your expected earning? (c) Write an expression for the variance using summation notation.</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<ol class='steps'>
+<li>The values are \(n=1\): \(+2\), \(n=2\): \(-4\), \(n=3\): \(+6\), \(n=4\): \(-8\), \(n=5\): \(+10\), \(n=6\): \(-12\). Each has probability \(\tfrac16\).</li>
+<li><strong>(a)</strong> Not losing money means a positive value: \(+2\), \(+6\), \(+10\). That is 3 of 6 sides.</li>
+<li><strong>(b)</strong> \(E[X]=\tfrac16(2-4+6-8+10-12)=\tfrac{-6}{6}=-1\).</li>
+<li><strong>(c)</strong> Variance \(=\sum(\text{value}-E[X])^2\cdot\text{probability}\). Since \(E[X]=-1\), value minus mean is value plus 1.</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> (a) \(\dfrac12\). (b) \(-1\) dollar. (c) \(\displaystyle V(X)=\sum_{n=1}^6\frac16\left((-1)^{n+1}(2n)+1\right)^2\), which works out to \(\dfrac{179}{3}\approx59.7\).</div>
+</div></details>
+</section>
+<footer>Study guide built from your class PDFs. Needs internet once to load the math fonts.</footer>
+</main>
+</body>
+</html>

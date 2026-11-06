@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lecture 40 · Calc study guide</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<link rel="stylesheet" href="study.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script defer src="study.js"></script>
+</head>
+<body>
+<nav id='nav'><details id='navd' open><summary>Documents</summary><a class='home' href='index.html'>All documents</a><a href='quiz5.html'>Quiz 5 practice problems<small>Quiz 5 Practice Problems + Answer Key</small></a><a href='worksheet.html'>Arc length and surface area worksheet<small>Fall 2026 Math 1400 worksheet + solutions</small></a><a href='lec35-36.html'>Lectures 35 and 36<small>Practice Problems + Solutions</small></a><a href='week10-notes.html'>Week 10 notes<small>Applications of Integration, Part 2</small></a><a href='week10-practice.html'>Week 10 practice<small>Week 10 Practice + Key</small></a><a href='lec39.html'>Lecture 39<small>Practice Problems + Solutions</small></a><a class='cur' href='lec40.html'>Lecture 40<small>Practice Problems + Solutions</small></a><a href='week11-notes.html'>Week 11 notes<small>Probability and expectation</small></a><a href='lec42-43.html'>Lectures 42 and 43<small>Practice Problems + Solutions</small></a><a href='lec44.html'>Lecture 44<small>Practice Problems + Solutions</small></a></details></nav>
+<main>
+<header>
+<h1>Lecture 40</h1>
+<p class="src">From: Practice Problems + Solutions</p>
+<div class="tools"><button type="button" id="collapse">Hide all solutions</button><button type="button" id="expand">Show all solutions</button></div>
+</header>
+<p class='intro'>Lecture 40: centroids and centers of mass. Several final answers in the PDF are printed with little or no work, so those are worked out here. Where my result disagrees with a number printed in the PDF I say so, and I checked those numerically.</p>
+<h2>What to remember</h2>
+<ul>
+<li><strong>Centroid</strong> = center of balance of a region with constant density. <strong>Center of mass</strong> = the same thing when the density varies.</li>
+<li>"Average \(y\)-coordinate of the region" means \(\bar y\), the \(y\)-coordinate of the centroid. (Problems 12 to 16.)</li>
+<li>For a region between \(y=f(x)\) (top) and \(y=g(x)\) (bottom) with density \(\rho(x)\): \[m=\int\rho\,(f-g)\,dx,\quad\bar x=\frac1m\int x\,\rho\,(f-g)\,dx,\quad\bar y=\frac1m\cdot\frac12\int\rho\,(f^2-g^2)\,dx\] For constant density, drop \(\rho\) and \(m\) becomes the area \(A\).</li>
+<li><strong>Shortcuts, in order of how much work they save:</strong></li>
+<li>Symmetry about a vertical line: \(\bar x\) is on that line. Symmetry about a horizontal line: \(\bar y\) is on it.</li>
+<li>Quarter circle of radius \(r\): centroid \(\left(\tfrac{4r}{3\pi},\tfrac{4r}{3\pi}\right)\). Semicircle: \(\tfrac{4r}{3\pi}\) above its flat edge.</li>
+<li>Triangle: average of the three vertices.</li>
+<li>Pieces with known centroids: weight each by its area (or mass).</li>
+<li><strong>Density questions</strong> ("what density moves the center of mass left or right?"): put more weight on the side you want the balance point to move toward. Left-heavy density gives a smaller \(\bar x\). Right-heavy gives a larger \(\bar x\). A density symmetric about the region's line of symmetry leaves \(\bar x\) unchanged.</li>
+</ul>
+<h2>Problems</h2>
+<section class='problem' id='p1'><h3><span class='num'>1</span>Which is the centroid of the quarter disk?</h3>
+<div class='q'>Which is the centroid of \(x^2+y^2\le1\), \(x\ge0\), \(y\ge0\)? Options: (a) \(\left(\tfrac4{3\pi},\tfrac4{3\pi}\right)\), (b) \(\left(\tfrac12,\tfrac4{3\pi}\right)\), (c) \(\left(\tfrac4{3\pi},\tfrac12\right)\), (d) \(\left(\tfrac4{3\pi},\tfrac5{3\pi}\right)\), (e) \(\left(\tfrac12,\tfrac12\right)\), (f) \(\left(\tfrac5{3\pi},\tfrac4{3\pi}\right)\). Without calculating, is \(\bar x\) more or less than \(\tfrac12\)?</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<div class='plan'><strong>Plan.</strong> Use symmetry first to cut the options, then the quarter-circle formula.</div>
+<ol class='steps'>
+<li>The quarter disk is symmetric about the line \(y=x\), so \(\bar x=\bar y\). That leaves only (a), (e).</li>
+<li>Is \(\bar x\) greater or less than \(\tfrac12\)? Look at the shape. Cut it by the line \(x=\tfrac12\). The slices to the left of that line are taller than the slices to the right (the circle curves down as \(x\) grows). More area is on the left, so the balance point is left of \(\tfrac12\): \(\bar x&lt;\tfrac12\). That rules out (e).</li>
+<li>Confirm with the integral: \(A=\tfrac\pi4\) and \(\displaystyle\int_0^1x\sqrt{1-x^2}\,dx=\tfrac13\), so \(\bar x=\dfrac{1/3}{\pi/4}=\dfrac{4}{3\pi}\approx0.424\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> (a). \(\bar x=\dfrac{4}{3\pi}\approx0.42&lt;\tfrac12\).</div>
+</div></details>
+</section>
+<section class='problem' id='p2'><h3><span class='num'>2</span>y-coordinate of a centroid between a line and a parabola</h3>
+<div class='q'>Find the y-coordinate of the centroid of the region bounded by \(y=x\) and \(y=x^2\).</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<ol class='steps'>
+<li>They meet at \(x=0\) and \(x=1\). \(x\) is on top.</li>
+<li>\(A=\displaystyle\int_0^1(x-x^2)dx=\tfrac12-\tfrac13=\tfrac16\).</li>
+<li>\(M_x=\tfrac12\displaystyle\int_0^1\left(x^2-x^4\right)dx=\tfrac12\left(\tfrac13-\tfrac15\right)=\tfrac1{15}\).</li>
+<li>\(\bar y=\dfrac{1/15}{1/6}=\dfrac{6}{15}\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(\bar y=\dfrac25\)</div>
+</div></details>
+</section>
+<section class='problem' id='p3'><h3><span class='num'>3</span>Centroid of a parabola region</h3>
+<div class='q'>Find the centroid of the region bounded by \(y=x^2\), \(x=0\) and \(y=1\).</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<ol class='steps'>
+<li>The region is \(0\le x\le1\), with top \(y=1\) and bottom \(y=x^2\).</li>
+<li>\(A=\displaystyle\int_0^1(1-x^2)dx=1-\tfrac13=\tfrac23\).</li>
+<li>\(M_y=\displaystyle\int_0^1x(1-x^2)dx=\tfrac12-\tfrac14=\tfrac14\), so \(\bar x=\dfrac{1/4}{2/3}=\dfrac38\).</li>
+<li>\(M_x=\tfrac12\displaystyle\int_0^1(1-x^4)dx=\tfrac12\cdot\tfrac45=\tfrac25\), so \(\bar y=\dfrac{2/5}{2/3}=\dfrac35\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \((\bar x,\bar y)=\left(\dfrac38,\dfrac35\right)\)</div>
+</div></details>
+</section>
+<section class='problem' id='p4'><h3><span class='num'>4</span>Plate with density</h3>
+<div class='q'>A plate is bounded above by \(y=1\) and below by \(y=2x^2-1\). The density is \(\delta=1+x^2\). Find the center of mass.</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<ol class='steps'>
+<li>Intersections: \(2x^2-1=1\Rightarrow x=\pm1\). Region is symmetric about the y-axis and the density \(1+x^2\) is too, so \(\bar x=0\).</li>
+<li>Mass: \((1+x^2)\left[1-(2x^2-1)\right]=(1+x^2)(2-2x^2)=2(1-x^4)\). \[m=\int_{-1}^1 2(1-x^4)\,dx=4\left(1-\tfrac15\right)=\tfrac{16}{5}\]</li>
+<li>\(1^2-(2x^2-1)^2=1-(4x^4-4x^2+1)=4x^2-4x^4=4x^2(1-x^2)\). Times \((1+x^2)\): \(4x^2(1-x^4)=4x^2-4x^6\).</li>
+<li>\[M_x=\tfrac12\int_{-1}^{1}\left(4x^2-4x^6\right)dx=\int_0^1\left(4x^2-4x^6\right)dx=\tfrac43-\tfrac47=\tfrac{16}{21}\]</li>
+<li>\(\bar y=\dfrac{16/21}{16/5}=\dfrac{5}{21}\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \((\bar x,\bar y)=\left(0,\dfrac5{21}\right)\)</div>
+</div></details>
+</section>
+<section class='problem' id='p5'><h3><span class='num'>5</span>Centroid under 2 plus root x</h3>
+<div class='q'>A homogeneous object is the region between \(f(x)=2+\sqrt x\) and the x-axis for \(0\le x\le9\). Find its center of mass.</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<div class='plan'><strong>Plan.</strong> Homogeneous means constant density, so this is a centroid.</div>
+<ol class='steps'>
+<li>\(A=\displaystyle\int_0^9\left(2+\sqrt x\right)dx=\left[2x+\tfrac23x^{3/2}\right]_0^9=18+18=36\).</li>
+<li>\(M_y=\displaystyle\int_0^9x\left(2+x^{1/2}\right)dx=\left[x^2+\tfrac25x^{5/2}\right]_0^9=81+\tfrac25\cdot243=81+\tfrac{486}5=\tfrac{891}{5}\).</li>
+<li>\(\bar x=\dfrac{891/5}{36}=\dfrac{891}{180}=\dfrac{99}{20}\).</li>
+<li>\(M_x=\tfrac12\displaystyle\int_0^9\left(2+\sqrt x\right)^2dx=\tfrac12\int_0^9\left(4+4\sqrt x+x\right)dx=\tfrac12\left[4x+\tfrac83x^{3/2}+\tfrac{x^2}2\right]_0^9=\tfrac12\left(36+72+\tfrac{81}2\right)=\tfrac{297}4\).</li>
+<li>\(\bar y=\dfrac{297/4}{36}=\dfrac{297}{144}=\dfrac{33}{16}\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \((\bar x,\bar y)=\left(\dfrac{99}{20},\dfrac{33}{16}\right)=(4.95,\ 2.0625)\)</div>
+<div class='careful'><strong>Watch out.</strong> \((2+\sqrt x)^2=4+4\sqrt x+x\). The middle term is the one people drop.</div>
+</div></details>
+</section>
+<section class='problem' id='p6'><h3><span class='num'>6</span>Center of mass with density 4 minus x squared</h3>
+<div class='q'>Region bounded by \(f=1\) and \(g=x^2\), density \(\delta=4-x^2\). Find the center of mass.</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<ol class='steps'>
+<li>Intersections: \(x^2=1\), so \(x=\pm1\).</li>
+<li>Mass: \[m=\int_{-1}^1(4-x^2)(1-x^2)\,dx=\int_{-1}^1\left(4-5x^2+x^4\right)dx=2\left(4-\tfrac53+\tfrac15\right)=\tfrac{76}{15}\]</li>
+<li>\(\bar x=0\): the integrand \(x(4-x^2)(1-x^2)\) is an odd function, and the region is symmetric.</li>
+<li>\(f^2-g^2=1-x^4\). \((4-x^2)(1-x^4)=4-x^2-4x^4+x^6\). \[M_x=\tfrac12\int_{-1}^1\left(4-x^2-4x^4+x^6\right)dx=\int_0^1\left(4-x^2-4x^4+x^6\right)dx=4-\tfrac13-\tfrac45+\tfrac17=\tfrac{316}{105}\]</li>
+<li>\(\bar y=\dfrac{316/105}{76/15}=\dfrac{316}{105}\cdot\dfrac{15}{76}=\dfrac{79}{133}\approx0.594\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \((\bar x,\bar y)=\left(0,\dfrac{79}{133}\right)\)</div>
+<div class='careful'><strong>Watch out.</strong> the PDF prints \(227/226\) for \(\bar y\). That is above 1, which is impossible because the whole region sits below \(y=1\), so do not copy it. The value above matches a numerical integration.</div>
+</div></details>
+</section>
+<h2>Centroid plus a density question (problems 7 to 11)</h2>
+<p>Each has part (i) the centroid and part (ii) a density that moves \(\bar x\) a certain way.</p>
+<section class='problem' id='p7'><h3><span class='num'>7</span>Region between y = x² + 2x and y = −x² − 2x, bounded by x = 1</h3>
+<p>(i) Find the centroid. (ii) Give a density that makes \(\bar x\) smaller than the centroid's \(\bar x\).</p>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<ol class='steps'>
+<li>The curves cross at \(x=0\) (set \(x^2+2x=-x^2-2x\)). The region is \(0\le x\le1\), symmetric about \(y=0\), so \(\bar y=0\).</li>
+<li>\(A=\displaystyle\int_0^1\left(2x^2+4x\right)dx=\tfrac23+2=\tfrac83\).</li>
+<li>\(M_y=\displaystyle\int_0^1x\left(2x^2+4x\right)dx=\tfrac12+\tfrac43=\tfrac{11}{6}\), so \(\bar x=\dfrac{11/6}{8/3}=\dfrac{11}{16}\).</li>
+<li>(ii) To pull the balance point left, weight the left side more. For example \(\rho(x)=1-x\) is largest at \(x=0\) and shrinks to the right.</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> (i) \((\bar x,\bar y)=\left(\dfrac{11}{16},0\right)\). (ii) \(\rho(x)=1-x\).</div>
+</div></details>
+</section>
+<section class='problem' id='p8'><h3><span class='num'>8</span>Region under y = 2|x| + 1 from −1 to 1</h3>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<ol class='steps'>
+<li>Symmetric about \(x=0\), so \(\bar x=0\).</li>
+<li>\(A=2\displaystyle\int_0^1(2x+1)dx=2\left[x^2+x\right]_0^1=4\).</li>
+<li>\(M_x=\tfrac12\displaystyle\int_{-1}^1(2|x|+1)^2dx=\displaystyle\int_0^1(2x+1)^2dx=\left[\tfrac{(2x+1)^3}{6}\right]_0^1=\tfrac{27-1}{6}=\tfrac{13}3\). So \(\bar y=\dfrac{13/3}{4}=\dfrac{13}{12}\).</li>
+<li>(ii) Any density symmetric about \(x=0\) leaves \(\bar x\) at 0. For example \(\rho(x)=x^2\): each point at \(x\) has an equally heavy mirror image at \(-x\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> (i) \(\left(0,\dfrac{13}{12}\right)\). (ii) \(\rho(x)=x^2\).</div>
+</div></details>
+</section>
+<section class='problem' id='p9'><h3><span class='num'>9</span>Region between y = 2x + 1 and y = −2x − 1, bounded by x = 1</h3>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<ol class='steps'>
+<li>The lines cross where \(2x+1=-2x-1\), at \(x=-\tfrac12\). So the region is \(-\tfrac12\le x\le1\), symmetric about \(y=0\), and \(\bar y=0\).</li>
+<li>\(A=\displaystyle\int_{-1/2}^1(4x+2)dx=\left[2x^2+2x\right]_{-1/2}^1=4-\left(\tfrac12-1\right)=\tfrac92\).</li>
+<li>\(M_y=\displaystyle\int_{-1/2}^1x(4x+2)dx=\left[\tfrac43x^3+x^2\right]_{-1/2}^1=\tfrac73-\left(-\tfrac16+\tfrac14\right)=\tfrac94\). So \(\bar x=\dfrac{9/4}{9/2}=\dfrac12\).</li>
+<li>(ii) Weight the right side more, for example \(\rho(x)=x+1\), which grows with \(x\) and is positive on the whole region.</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> (i) \(\left(\dfrac12,0\right)\). (ii) \(\rho(x)=x+1\).</div>
+<div class='careful'><strong>Watch out.</strong> the PDF suggests \(\rho(x)=x\), but that is negative for \(x&lt;0\) and part of this region has \(x&lt;0\). A density can't be negative, so \(x+1\) is safer.</div>
+</div></details>
+</section>
+<section class='problem' id='p10'><h3><span class='num'>10</span>Region under y = √10 x² from x = −2 to 2</h3>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<ol class='steps'>
+<li>Symmetric about \(x=0\), so \(\bar x=0\).</li>
+<li>\(A=2\displaystyle\int_0^2\sqrt{10}\,x^2dx=\tfrac{2\sqrt{10}}{3}\cdot8=\dfrac{16\sqrt{10}}3\).</li>
+<li>\(M_x=\tfrac12\displaystyle\int_{-2}^2\left(\sqrt{10}x^2\right)^2dx=\tfrac12\cdot10\cdot2\cdot\tfrac{2^5}{5}=64\).</li>
+<li>\(\bar y=\dfrac{64}{16\sqrt{10}/3}=\dfrac{12}{\sqrt{10}}\approx3.79\).</li>
+<li>(ii) Weight the left more, for example \(\rho(x)=2-x\) (largest at \(x=-2\), zero at \(x=2\)).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> (i) \(\left(0,\dfrac{12}{\sqrt{10}}\right)\). (ii) \(\rho(x)=2-x\).</div>
+</div></details>
+</section>
+<section class='problem' id='p11'><h3><span class='num'>11</span>Region under y = 5|x| from −1 to 1</h3>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<ol class='steps'>
+<li>Symmetric, so \(\bar x=0\).</li>
+<li>\(A=2\displaystyle\int_0^15x\,dx=5\).</li>
+<li>\(M_x=\tfrac12\displaystyle\int_{-1}^1\left(5|x|\right)^2dx=\displaystyle\int_0^125x^2dx=\tfrac{25}{3}\). So \(\bar y=\dfrac{25/3}{5}=\dfrac53\).</li>
+<li>(ii) A symmetric density keeps \(\bar x\) at \(0\). For example \(\rho(x)=x^2\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> (i) \(\left(0,\dfrac53\right)\). (ii) \(\rho(x)=x^2\).</div>
+</div></details>
+</section>
+<h2>"Average y-coordinate" of a region (problems 12 to 16)</h2>
+<p>These ask for the centroid coordinate. Compute the area first, then the moment, then divide.</p>
+<section class='problem' id='p12'><h3><span class='num'>12</span>Between cos and sin from 0 to π/4</h3>
+<div class='q'>Average \(y\)-coordinate of \(0\le x\le\tfrac\pi4\), \(\sin x\le y\le\cos x\).</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<ol class='steps'>
+<li>\(A=\displaystyle\int_0^{\pi/4}(\cos x-\sin x)dx=\big[\sin x+\cos x\big]_0^{\pi/4}=\sqrt2-1\).</li>
+<li>\(\bar y=\dfrac1A\cdot\tfrac12\displaystyle\int_0^{\pi/4}\left(\cos^2x-\sin^2x\right)dx=\dfrac{1}{2A}\int_0^{\pi/4}\cos2x\,dx=\dfrac{1}{2A}\cdot\tfrac12\sin2x\Big|_0^{\pi/4}=\dfrac1{4A}\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(\bar y=\dfrac{1}{4(\sqrt2-1)}=\dfrac{\sqrt2+1}{4}\approx0.60\)</div>
+</div></details>
+</section>
+<section class='problem' id='p13'><h3><span class='num'>13</span>Between sin and cos from π/4 to 3π/4</h3>
+<div class='q'>Average \(y\)-coordinate of \(\tfrac\pi4\le x\le\tfrac{3\pi}4\), \(\cos x\le y\le\sin x\).</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<ol class='steps'>
+<li>\(A=\displaystyle\int_{\pi/4}^{3\pi/4}(\sin x-\cos x)dx=\big[-\cos x-\sin x\big]=0-(-\sqrt2)=\sqrt2\).</li>
+<li>\(\bar y=\dfrac1{2A}\displaystyle\int\left(\sin^2x-\cos^2x\right)dx=-\dfrac{1}{2A}\int\cos2x\,dx=-\dfrac1{4A}\sin2x\Big|_{\pi/4}^{3\pi/4}=-\dfrac{1}{4A}(-1-1)=\dfrac{1}{2A}\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(\bar y=\dfrac1{2\sqrt2}=\dfrac{\sqrt2}{4}\) (the same region as Quiz 5, problem 12)</div>
+</div></details>
+</section>
+<section class='problem' id='p14'><h3><span class='num'>14</span>Under one arch of sine</h3>
+<div class='q'>Average \(y\)-coordinate of \(0\le x\le\pi\), \(0\le y\le\sin x\).</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<ol class='steps'>
+<li>\(A=\displaystyle\int_0^\pi\sin x\,dx=2\).</li>
+<li>\(\bar y=\dfrac1A\cdot\tfrac12\displaystyle\int_0^\pi\sin^2x\,dx=\dfrac12\cdot\tfrac12\cdot\dfrac\pi2\) (since \(\int_0^\pi\sin^2x\,dx=\tfrac\pi2\)). That is \(\dfrac{\pi/4}{2}\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(\bar y=\dfrac\pi8\)</div>
+</div></details>
+</section>
+<section class='problem' id='p15'><h3><span class='num'>15</span>Under cos from 0 to π</h3>
+<div class='q'>Average \(y\)-coordinate of \(0\le x\le\pi\), \(0\le y\le\cos x\).</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<div class='plan'><strong>Plan.</strong> \(\cos x\) is negative for \(x&gt;\tfrac\pi2\), so "\(0\le y\le\cos x\)" is empty there. The region is only \(0\le x\le\tfrac\pi2\).</div>
+<ol class='steps'>
+<li>\(A=\displaystyle\int_0^{\pi/2}\cos x\,dx=1\).</li>
+<li>\(\bar y=\tfrac12\displaystyle\int_0^{\pi/2}\cos^2x\,dx=\tfrac12\cdot\dfrac\pi4\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(\bar y=\dfrac\pi8\)</div>
+</div></details>
+</section>
+<section class='problem' id='p16'><h3><span class='num'>16</span>Under ln x from 1 to 3</h3>
+<div class='q'>Average \(x\)-coordinate of \(1\le x\le3\), \(0\le y\le\ln x\).</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<ol class='steps'>
+<li>\(A=\displaystyle\int_1^3\ln x\,dx=\big[x\ln x-x\big]_1^3=(3\ln3-3)-(0-1)=3\ln3-2\).</li>
+<li>\(M_y=\displaystyle\int_1^3x\ln x\,dx\). By parts, \(u=\ln x\), \(dv=x\,dx\): \(\left[\tfrac{x^2}{2}\ln x-\tfrac{x^2}{4}\right]_1^3=\left(\tfrac92\ln3-\tfrac94\right)-\left(0-\tfrac14\right)=\tfrac92\ln3-2\).</li>
+<li>\(\bar x=\dfrac{M_y}{A}\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(\bar x=\dfrac{\tfrac92\ln3-2}{3\ln3-2}\approx2.27\)</div>
+<div class='careful'><strong>Watch out.</strong> \(\int\ln x\,dx=x\ln x-x\), not \(x\ln x\). The PDF's printed area \(3(\ln3-1)\) leaves out the \(-x\) part, so the answer there is different. The value above matches a numerical check.</div>
+</div></details>
+</section>
+<h2>Greater, less, or equal (problem 17)</h2>
+<div class='q'>The region is \((x-1)^2\le y\le2\). Circle greater than, less than or equal to and explain.</div>
+<p>(a) The x-coordinate of the centroid vs the y-coordinate of the centroid.</p>
+<p>(b) The y-coordinate of the centroid vs the y-coordinate of the center of mass with density \(\rho=\pi\).</p>
+<p>(c) The x-coordinate of the centroid vs the x-coordinate of the center of mass with density \(\rho(x)=e^{-x^2}\).</p>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<ol class='steps'>
+<li><strong>(a) Less than.</strong> The parabola's vertex is at \(x=1\) and the region is symmetric about \(x=1\), so \(\bar x=1\). For \(\bar y\), more than half the region's area lies above the midway height \(y=1\) (the region is wide at the top), so \(\bar y&gt;1\). (Exact value: \(\bar y=\tfrac65\).)</li>
+<li><strong>(b) Equal to.</strong> A constant density (\(\pi\) is just a number) cancels out of the center of mass formula, giving the centroid.</li>
+<li><strong>(c) Greater than.</strong> The density \(e^{-x^2}\) is biggest near \(x=0\) and shrinks as \(x\) grows. The region runs from about \(x=-0.41\) to \(x=2.41\), so the left side gets more weight and the center of mass has \(x&lt;1\). The centroid's \(x=1\) is greater.</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> (a) less than, (b) equal to, (c) greater than</div>
+</div></details>
+<h2>Solids of revolution (set up)</h2>
+<section class='problem' id='p18'><h3><span class='num'>18</span>Solid between two parabolas, rotated about the x-axis</h3>
+<div class='q'>The region between \(y=(x-1)^2\) and \(y=2-(x-1)^2\) is rotated about the x-axis. The density is \(\rho(x)=x+1\). The center of mass is on the x-axis. Find its x-coordinate (set up is fine).</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<div class='plan'><strong>Plan.</strong> \(\bar x=\dfrac{\int x\,dm}{\int dm}\) where each slice is a washer: mass \(=\rho\cdot\pi\left(R^2-r^2\right)dx\).</div>
+<ol class='steps'>
+<li>Endpoints: \((x-1)^2=2-(x-1)^2\Rightarrow(x-1)^2=1\Rightarrow x=0\) or \(x=2\).</li>
+<li>On \([0,2]\) the top curve is \(R=2-(x-1)^2\) and the bottom is \(r=(x-1)^2\).</li>
+<li>Washer mass: \((x+1)\,\pi\left[\left(2-(x-1)^2\right)^2-\left((x-1)^2\right)^2\right]dx\).</li>
+<li>Simplify \(R^2-r^2=(R-r)(R+r)=\left(2-2(x-1)^2\right)\cdot2=4\left(2x-x^2\right)\). (Because \(1-(x-1)^2=2x-x^2\).)<br>Answer (set-up form): \[\bar x=\frac{\displaystyle\int_0^2x(x+1)\,\pi\left[\left(2-(x-1)^2\right)^2-(x-1)^4\right]dx}{\displaystyle\int_0^2(x+1)\,\pi\left[\left(2-(x-1)^2\right)^2-(x-1)^4\right]dx}\] Using the simplification above, this equals \(\dfrac{\int_0^2x(x+1)(2x-x^2)\,dx}{\int_0^2(x+1)(2x-x^2)\,dx}=\dfrac{44/15}{8/3}=\dfrac{11}{10}\).</li>
+</ol>
+<div class='careful'><strong>Watch out.</strong> the radius is squared <strong>inside</strong> each term of \(R^2-r^2\). The PDF's printed formula leaves one square off by mistake.</div>
+</div></details>
+</section>
+<section class='problem' id='p19'><h3><span class='num'>19</span>Solid from y = √x and y = √(1 − x), rotated about the x-axis</h3>
+<div class='q'>The region bounded by \(y=\sqrt x\), \(y=\sqrt{1-x}\) and the x-axis is rotated about the x-axis. The density is \(\rho(x)=x+2\). Find the x-coordinate of the center of mass (set-up is fine).</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<ol class='steps'>
+<li>The curves cross where \(\sqrt x=\sqrt{1-x}\), so \(x=\tfrac12\). They hit the x-axis at \(x=0\) and \(x=1\).</li>
+<li>The height of the region is \(\sqrt x\) for \(0\le x\le\tfrac12\) and \(\sqrt{1-x}\) for \(\tfrac12\le x\le1\).</li>
+<li>Rotating gives discs of radius equal to the height, so disc area \(=\pi x\) on the left piece and \(\pi(1-x)\) on the right piece.</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \[\bar x=\frac{\displaystyle\int_0^{1/2}x(x+2)\,\pi x\,dx+\int_{1/2}^1x(x+2)\,\pi(1-x)\,dx}{\displaystyle\int_0^{1/2}(x+2)\,\pi x\,dx+\int_{1/2}^1(x+2)\,\pi(1-x)\,dx}\] If you evaluate it: numerator \(=\dfrac{31}{96}\pi\), denominator \(=\dfrac58\pi\), so \(\bar x=\dfrac{31}{60}\approx0.517\).</div>
+<div class='careful'><strong>Watch out.</strong> the switch from \(\sqrt x\) to \(\sqrt{1-x}\) happens at \(x=\tfrac12\), so that is the middle limit in both pairs of integrals.</div>
+</div></details>
+</section>
+<h2>Composite sheets</h2>
+<section class='problem' id='p20'><h3><span class='num'>20</span>Two squares joined into a rectangle</h3>
+<div class='q'>Two 2-inch square sheets weigh 80 g and 160 g, uniformly. They are joined along an edge into a rectangle, heavier square on the right. The rectangle has corners at \(x=-1\) to \(x=3\) and \(y=2\) to \(y=4\). Find the center of mass.</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<div class='plan'><strong>Plan.</strong> Treat each square as a point mass at its own center, then take the mass-weighted average.</div>
+<ol class='steps'>
+<li>Left square: \(-1\le x\le1\), \(2\le y\le4\). Center \((0,3)\). Mass \(80\).</li>
+<li>Right square: \(1\le x\le3\), \(2\le y\le4\). Center \((2,3)\). Mass \(160\).</li>
+<li>\(\bar x=\dfrac{80\cdot0+160\cdot2}{80+160}=\dfrac{320}{240}=\dfrac43\).</li>
+<li>\(\bar y=\dfrac{80\cdot3+160\cdot3}{240}=3\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \((\bar x,\bar y)=\left(\dfrac43,3\right)\)</div>
+<p>(The integral way gives the same answer with densities \(20\) and \(40\) grams per square inch.)</p>
+</div></details>
+</section>
+<section class='problem' id='p21'><h3><span class='num'>21</span>The cookies on a tray</h3>
+<p>This one depends on a picture (which grid points have cookies) and the PDF leaves the solution out, so there is nothing to solve from the text alone. The method is the same as problem 20: list each object's mass and center, then \(\bar x=\dfrac{\sum m_ix_i}{\sum m_i}\) and \(\bar y=\dfrac{\sum m_iy_i}{\sum m_i}\). The tray is a \(14\times10\) rectangle with corners \((2,2)\) to \((16,12)\), so its mass of 1000 g sits at its center \((9,7)\).</p>
+</section>
+<footer>Study guide built from your class PDFs. Needs internet once to load the math fonts.</footer>
+</main>
+</body>
+</html>

@@ -1,0 +1,159 @@
+> Lecture 44: expected value (mean), median, and variance. Many answers in the PDF are printed with no work, and a few problems have the work only partly shown. Everything is written out here.
+
+## The formulas, and how to choose
+
+- **Mean (expected value)** of a density $f$: $$\mu=E[X]=\int x\,f(x)\,dx$$
+- **Variance**: $$\sigma^2=V(X)=\int(x-\mu)^2f(x)\,dx=\underbrace{\int x^2f(x)\,dx}_{E[X^2]}-\mu^2$$ The right-hand form is faster. Compute $E[X]$, then $E[X^2]$, then subtract. **Standard deviation** is $\sigma=\sqrt{\sigma^2}$.
+- **Median** $m$: the point with half the probability on each side, so $\int_{\text{start}}^mf\,dx=\tfrac12$. Solve for $m$.
+- **Given $P(X<x)$ instead of $f$** (a cumulative probability): the density is its derivative, $f(x)=\dfrac{d}{dx}P(X<x)$. Then compute the mean as usual. Check with the endpoints: $P(X<\text{start})$ must be 0 and $P(X<\text{end})$ must be 1.
+- **Discrete random variable** (finitely or countably many values): $E[X]=\sum x\,P(X=x)$ and $V(X)=\sum(x-\mu)^2P(X=x)$.
+- **Find the constant first.** If $f$ has an unknown constant, make the total area 1 first. Everything else uses that value.
+
+## Problems
+
+### 1. Find c, then the mean
+Q: Find $c$ so that $f(x)=\tfrac12e^{-x}-ce^{-2x}$ is a pdf on $[0,\infty)$. What is the mean $\mu$?
+Plan: The total area must be 1. Then compute $\int xf\,dx$.
+1. $\displaystyle\int_0^\infty\tfrac12e^{-x}dx=\tfrac12$ and $\displaystyle\int_0^\infty ce^{-2x}dx=\tfrac c2$.
+2. $\tfrac12-\tfrac c2=1$, so $c=-1$. The density is $f(x)=\tfrac12e^{-x}+e^{-2x}$, which is positive.
+3. Mean: $\mu=\displaystyle\int_0^\infty x\left(\tfrac12e^{-x}+e^{-2x}\right)dx=\tfrac12\int_0^\infty xe^{-x}dx+\int_0^\infty xe^{-2x}dx$.
+4. Useful facts: $\int_0^\infty xe^{-x}dx=1$ and $\int_0^\infty xe^{-2x}dx=\tfrac14$. (By parts: $\int_0^\infty xe^{-ax}dx=\tfrac1{a^2}$.)
+5. $\mu=\tfrac12\cdot1+\tfrac14$.
+Answer: $c=-1$ and $\mu=\dfrac34$
+
+### 2. A root density on [1, 2]
+Q: Find $C$ so that $f(x)=C\sqrt{x-1}$ is a pdf on $[1,2]$. Then find the mean.
+1. $\displaystyle\int_1^2\sqrt{x-1}\,dx=\tfrac23(x-1)^{3/2}\Big|_1^2=\tfrac23$. So $C\cdot\tfrac23=1$ and $C=\tfrac32$.
+2. Mean: $\mu=\tfrac32\displaystyle\int_1^2x\sqrt{x-1}\,dx$. Let $u=x-1$, so $x=u+1$. Limits $0$ to $1$.
+3. $\displaystyle\int_0^1(u+1)u^{1/2}du=\int_0^1\left(u^{3/2}+u^{1/2}\right)du=\tfrac25+\tfrac23=\tfrac{16}{15}$.
+4. $\mu=\tfrac32\cdot\tfrac{16}{15}=\tfrac{8}{5}$.
+Answer: $C=\dfrac32$ and $\mu=\dfrac85$
+
+### 3. Mean and variance of an arcsine density
+Q: $X$ takes values in $(-1,1)$ with $f(x)=\dfrac{1}{\pi\sqrt{1-x^2}}$. Find $\mu$ and $\sigma^2$.
+1. **Mean.** $xf(x)$ is an odd function and the interval is symmetric, so $\mu=0$.
+2. **Variance.** Since $\mu=0$, $\sigma^2=E[X^2]=\displaystyle\int_{-1}^1\frac{x^2}{\pi\sqrt{1-x^2}}dx$.
+3. Substitute $x=\sin\theta$, $dx=\cos\theta\,d\theta$, $\sqrt{1-x^2}=\cos\theta$. Limits $-\tfrac\pi2$ to $\tfrac\pi2$. $$\frac1\pi\int_{-\pi/2}^{\pi/2}\sin^2\theta\,d\theta=\frac1\pi\cdot\frac\pi2$$
+Answer: $\mu=0$ and $\sigma^2=\dfrac12$
+
+### 4. Uniform distribution on [3, 5]
+Q: A real number is chosen uniformly between 3 and 5. Find $\mu$ and $\sigma^2$.
+1. The density is flat: $f=\tfrac{1}{5-3}=\tfrac12$ on $[3,5]$.
+2. $\mu=\displaystyle\int_3^5\tfrac x2dx=\left[\tfrac{x^2}{4}\right]_3^5=\tfrac{25-9}{4}=4$ (the midpoint, as expected).
+3. $\sigma^2=\displaystyle\int_3^5\tfrac{(x-4)^2}{2}dx=\left[\tfrac{(x-4)^3}{6}\right]_3^5=\tfrac{1-(-1)}{6}=\tfrac13$.
+Answer: $\mu=4$ and $\sigma^2=\dfrac13$
+Check: for a uniform distribution on an interval of length $L$, $\sigma^2=\dfrac{L^2}{12}=\dfrac{4}{12}=\dfrac13$.
+
+### 5. Variance of a parabola density
+Q: $\rho(x)=\tfrac34\left(2x-x^2\right)$ on $[0,2]$. Find $V(X)$.
+Plan: Mean first, then $E[X^2]$, then subtract.
+1. $E[X]=\tfrac34\displaystyle\int_0^2\left(2x^2-x^3\right)dx=\tfrac34\left[\tfrac{2x^3}{3}-\tfrac{x^4}{4}\right]_0^2=\tfrac34\left(\tfrac{16}3-4\right)=\tfrac34\cdot\tfrac43=1$.
+2. $E[X^2]=\tfrac34\displaystyle\int_0^2\left(2x^3-x^4\right)dx=\tfrac34\left[\tfrac{x^4}{2}-\tfrac{x^5}{5}\right]_0^2=\tfrac34\left(8-\tfrac{32}{5}\right)=\tfrac34\cdot\tfrac85=\tfrac65$.
+3. $V(X)=E[X^2]-\mu^2=\tfrac65-1$.
+Answer: $V(X)=\dfrac15$
+
+### 6. Find C from a tail probability, then decide if the mean is finite
+Q: $X$ takes values in $(1,\infty)$ and $P(X>a)=C\ln\dfrac{a^3+1}{a^3}$ for every $a>1$. Find $C$ and decide whether $\mu$ is finite. (Hint: you can find $C$ without any integral.)
+1. $X$ is always greater than 1, so $P(X>1)=1$. Put $a=1$: $1=C\ln\dfrac{2}{1}=C\ln2$. So $C=\dfrac1{\ln2}$.
+2. The density is minus the derivative of the tail probability: $f(a)=-\dfrac{d}{da}P(X>a)$. Write $\ln\dfrac{a^3+1}{a^3}=\ln(a^3+1)-3\ln a$.
+3. $f(a)=-\dfrac1{\ln2}\left(\dfrac{3a^2}{a^3+1}-\dfrac3a\right)=\dfrac{1}{\ln2}\cdot\dfrac{3(a^3+1)-3a^3}{a(a^3+1)}=\dfrac{3}{\ln2}\cdot\dfrac{1}{a(a^3+1)}$.
+4. Mean: $\mu=\displaystyle\int_1^\infty a\,f(a)\,da=\dfrac3{\ln2}\int_1^\infty\dfrac{da}{a^3+1}$. For large $a$ the integrand behaves like $\dfrac1{a^3}$, and $\int_1^\infty a^{-3}da$ converges. Since $\dfrac1{a^3+1}<\dfrac1{a^3}$, comparison says our integral converges too.
+Answer: $C=\dfrac{1}{\ln2}$ and $\mu$ is **finite** (about $1.62$).
+
+### 7. Mean and variance of f = 2x
+Q: $f(x)=2x$ on $[0,1]$. Find $\mu$ and $\sigma^2$.
+1. $\mu=\displaystyle\int_0^1x\cdot2x\,dx=\tfrac23$.
+2. $E[X^2]=\displaystyle\int_0^1x^2\cdot2x\,dx=\tfrac12$.
+3. $\sigma^2=\tfrac12-\left(\tfrac23\right)^2=\tfrac12-\tfrac49=\tfrac{9-8}{18}$.
+Answer: $\mu=\dfrac23$ and $\sigma^2=\dfrac1{18}$
+
+### 8. Mean and variance of f = 2(1 − x)
+Q: $f(x)=2(1-x)$ on $[0,1]$. Find $\mu$ and $\sigma^2$.
+1. $\mu=\displaystyle\int_0^1x\cdot2(1-x)dx=\left[x^2-\tfrac23x^3\right]_0^1=\tfrac13$.
+2. $E[X^2]=\displaystyle\int_0^1x^2\cdot2(1-x)dx=\left[\tfrac23x^3-\tfrac12x^4\right]_0^1=\tfrac16$.
+3. $\sigma^2=\tfrac16-\tfrac19=\tfrac{3-2}{18}$.
+Answer: $\mu=\dfrac13$ and $\sigma^2=\dfrac1{18}$
+
+### 9. Mean and median of f = 3x²
+Q: $f(x)=3x^2$ on $[0,1]$. Find $\mu$ and the median $m$.
+1. $\mu=\displaystyle\int_0^1x\cdot3x^2dx=\tfrac34$.
+2. $P(X\le m)=\displaystyle\int_0^m3x^2dx=m^3$. Set equal to $\tfrac12$: $m^3=\tfrac12$.
+Answer: $\mu=\dfrac34$ and $m=\dfrac{1}{\sqrt[3]{2}}\approx0.794$
+
+### 10. Mean and median of f = 3(1 − x)²
+Q: $f(x)=3(1-x)^2$ on $[0,1]$. Find $\mu$ and $m$.
+1. $\mu=\displaystyle\int_0^13x(1-x)^2dx=\int_0^1\left(3x-6x^2+3x^3\right)dx=\tfrac32-2+\tfrac34=\tfrac14$.
+2. $P(X\le m)=\displaystyle\int_0^m3(1-x)^2dx=\left[-(1-x)^3\right]_0^m=1-(1-m)^3$.
+3. Set equal to $\tfrac12$: $(1-m)^3=\tfrac12$, so $1-m=\dfrac1{\sqrt[3]2}$.
+Answer: $\mu=\dfrac14$ and $m=1-\dfrac1{\sqrt[3]2}\approx0.206$
+
+### 11. Mean and median of f = 4x³
+Q: $f(x)=4x^3$ on $[0,1]$. Find $\mu$ and $m$.
+1. $\mu=\displaystyle\int_0^1x\cdot4x^3dx=\tfrac45$.
+2. $P(X\le m)=\displaystyle\int_0^m4x^3dx=m^4$. Set equal to $\tfrac12$.
+Answer: $\mu=\dfrac45$ and $m=\dfrac1{\sqrt[4]2}\approx0.841$
+
+## When you are given P(X < x) instead of the density (problems 12 to 18)
+
+Same three steps every time: **(1)** differentiate to get the density. **(2)** Write $\mu=\int xf\,dx$. **(3)** Integrate (substitution or by parts).
+
+### 12. P(X < x) = (4/π) arctan x
+1. $f(x)=\dfrac{d}{dx}\left[\dfrac4\pi\arctan x\right]=\dfrac4\pi\cdot\dfrac{1}{1+x^2}$.
+2. $\mu=\dfrac4\pi\displaystyle\int_0^1\dfrac{x}{1+x^2}dx$. Let $u=1+x^2$, $du=2x\,dx$: $\dfrac4\pi\cdot\dfrac12\ln(1+x^2)\Big|_0^1=\dfrac2\pi\ln2$.
+Answer: $\mu=\dfrac{2\ln2}{\pi}\approx0.441$
+
+### 13. P(X < x) = ln(1 + x) / ln 2
+1. $f(x)=\dfrac1{\ln2}\cdot\dfrac1{1+x}$.
+2. $\mu=\dfrac1{\ln2}\displaystyle\int_0^1\dfrac{x}{1+x}dx$. Divide: $\dfrac{x}{1+x}=1-\dfrac1{1+x}$.
+3. $\displaystyle\int_0^1\left(1-\dfrac1{1+x}\right)dx=\big[x-\ln(1+x)\big]_0^1=1-\ln2$.
+Answer: $\mu=\dfrac{1-\ln2}{\ln2}=\dfrac1{\ln2}-1\approx0.443$
+
+### 14. P(X < x) = ln(1 + x²) / ln 2
+1. $f(x)=\dfrac{1}{\ln2}\cdot\dfrac{2x}{1+x^2}$.
+2. $\mu=\dfrac2{\ln2}\displaystyle\int_0^1\dfrac{x^2}{1+x^2}dx$. Divide: $\dfrac{x^2}{1+x^2}=1-\dfrac1{1+x^2}$.
+3. $\displaystyle\int_0^1\left(1-\dfrac1{1+x^2}\right)dx=\big[x-\arctan x\big]_0^1=1-\dfrac\pi4$.
+Answer: $\mu=\dfrac{2}{\ln2}\left(1-\dfrac\pi4\right)\approx0.619$
+
+### 15. P(X < x) = 2x / (1 + x)
+1. Differentiate with the quotient rule: $\dfrac{d}{dx}\dfrac{2x}{1+x}=\dfrac{2(1+x)-2x}{(1+x)^2}=\dfrac{2}{(1+x)^2}$. So $f(x)=\dfrac2{(1+x)^2}$.
+2. $\mu=2\displaystyle\int_0^1\dfrac{x}{(1+x)^2}dx$. Let $u=1+x$, so $x=u-1$. Limits $1$ to $2$.
+3. $2\displaystyle\int_1^2\dfrac{u-1}{u^2}du=2\int_1^2\left(\dfrac1u-\dfrac1{u^2}\right)du=2\left[\ln u+\dfrac1u\right]_1^2=2\left[\left(\ln2+\tfrac12\right)-1\right]=2\ln2-1$.
+Answer: $\mu=2\ln2-1=\ln4-1\approx0.386$
+
+### 16. P(X < x) = (4/3)(1 − 1/(1 + x)²)
+1. $f(x)=\dfrac43\cdot\dfrac{2}{(1+x)^3}=\dfrac{8}{3(1+x)^3}$.
+2. $\mu=\dfrac83\displaystyle\int_0^1\dfrac{x}{(1+x)^3}dx$. Let $u=1+x$: $\dfrac83\displaystyle\int_1^2\dfrac{u-1}{u^3}du=\dfrac83\int_1^2\left(u^{-2}-u^{-3}\right)du$.
+3. $\displaystyle\int_1^2\left(u^{-2}-u^{-3}\right)du=\left[-\dfrac1u+\dfrac1{2u^2}\right]_1^2=\left(-\dfrac12+\dfrac18\right)-\left(-1+\dfrac12\right)=\dfrac18$.
+4. $\mu=\dfrac83\cdot\dfrac18=\dfrac13$.
+Answer: $\mu=\dfrac13$
+
+### 17. P(X < t) = 2^t − 1
+Q: $X$ takes values between 0 and 1 and $P(X<t)=2^t-1$. Find $E[X]$. (This reads as $2^t-1$. It is the only version that is $0$ at $t=0$ and $1$ at $t=1$.)
+1. $f(t)=\dfrac{d}{dt}\left(2^t-1\right)=(\ln2)\,2^t$.
+2. $E[X]=\displaystyle\int_0^1t\,(\ln2)\,2^tdt$. By parts: $u=t$, $dv=(\ln2)2^tdt$, so $v=2^t$.
+3. $\displaystyle\Big[t\,2^t\Big]_0^1-\int_0^12^tdt=2-\dfrac{2^t}{\ln2}\Big|_0^1=2-\dfrac{2-1}{\ln2}$.
+Answer: $E[X]=2-\dfrac1{\ln2}\approx0.557$
+
+### 18. P(X < t) = sin(πt/2)
+1. $f(t)=\dfrac\pi2\cos\left(\dfrac{\pi t}{2}\right)$.
+2. $E[X]=\displaystyle\int_0^1t\cdot\dfrac\pi2\cos\left(\dfrac{\pi t}2\right)dt$. By parts: $u=t$, $dv=\dfrac\pi2\cos\left(\dfrac{\pi t}2\right)dt$, so $v=\sin\left(\dfrac{\pi t}2\right)$.
+3. $\displaystyle\Big[t\sin\tfrac{\pi t}2\Big]_0^1-\int_0^1\sin\tfrac{\pi t}2dt=1-\left[-\tfrac2\pi\cos\tfrac{\pi t}2\right]_0^1=1-\tfrac2\pi(0+1)$.
+Answer: $E[X]=1-\dfrac2\pi\approx0.363$
+
+## Discrete random variables (problems 19 and 20)
+
+### 19. A random variable on the positive whole numbers
+Q: $P(X=n)=\dfrac{12}{2\pi^2-9}\left(\dfrac1{n^2}-\dfrac1{n(n+2)}\right)$ for $n=1,2,3,\ldots$ Find $E[X]$.
+Plan: $E[X]=\sum nP(X=n)$. Multiplying by $n$ makes the sum telescope.
+1. $n\left(\dfrac1{n^2}-\dfrac1{n(n+2)}\right)=\dfrac1n-\dfrac1{n+2}$.
+2. $\displaystyle\sum_{n=1}^\infty\left(\dfrac1n-\dfrac1{n+2}\right)=\left(1-\tfrac13\right)+\left(\tfrac12-\tfrac14\right)+\left(\tfrac13-\tfrac15\right)+\left(\tfrac14-\tfrac16\right)+\cdots$ Every term cancels except the first two ($1$ and $\tfrac12$): the sum is $\tfrac32$.
+3. Multiply by the constant out front.
+Answer: $E[X]=\dfrac{12}{2\pi^2-9}\cdot\dfrac32=\dfrac{18}{2\pi^2-9}\approx1.68$
+
+### 20. A die with alternating signs
+Q: A fair six-sided die has $(-1)^{n+1}(2n)$ dollars written on side $n$. (a) What is the probability you do not lose money? (b) What is your expected earning? (c) Write an expression for the variance using summation notation.
+1. The values are $n=1$: $+2$, $n=2$: $-4$, $n=3$: $+6$, $n=4$: $-8$, $n=5$: $+10$, $n=6$: $-12$. Each has probability $\tfrac16$.
+2. **(a)** Not losing money means a positive value: $+2$, $+6$, $+10$. That is 3 of 6 sides.
+3. **(b)** $E[X]=\tfrac16(2-4+6-8+10-12)=\tfrac{-6}{6}=-1$.
+4. **(c)** Variance $=\sum(\text{value}-E[X])^2\cdot\text{probability}$. Since $E[X]=-1$, value minus mean is value plus 1.
+Answer: (a) $\dfrac12$. (b) $-1$ dollar. (c) $\displaystyle V(X)=\sum_{n=1}^6\frac16\left((-1)^{n+1}(2n)+1\right)^2$, which works out to $\dfrac{179}{3}\approx59.7$.

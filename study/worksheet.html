@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Arc length and surface area worksheet · Calc study guide</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<link rel="stylesheet" href="study.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script defer src="study.js"></script>
+</head>
+<body>
+<nav id='nav'><details id='navd' open><summary>Documents</summary><a class='home' href='index.html'>All documents</a><a href='quiz5.html'>Quiz 5 practice problems<small>Quiz 5 Practice Problems + Answer Key</small></a><a class='cur' href='worksheet.html'>Arc length and surface area worksheet<small>Fall 2026 Math 1400 worksheet + solutions</small></a><a href='lec35-36.html'>Lectures 35 and 36<small>Practice Problems + Solutions</small></a><a href='week10-notes.html'>Week 10 notes<small>Applications of Integration, Part 2</small></a><a href='week10-practice.html'>Week 10 practice<small>Week 10 Practice + Key</small></a><a href='lec39.html'>Lecture 39<small>Practice Problems + Solutions</small></a><a href='lec40.html'>Lecture 40<small>Practice Problems + Solutions</small></a><a href='week11-notes.html'>Week 11 notes<small>Probability and expectation</small></a><a href='lec42-43.html'>Lectures 42 and 43<small>Practice Problems + Solutions</small></a><a href='lec44.html'>Lecture 44<small>Practice Problems + Solutions</small></a></details></nav>
+<main>
+<header>
+<h1>Arc length and surface area worksheet</h1>
+<p class="src">From: Fall 2026 Math 1400 worksheet + solutions</p>
+<div class="tools"><button type="button" id="collapse">Hide all solutions</button><button type="button" id="expand">Show all solutions</button></div>
+</header>
+<p class='intro'>Arc Length and Surface Area of Revolution worksheet. Give exact answers, no calculators. Eight problems: four arc lengths, four surface areas.</p>
+<h2>How to set up any surface area problem (two questions)</h2>
+<ul>
+<li><strong>Which axis is it spun about?</strong> That decides the radius. About the <strong>x-axis</strong> the radius is \(y\). About the <strong>y-axis</strong> the radius is \(x\).</li>
+<li><strong>What is the curve given as, and what is the range?</strong> If it is \(y=f(x)\) with \(a\le x\le b\), integrate in \(x\) and use \(ds=\sqrt{1+(y')^2}\,dx\). If it is \(x=g(y)\) with \(c\le y\le d\), integrate in \(y\) and use \(ds=\sqrt{1+(x')^2}\,dy\).</li>
+<li>Then write the radius <strong>in terms of the variable you are integrating</strong>. Spun about the x-axis but integrating in \(x\)? Replace \(y\) with \(f(x)\). Spun about the x-axis but integrating in \(y\)? Leave it as \(y\).</li>
+<li>Then \[SA=\int 2\pi\,(\text{radius})\,ds.\]</li>
+</ul>
+<h2>Part I: arc length</h2>
+<section class='problem' id='p1'><h3><span class='num'>1</span>Arc length, a simple power</h3>
+<div class='q'>Find the length of the curve \(y=\tfrac43x^{3/2}\), \(0\le x\le2\).</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<div class='plan'><strong>Plan.</strong> Differentiate, square, add 1. Here the result is not a perfect square, but it is a simple linear expression so a substitution finishes it.</div>
+<ol class='steps'>
+<li>\(y'=\tfrac43\cdot\tfrac32x^{1/2}=2\sqrt x\).</li>
+<li>\((y')^2=4x\), so \(1+(y')^2=1+4x\).</li>
+<li>\[L=\int_0^2\sqrt{1+4x}\,dx\]</li>
+<li>Substitute \(u=1+4x\), \(du=4\,dx\). Limits: \(x=0\to u=1\), \(x=2\to u=9\).</li>
+<li>\[L=\tfrac14\int_1^9u^{1/2}du=\tfrac14\cdot\tfrac23\left[u^{3/2}\right]_1^9=\tfrac16(27-1)=\tfrac{26}{6}\]</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(L=\dfrac{13}{3}\)</div>
+</div></details>
+</section>
+<section class='problem' id='p2'><h3><span class='num'>2</span>Arc length, perfect square trick</h3>
+<div class='q'>Find the length of the curve \(y=\dfrac{x^3}{6}+\dfrac{1}{2x}\), \(1\le x\le3\).</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<div class='plan'><strong>Plan.</strong> Rewrite as \(\tfrac16x^3+\tfrac12x^{-1}\), differentiate, square, add 1, and look for a perfect square.</div>
+<ol class='steps'>
+<li>\(y'=\dfrac{x^2}{2}-\dfrac{1}{2x^2}\).</li>
+<li>Square. The middle term is \(2\cdot\dfrac{x^2}{2}\cdot\left(-\dfrac1{2x^2}\right)=-\dfrac12\). \[(y')^2=\dfrac{x^4}{4}-\dfrac12+\dfrac1{4x^4}\]</li>
+<li>Add 1. The middle term flips to \(+\tfrac12\): \[1+(y')^2=\dfrac{x^4}{4}+\dfrac12+\dfrac1{4x^4}=\left(\dfrac{x^2}{2}+\dfrac1{2x^2}\right)^2\]</li>
+<li>The square root removes the square (the inside is positive): \[L=\int_1^3\left(\dfrac{x^2}{2}+\dfrac1{2x^2}\right)dx=\left[\dfrac{x^3}{6}-\dfrac1{2x}\right]_1^3\]</li>
+<li>At 3: \(\tfrac{27}{6}-\tfrac16=\tfrac{26}{6}=\tfrac{13}{3}\). At 1: \(\tfrac16-\tfrac12=-\tfrac13\).</li>
+<li>Subtract: \(\tfrac{13}{3}+\tfrac13=\tfrac{14}{3}\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(L=\dfrac{14}{3}\)</div>
+</div></details>
+</section>
+<section class='problem' id='p3'><h3><span class='num'>3</span>Arc length of a log curve</h3>
+<div class='q'>Find the length of the curve \(y=\ln\left(1-x^2\right)\), \(0\le x\le\tfrac12\).</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<div class='plan'><strong>Plan.</strong> Chain rule for the derivative. The expression under the root turns into a perfect square again, but you then have to integrate a fraction by long division and partial fractions.</div>
+<ol class='steps'>
+<li>\(y'=\dfrac{-2x}{1-x^2}\).</li>
+<li>\[1+(y')^2=\frac{(1-x^2)^2+4x^2}{(1-x^2)^2}=\frac{1+2x^2+x^4}{(1-x^2)^2}=\frac{(1+x^2)^2}{(1-x^2)^2}\]</li>
+<li>On \([0,\tfrac12]\) both \(1+x^2\) and \(1-x^2\) are positive, so \(\sqrt{\ \ }=\dfrac{1+x^2}{1-x^2}\).</li>
+<li>The top and bottom have the same degree, so divide first: \(\dfrac{1+x^2}{1-x^2}=-1+\dfrac{2}{1-x^2}\).</li>
+<li>Partial fractions on \(\dfrac{2}{1-x^2}=\dfrac{2}{(1-x)(1+x)}=\dfrac1{1-x}+\dfrac1{1+x}\). Check: \((1+x)+(1-x)=2\).</li>
+<li>\[L=\int_0^{1/2}\left(-1+\frac1{1-x}+\frac1{1+x}\right)dx=\Big[-x-\ln|1-x|+\ln|1+x|\Big]_0^{1/2}\]</li>
+<li>At \(\tfrac12\): \(-\tfrac12-\ln\tfrac12+\ln\tfrac32=-\tfrac12+\ln\dfrac{3/2}{1/2}=-\tfrac12+\ln3\). At 0: \(0\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(L=\ln3-\dfrac12\)</div>
+<div class='careful'><strong>Watch out.</strong> \(\int\dfrac1{1-x}dx=-\ln|1-x|\). The minus sign comes from the chain rule.</div>
+</div></details>
+</section>
+<section class='problem' id='p4'><h3><span class='num'>4</span>Arc length of ln(cos x)</h3>
+<div class='q'>Find the length of the curve \(y=\ln(\cos x)\), \(0\le x\le\tfrac\pi3\).</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<div class='plan'><strong>Plan.</strong> The derivative becomes \(-\tan x\), and the identity \(1+\tan^2x=\sec^2x\) kills the square root.</div>
+<ol class='steps'>
+<li>\(y'=\dfrac{-\sin x}{\cos x}=-\tan x\).</li>
+<li>\(1+(y')^2=1+\tan^2x=\sec^2x\).</li>
+<li>On \([0,\tfrac\pi3]\), \(\sec x&gt;0\), so \(\sqrt{\sec^2x}=\sec x\).</li>
+<li>\[L=\int_0^{\pi/3}\sec x\,dx=\Big[\ln|\sec x+\tan x|\Big]_0^{\pi/3}\] (This integral is a formula to memorize.)</li>
+<li>At \(\tfrac\pi3\): \(\sec=2\), \(\tan=\sqrt3\), giving \(\ln(2+\sqrt3)\). At 0: \(\ln(1+0)=0\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(L=\ln\left(2+\sqrt3\right)\)</div>
+</div></details>
+</section>
+<h2>Part II: surface area of revolution</h2>
+<section class='problem' id='p5'><h3><span class='num'>5</span>Surface area, curve with a fourth-root limit</h3>
+<div class='q'>The curve \(y=\dfrac{x^3}{3}\), \(0\le x\le\sqrt[4]{8}\), is rotated about the x-axis. Find the surface area.</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<div class='plan'><strong>Plan.</strong> About the x-axis, radius \(=y=\tfrac{x^3}{3}\). The curve is \(y=f(x)\), so integrate in \(x\).</div>
+<ol class='steps'>
+<li>\(y'=x^2\), so \(ds=\sqrt{1+x^4}\,dx\).</li>
+<li>\[SA=\int_0^{\sqrt[4]{8}}2\pi\cdot\frac{x^3}{3}\sqrt{1+x^4}\,dx\]</li>
+<li>Substitute \(u=1+x^4\), \(du=4x^3dx\), so \(x^3dx=\tfrac14du\).</li>
+<li>Limits: \(x=0\to u=1\). \(x=\sqrt[4]8\to x^4=8\to u=9\).</li>
+<li>\[SA=\frac{2\pi}{3}\cdot\frac14\int_1^9u^{1/2}du=\frac{\pi}{6}\cdot\frac23\left[u^{3/2}\right]_1^9=\frac\pi9(27-1)\]</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(SA=\dfrac{26\pi}{9}\)</div>
+</div></details>
+</section>
+<section class='problem' id='p6'><h3><span class='num'>6</span>Surface area, half circle spun about the y-axis</h3>
+<div class='q'>The curve \(x=\sqrt{4-y^2}\), \(-1\le y\le1\), is rotated about the y-axis. Find the surface area.</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<div class='plan'><strong>Plan.</strong> About the y-axis, radius \(=x=\sqrt{4-y^2}\). The curve is \(x=g(y)\), so integrate in \(y\). Things cancel nicely.</div>
+<ol class='steps'>
+<li>\(x'=\dfrac{-y}{\sqrt{4-y^2}}\).</li>
+<li>\(1+(x')^2=\dfrac{4-y^2+y^2}{4-y^2}=\dfrac{4}{4-y^2}\), so \(ds=\dfrac{2}{\sqrt{4-y^2}}\,dy\).</li>
+<li>Radius times \(ds\): \(\sqrt{4-y^2}\cdot\dfrac{2}{\sqrt{4-y^2}}=2\).</li>
+<li>\[SA=2\pi\int_{-1}^{1}2\,dy=4\pi\cdot2\]</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(SA=8\pi\) (a band cut from a sphere of radius 2)</div>
+</div></details>
+</section>
+<section class='problem' id='p7'><h3><span class='num'>7</span>Surface area, x = (2/3) y to the 3/2, about the x-axis</h3>
+<div class='q'>The curve \(x=\tfrac23y^{3/2}\), \(0\le y\le3\), is rotated about the x-axis. Find the surface area.</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<div class='plan'><strong>Plan.</strong> About the x-axis, radius \(=y\). The curve is \(x=g(y)\), so integrate in \(y\). The radius is already \(y\), so leave it alone.</div>
+<ol class='steps'>
+<li>\(x'=y^{1/2}\), so \(1+(x')^2=1+y\) and \(ds=\sqrt{1+y}\,dy\).</li>
+<li>\[SA=2\pi\int_0^3y\sqrt{1+y}\,dy\]</li>
+<li>Substitute \(u=1+y\). Then \(y=u-1\) and \(dy=du\). Limits: \(y=0\to u=1\), \(y=3\to u=4\).</li>
+<li>\[2\pi\int_1^4(u-1)u^{1/2}du=2\pi\int_1^4\left(u^{3/2}-u^{1/2}\right)du=2\pi\left[\tfrac25u^{5/2}-\tfrac23u^{3/2}\right]_1^4\]</li>
+<li>At 4: \(\tfrac25\cdot32-\tfrac23\cdot8=\tfrac{64}{5}-\tfrac{16}{3}=\tfrac{112}{15}\). At 1: \(\tfrac25-\tfrac23=-\tfrac4{15}\).</li>
+<li>Subtract: \(\tfrac{112}{15}+\tfrac{4}{15}=\tfrac{116}{15}\). Multiply by \(2\pi\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(SA=\dfrac{232\pi}{15}\)</div>
+<div class='careful'><strong>Watch out.</strong> when the substitution is \(u=1+y\), you must replace the extra \(y\) with \(u-1\). Forgetting that is the most common error here.</div>
+</div></details>
+</section>
+<section class='problem' id='p8'><h3><span class='num'>8</span>Surface area of a cosh curve</h3>
+<div class='q'>The curve \(y=\dfrac{e^x+e^{-x}}{2}\), \(0\le x\le\ln2\), is rotated about the x-axis. Find the surface area.</div>
+<details class='sol' open><summary>Solution</summary><div class='solbody'>
+<div class='plan'><strong>Plan.</strong> Radius \(=y\). Integrating in \(x\), so replace \(y\) with \(f(x)\). The square root again becomes a perfect square.</div>
+<ol class='steps'>
+<li>\(y'=\dfrac{e^x-e^{-x}}{2}\).</li>
+<li>Square: the middle term is \(2\cdot\dfrac{e^x}{2}\cdot\left(-\dfrac{e^{-x}}{2}\right)=-\dfrac12\). \[(y')^2=\frac{e^{2x}}4-\frac12+\frac{e^{-2x}}4\]</li>
+<li>Add 1: \(1+(y')^2=\dfrac{e^{2x}}4+\dfrac12+\dfrac{e^{-2x}}4=\left(\dfrac{e^x+e^{-x}}{2}\right)^2\). So \(ds=\dfrac{e^x+e^{-x}}{2}\,dx\).</li>
+<li>Radius times \(ds\) is the same factor twice: \[SA=2\pi\int_0^{\ln2}\left(\frac{e^x+e^{-x}}2\right)^2dx=\frac\pi2\int_0^{\ln2}\left(e^{2x}+2+e^{-2x}\right)dx\]</li>
+<li>Integrate: \(\dfrac\pi2\left[\dfrac{e^{2x}}2+2x-\dfrac{e^{-2x}}2\right]_0^{\ln2}\).</li>
+<li>Use \(e^{2\ln2}=4\) and \(e^{-2\ln2}=\tfrac14\). At \(\ln2\): \(2+2\ln2-\tfrac18\). At 0: \(\tfrac12-\tfrac12=0\).</li>
+<li>\(SA=\dfrac\pi2\left(\dfrac{15}8+2\ln2\right)\).</li>
+</ol>
+<div class='answer'><strong>Answer.</strong> \(SA=\dfrac{15\pi}{16}+\pi\ln2\)</div>
+</div></details>
+</section>
+<footer>Study guide built from your class PDFs. Needs internet once to load the math fonts.</footer>
+</main>
+</body>
+</html>

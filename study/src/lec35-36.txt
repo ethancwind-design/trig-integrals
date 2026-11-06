@@ -1,0 +1,205 @@
+> Practice problems for Lectures 35 and 36: arc length and surface area of revolution. The PDF only prints final answers for problems 5 to 8 and leaves 22 unsolved, so those are worked out here too.
+
+## The idea in one picture
+
+Zoom in on a tiny piece of a curve. It is almost a straight line, and that line is the hypotenuse of a tiny right triangle with legs $dx$ and $dy$. Pythagoras gives $dL^2=dx^2+dy^2$. Everything in this unit comes from that. Pick whichever form matches how the curve is given:
+
+- Curve is $y=f(x)$: $\;dL=\sqrt{1+\left(\dfrac{dy}{dx}\right)^2}\,dx$
+- Curve is $x=g(y)$: $\;dL=\sqrt{1+\left(\dfrac{dx}{dy}\right)^2}\,dy$
+- Curve is parametric $x(t),y(t)$: $\;dL=\sqrt{\left(\dfrac{dx}{dt}\right)^2+\left(\dfrac{dy}{dt}\right)^2}\,dt$
+
+**Arc length** is $\int dL$. **Surface area** is $\int 2\pi\,r\,dL$, where $r$ is the distance from the curve to the axis of rotation (a thin band is a cylinder of circumference $2\pi r$ and height $dL$). About the x-axis, $r=y$. About the y-axis, $r=x$.
+
+## Arc length (problems 1 to 6)
+
+### 1. Curve defined by an integral
+Q: Find the arc length of $y=\displaystyle\int_0^x\sqrt{e^{2t}-1}\,dt$ between $x=0$ and $x=1$.
+Plan: You need $y'$. The Fundamental Theorem of Calculus gives it without any integrating.
+1. $y'=\sqrt{e^{2x}-1}$ (the integrand with $t$ replaced by $x$).
+2. $1+(y')^2=1+e^{2x}-1=e^{2x}$, so $dL=\sqrt{e^{2x}}\,dx=e^x\,dx$.
+3. $$L=\int_0^1e^x\,dx=e^x\Big|_0^1=e-1$$
+Answer: $L=e-1$
+
+### 2. Arc length of x to the 2/3
+Q: Find the arc length of $y=\tfrac32x^{2/3}$ for $0\le x\le3\sqrt3$.
+Plan: Differentiate, square, add 1, then substitute.
+1. $y'=\tfrac32\cdot\tfrac23x^{-1/3}=x^{-1/3}$, so $(y')^2=x^{-2/3}$.
+2. $1+(y')^2=1+\dfrac{1}{x^{2/3}}=\dfrac{x^{2/3}+1}{x^{2/3}}$.
+3. Take the square root: $\dfrac{\sqrt{x^{2/3}+1}}{x^{1/3}}$.
+4. $$L=\int_0^{3\sqrt3}\frac{\sqrt{x^{2/3}+1}}{x^{1/3}}\,dx$$
+5. Let $u=x^{2/3}+1$. Then $du=\tfrac23x^{-1/3}dx$, so $x^{-1/3}dx=\tfrac32du$.
+6. Limits: $x=0\to u=1$. $x=3\sqrt3=3^{3/2}\to x^{2/3}=3\to u=4$.
+7. $$L=\tfrac32\int_1^4u^{1/2}du=\tfrac32\cdot\tfrac23\left[u^{3/2}\right]_1^4=8-1$$
+Answer: $L=7$
+
+### 3. Parametric arc length (perfect square)
+Q: Find the arc length of $x=t^2$, $y=\tfrac13t^3-t$ between $t=0$ and $t=3$.
+Plan: $dL=\sqrt{(x')^2+(y')^2}\,dt$. Expect a perfect square.
+1. $x'=2t$ and $y'=t^2-1$.
+2. $(x')^2+(y')^2=4t^2+t^4-2t^2+1=t^4+2t^2+1=(t^2+1)^2$.
+3. $$L=\int_0^3(t^2+1)\,dt=\left[\tfrac{t^3}{3}+t\right]_0^3=9+3$$
+Answer: $L=12$
+
+### 4. Arc length of cosh
+Q: Find the arc length of $x=\cosh y$ between $y=0$ and $y=2$.
+Plan: The curve is $x=g(y)$, so integrate in $y$. The identity $1+\sinh^2y=\cosh^2y$ does the work.
+1. $\dfrac{dx}{dy}=\sinh y$.
+2. $dL=\sqrt{1+\sinh^2y}\,dy=\sqrt{\cosh^2y}\,dy=\cosh y\,dy$ ($\cosh$ is always positive).
+3. $$L=\int_0^2\cosh y\,dy=\sinh y\Big|_0^2=\sinh2$$
+Answer: $L=\sinh 2$ (which equals $\dfrac{e^2-e^{-2}}{2}$)
+
+### 5. Arc length with a perfect square in y
+Q: Compute the arc length of $x=\tfrac14y^{-2}+\tfrac18y^4$ between $y=1$ and $y=2$.
+Plan: The curve is $x=g(y)$, so differentiate with respect to $y$ and integrate in $y$.
+1. $x'=-\tfrac12y^{-3}+\tfrac12y^3$.
+2. Square. Middle term: $2\cdot\left(-\tfrac12y^{-3}\right)\left(\tfrac12y^3\right)=-\tfrac12$. $$(x')^2=\tfrac14y^{-6}-\tfrac12+\tfrac14y^6$$
+3. Add 1: $1+(x')^2=\tfrac14y^{-6}+\tfrac12+\tfrac14y^6=\left(\tfrac12y^{-3}+\tfrac12y^3\right)^2$.
+4. $$L=\int_1^2\left(\tfrac12y^{-3}+\tfrac12y^3\right)dy=\left[-\tfrac1{4y^2}+\tfrac{y^4}{8}\right]_1^2$$
+5. At 2: $-\tfrac1{16}+2=\tfrac{31}{16}$. At 1: $-\tfrac14+\tfrac18=-\tfrac18$.
+6. Subtract: $\tfrac{31}{16}+\tfrac{2}{16}=\tfrac{33}{16}$.
+Answer: $L=\dfrac{33}{16}$
+
+### 6. Arc length of ln|cos x|
+Q: Compute the arc length of $y=\ln|\cos x|$ between $x=0$ and $x=\tfrac\pi4$.
+1. $y'=-\tan x$, so $1+(y')^2=1+\tan^2x=\sec^2x$ and $dL=\sec x\,dx$.
+2. $$L=\int_0^{\pi/4}\sec x\,dx=\ln|\sec x+\tan x|\Big|_0^{\pi/4}$$
+3. At $\tfrac\pi4$: $\sec=\sqrt2$, $\tan=1$, giving $\ln(\sqrt2+1)$. At 0: $\ln1=0$.
+Answer: $L=\ln\left(1+\sqrt2\right)$
+
+## Surface area (problems 7 to 10)
+
+### 7. Parabola spun about the y-axis
+Q: The curve $y=\dfrac{x^2}{8}$ between $x=0$ and $x=3$ is revolved around the y-axis. Find the surface area.
+Plan: About the y-axis, radius $=x$. The curve is $y=f(x)$, so integrate in $x$.
+1. $y'=\dfrac x4$, so $dL=\sqrt{1+\dfrac{x^2}{16}}\,dx=\dfrac14\sqrt{16+x^2}\,dx$.
+2. $$SA=2\pi\int_0^3x\cdot\tfrac14\sqrt{16+x^2}\,dx=\tfrac\pi2\int_0^3x\sqrt{16+x^2}\,dx$$
+3. Let $u=16+x^2$, so $x\,dx=\tfrac12du$. Limits: $x=0\to16$, $x=3\to25$.
+4. $$\tfrac\pi2\cdot\tfrac12\cdot\tfrac23\left[u^{3/2}\right]_{16}^{25}=\tfrac\pi6\,(125-64)$$
+Answer: $SA=\dfrac{61\pi}{6}$
+
+### 8. Curve given as x of y, spun about the x-axis
+Q: The portion of $3x=(y^2+2)^{3/2}$ between $y=0$ and $y=1$ is revolved around the x-axis. Find the surface area.
+Plan: About the x-axis, radius $=y$. The curve is $x=g(y)$, so integrate in $y$.
+1. $x=\tfrac13(y^2+2)^{3/2}$, so $x'=\tfrac13\cdot\tfrac32(y^2+2)^{1/2}\cdot2y=y\sqrt{y^2+2}$.
+2. $1+(x')^2=1+y^2(y^2+2)=y^4+2y^2+1=(y^2+1)^2$, so $dL=(y^2+1)\,dy$.
+3. $$SA=2\pi\int_0^1y(y^2+1)\,dy=2\pi\left[\tfrac{y^4}{4}+\tfrac{y^2}{2}\right]_0^1=2\pi\cdot\tfrac34$$
+Answer: $SA=\dfrac{3\pi}{2}$
+
+### 9. Surface area of a sphere
+Q: Use calculus to compute the surface area of the sphere of radius 1.
+Plan: A sphere is a half circle $y=\sqrt{1-x^2}$ spun about the x-axis.
+1. $y'=\dfrac{-x}{\sqrt{1-x^2}}$, so $1+(y')^2=\dfrac{1}{1-x^2}$ and $dL=\dfrac{dx}{\sqrt{1-x^2}}$.
+2. Radius times $dL$: $\sqrt{1-x^2}\cdot\dfrac1{\sqrt{1-x^2}}=1$.
+3. $$SA=2\pi\int_{-1}^{1}1\,dx=2\pi\cdot2$$
+Answer: $SA=4\pi$
+
+### 10. Set up only: x = ln y about the x-axis
+Q: Give an integral for the area of the surface generated by revolving $x=\ln y$, $1\le y\le2$, about the x-axis. Explain your answer.
+Plan: Spun about the x-axis, so the radius is $y$. The curve is given as $x=g(y)$, so integrate in $y$ with $dL=\sqrt{1+(x')^2}\,dy$.
+1. $x'=\dfrac1y$, so $dL=\sqrt{1+\dfrac1{y^2}}\,dy$.
+2. Radius is $y$, so $$SA=\int_1^22\pi\,y\sqrt{1+\frac1{y^2}}\,dy$$
+3. It simplifies: $y\sqrt{1+\tfrac1{y^2}}=\sqrt{y^2+1}$ because $y>0$.
+Answer: $SA=2\pi\displaystyle\int_1^2\sqrt{y^2+1}\,dy$
+Why: each thin piece of the curve spins into a band with circumference $2\pi y$ (distance to the x-axis is $y$) and width $dL$.
+
+## Parametric arc length, "factor out the pattern" (problems 11 to 15)
+
+All five of these work the same way. $x$ and $y$ are powers of $t$, so $(x')^2+(y')^2$ has a common factor of a power of $t$. Pull it out of the square root, and the rest is a clean $u$-substitution.
+
+### 11. x = 3t^8, y = 2t^12
+Q: Find the arc length for $0\le t\le1$.
+1. $x'=24t^7$ and $y'=24t^{11}$.
+2. $(x')^2+(y')^2=24^2t^{14}+24^2t^{22}=24^2t^{14}\left(1+t^8\right)$.
+3. Square root: $24t^7\sqrt{1+t^8}$.
+4. Let $u=1+t^8$, so $du=8t^7dt$ and $24t^7dt=3\,du$. Limits $1$ to $2$.
+5. $$L=3\int_1^2\sqrt u\,du=3\cdot\tfrac23\left[u^{3/2}\right]_1^2=2\left(2\sqrt2-1\right)$$
+Answer: $L=2\left(2\sqrt2-1\right)$
+
+### 12. x = 3t^10, y = 2t^15
+Q: Find the arc length for $0\le t\le1$.
+1. $x'=30t^9$ and $y'=30t^{14}$.
+2. $(x')^2+(y')^2=30^2t^{18}\left(1+t^{10}\right)$, square root $30t^9\sqrt{1+t^{10}}$.
+3. Let $u=1+t^{10}$, so $du=10t^9dt$ and $30t^9dt=3\,du$. Limits $1$ to $2$.
+4. $$L=3\int_1^2\sqrt u\,du=2\left(2\sqrt2-1\right)$$
+Answer: $L=2\left(2\sqrt2-1\right)$
+
+### 13. x = 2t^6, y = 3t^4
+Q: Find the arc length for $0\le t\le2$.
+1. $x'=12t^5$ and $y'=12t^3$.
+2. $(x')^2+(y')^2=12^2t^{10}+12^2t^6=12^2t^6\left(t^4+1\right)$, square root $12t^3\sqrt{1+t^4}$.
+3. Let $u=1+t^4$, so $du=4t^3dt$ and $12t^3dt=3\,du$. Limits: $t=0\to1$, $t=2\to17$.
+4. $$L=3\int_1^{17}\sqrt u\,du=2\left[u^{3/2}\right]_1^{17}$$
+Answer: $L=2\left(17\sqrt{17}-1\right)$
+
+### 14. x = 2t^4, y = t^6
+Q: Find the arc length for $0\le t\le1$.
+1. $x'=8t^3$ and $y'=6t^5$.
+2. $(x')^2+(y')^2=64t^6+36t^{10}=4t^6\left(16+9t^4\right)$, square root $2t^3\sqrt{16+9t^4}$.
+3. Let $u=16+9t^4$, so $du=36t^3dt$ and $2t^3dt=\tfrac1{18}du$. Limits: $t=0\to16$, $t=1\to25$.
+4. $$L=\tfrac1{18}\int_{16}^{25}\sqrt u\,du=\tfrac1{18}\cdot\tfrac23\left[u^{3/2}\right]_{16}^{25}=\tfrac1{27}(125-64)$$
+Answer: $L=\dfrac{61}{27}$
+
+### 15. x = t^4, y = 2t^6
+Q: Find the arc length for $0\le t\le1$.
+1. $x'=4t^3$ and $y'=12t^5$.
+2. $(x')^2+(y')^2=16t^6+144t^{10}=16t^6\left(1+9t^4\right)$, square root $4t^3\sqrt{1+9t^4}$.
+3. Let $u=1+9t^4$, so $du=36t^3dt$ and $4t^3dt=\tfrac19du$. Limits $1$ to $10$.
+4. $$L=\tfrac19\int_1^{10}\sqrt u\,du=\tfrac19\cdot\tfrac23\left[u^{3/2}\right]_1^{10}=\tfrac2{27}\left(10\sqrt{10}-1\right)$$
+Answer: $L=\dfrac{2}{27}\left(10\sqrt{10}-1\right)$
+
+## Set up the integral (problems 16 to 21)
+
+For these, follow the same four questions every time: **(1)** axis, so radius. **(2)** which variable and which $dL$. **(3)** limits. **(4)** write $\int 2\pi\,(\text{radius})\,dL$. Do not evaluate unless asked.
+
+### 16. Parametric, about the y-axis
+Q: Set up the surface area for $x=2\sin3t$, $y=\cos3t$, $0\le t\le\tfrac\pi3$, revolved about the y-axis.
+1. Axis: y-axis, so radius $=x=2\sin3t$.
+2. Parametric, so $dL=\sqrt{(x')^2+(y')^2}\,dt$. $x'=6\cos3t$ and $y'=-3\sin3t$.
+3. $dL=\sqrt{36\cos^2(3t)+9\sin^2(3t)}\,dt$.
+Answer: $$SA=\int_0^{\pi/3}2\pi\,(2\sin3t)\sqrt{36\cos^2(3t)+9\sin^2(3t)}\,dt$$
+
+### 17. y = 9 − x², first quadrant, about the y-axis
+1. Axis: y-axis, so radius $=x$. The curve is $y=f(x)$, so integrate in $x$.
+2. $y'=-2x$, so $dL=\sqrt{1+4x^2}\,dx$.
+3. First quadrant means from $x=0$ to where the curve hits the x-axis: $0=9-x^2\Rightarrow x=3$.
+Answer: $$SA=\int_0^32\pi\,x\sqrt{1+4x^2}\,dx$$
+
+### 18. y = 4 − x², first quadrant, about the x-axis
+1. Axis: x-axis, so radius $=y=4-x^2$. Integrate in $x$.
+2. $dL=\sqrt{1+4x^2}\,dx$.
+3. Limits: $0$ to $2$ (where $4-x^2=0$).
+Answer: $$SA=\int_0^22\pi\left(4-x^2\right)\sqrt{1+4x^2}\,dx$$
+
+### 19. Parametric, about the x-axis
+Q: $x=2t$, $y=t^2\sqrt{1-t^2}$, $0\le t\le1$, revolved about the x-axis.
+1. Axis: x-axis, so radius $=y=t^2\sqrt{1-t^2}$.
+2. $x'=2$. $y'=2t\sqrt{1-t^2}+t^2\cdot\dfrac{-t}{\sqrt{1-t^2}}=2t\sqrt{1-t^2}-\dfrac{t^3}{\sqrt{1-t^2}}$.
+Answer: $$SA=\int_0^12\pi\,t^2\sqrt{1-t^2}\,\sqrt{4+\left(2t\sqrt{1-t^2}-\frac{t^3}{\sqrt{1-t^2}}\right)^2}\,dt$$
+
+### 20. A circle piece, set up and evaluate
+Q: For $y=\sqrt{4-x^2}$, for which $x$ is it defined? It is rotated about the y-axis. Set up and evaluate the surface area.
+1. Defined when $4-x^2\ge0$, so $-2\le x\le2$.
+2. Spinning the left half gives the same surface as spinning the right half, so integrate $0\le x\le2$.
+3. Radius $=x$. $y'=\dfrac{-x}{\sqrt{4-x^2}}$, so $1+(y')^2=\dfrac{4}{4-x^2}$ and $dL=\dfrac{2}{\sqrt{4-x^2}}\,dx$.
+4. $$SA=\int_0^22\pi x\cdot\frac{2}{\sqrt{4-x^2}}\,dx=\int_0^2\frac{4\pi x}{\sqrt{4-x^2}}\,dx$$
+5. Let $u=4-x^2$, so $du=-2x\,dx$. The integral becomes $-2\pi\int u^{-1/2}du=-4\pi\sqrt u=-4\pi\sqrt{4-x^2}$.
+6. $$SA=-4\pi\sqrt{4-x^2}\Big|_0^2=0-(-8\pi)$$
+Answer: $SA=8\pi$ (a hemisphere of radius 2, area $\tfrac12\cdot4\pi\cdot4$)
+
+### 21. x = e^t, y = e^(2t), about the x-axis
+1. Axis: x-axis, so radius $=y=e^{2t}$.
+2. $x'=e^t$ and $y'=2e^{2t}$, so $dL=\sqrt{e^{2t}+4e^{4t}}\,dt=e^t\sqrt{1+4e^{2t}}\,dt$.
+Answer: $$SA=\int_0^32\pi\,e^{2t}\cdot e^t\sqrt{1+4e^{2t}}\,dt$$
+Careful: the radius is $y$ (which is $e^{2t}$), not $x$. The picture in your head should be the distance from the **axis you spin around**.
+
+## Not solved in the PDF
+
+### 22. Length of a curve defined by an integral
+Q: Find the length of $y(x)=\displaystyle\int_1^x\sqrt{t^3-1}\,dt$ between $x=9$ and $x=16$.
+Plan: Same trick as problem 1. The Fundamental Theorem gives $y'$ directly.
+1. $y'=\sqrt{x^3-1}$.
+2. $1+(y')^2=1+x^3-1=x^3$, so $dL=\sqrt{x^3}\,dx=x^{3/2}\,dx$.
+3. $$L=\int_9^{16}x^{3/2}\,dx=\tfrac25\left[x^{5/2}\right]_9^{16}$$
+4. $16^{5/2}=4^5=1024$ and $9^{5/2}=3^5=243$.
+5. $\tfrac25(1024-243)=\tfrac25\cdot781$.
+Answer: $L=\dfrac{1562}{5}$

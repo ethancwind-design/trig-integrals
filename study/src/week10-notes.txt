@@ -1,0 +1,189 @@
+> Week 10 notes (Applications of Integration, Part 2), reorganized so you can find things fast: arc length, surface area, average value, then centroids. Each section starts with the rule, then the worked examples from the notes.
+
+## 1. Arc length
+
+**Formula.** For $y=f(x)$ on $[a,b]$: $$L=\int_a^b\sqrt{1+\left[f'(x)\right]^2}\,dx$$ For $x=g(y)$ on $[c,d]$: $$L=\int_c^d\sqrt{1+\left[g'(y)\right]^2}\,dy$$
+
+**Where it comes from (so you can rebuild it).** Cut the curve into tiny straight segments. A segment has horizontal change $\Delta x$ and vertical change $\Delta y\approx f'(x)\Delta x$. Its length is $\sqrt{\Delta x^2+\Delta y^2}=\sqrt{1+f'(x)^2}\,\Delta x$. Adding them up and letting the pieces shrink gives the integral.
+
+**The only real difficulty** is that a square root of a sum rarely integrates. These problems are built so the root disappears. Two patterns:
+
+- **Strategy 1: it simplifies to a clean power.** After adding 1 the expression is already simple, such as $x$ or $1+4x$.
+- **Strategy 2: perfect square trinomial.** When the derivative is a difference of two terms, squaring it gives a negative middle term. Adding 1 flips that middle term's sign and makes a perfect square. This is the one that shows up most.
+
+### Example 1 (Strategy 1): a power that cancels
+Q: Find the length of $y=1+\tfrac23(x-1)^{3/2}$ for $1\le x\le4$.
+1. $y'=(x-1)^{1/2}$.
+2. $(y')^2=x-1$.
+3. $1+(y')^2=1+x-1=x$, so $\sqrt{1+(y')^2}=\sqrt x$.
+4. $$L=\int_1^4\sqrt x\,dx=\tfrac23x^{3/2}\Big|_1^4=\tfrac23(8-1)$$
+Answer: $L=\dfrac{14}{3}$
+
+### Example 2 (Strategy 2): perfect square trinomial
+Q: Find the length of $y=x^2-\dfrac{\ln x}{8}$ for $1\le x\le2$.
+1. $y'=2x-\dfrac{1}{8x}$.
+2. Square it. Middle term: $2\cdot2x\cdot\left(-\dfrac1{8x}\right)=-\dfrac12$. $$(y')^2=4x^2-\dfrac12+\dfrac1{64x^2}$$
+3. Add 1. The middle term becomes $+\tfrac12$: $$1+(y')^2=4x^2+\dfrac12+\dfrac1{64x^2}=\left(2x+\dfrac1{8x}\right)^2$$
+4. Take the square root and integrate: $$L=\int_1^2\left(2x+\dfrac1{8x}\right)dx=\left[x^2+\dfrac{\ln x}{8}\right]_1^2=\left(4+\dfrac{\ln2}{8}\right)-(1+0)$$
+Answer: $L=3+\dfrac{\ln2}{8}$
+
+## 2. Surface area of revolution
+
+**Core idea.** A thin piece of curve with length $ds$, spun around an axis, makes a thin band. Its area is (circumference) times (slant length), so $$SA=\int2\pi\,(\text{radius})\,ds$$ where $ds=\sqrt{1+(y')^2}\,dx$ or $ds=\sqrt{1+(x')^2}\,dy$.
+
+**Two questions fix the setup:**
+
+1. **What is the axis?** That decides the radius. About the **x-axis** the radius is $y$. About the **y-axis** the radius is $x$.
+2. **How is the curve given, and over what range?** $y=f(x)$ with $a\le x\le b$ means integrate in $x$. $x=g(y)$ with $c\le y\le d$ means integrate in $y$.
+
+Then **write the radius in terms of the variable you integrate in.** Spun about the y-axis but the curve is $y=f(x)$? The radius is $x$, already in the right variable, so leave it. Spun about the x-axis but the curve is $y=f(x)$? The radius is $y$, so replace it with $f(x)$.
+
+| Axis | Curve given as | Radius | Integral |
+|---|---|---|---|
+| y-axis | $y=f(x)$, $a\le x\le b$ | $x$ (leave it) | $2\pi\int_a^bx\sqrt{1+(y')^2}\,dx$ |
+| y-axis | $x=g(y)$, $c\le y\le d$ | $g(y)$ | $2\pi\int_c^dg(y)\sqrt{1+(x')^2}\,dy$ |
+| x-axis | $y=f(x)$, $a\le x\le b$ | $f(x)$ | $2\pi\int_a^bf(x)\sqrt{1+(y')^2}\,dx$ |
+| x-axis | $x=g(y)$, $c\le y\le d$ | $y$ (leave it) | $2\pi\int_c^dy\sqrt{1+(x')^2}\,dy$ |
+
+**Parametric curves** $x=f(t)$, $y=g(t)$: $ds=\sqrt{(x')^2+(y')^2}\,dt$. Radius is $y(t)$ about the x-axis, $x(t)$ about the y-axis.
+
+### Example 1: about the y-axis, integrating in x
+Q: Revolve $y=x^2$ on $0\le x\le\sqrt2$ about the y-axis.
+1. Axis is the y-axis, so radius $=x$. The curve is $y=f(x)$, so integrate in $x$.
+2. $y'=2x$, so $ds=\sqrt{1+4x^2}\,dx$.
+3. $$SA=2\pi\int_0^{\sqrt2}x\sqrt{1+4x^2}\,dx$$
+4. $u=1+4x^2$, $du=8x\,dx$, so $x\,dx=\tfrac18du$. Limits: $x=0\to1$, $x=\sqrt2\to9$.
+5. $$SA=2\pi\cdot\tfrac18\cdot\tfrac23\left[u^{3/2}\right]_1^9=\tfrac\pi6(27-1)$$
+Answer: $SA=\dfrac{13\pi}{3}$
+
+### Example 2: about the x-axis, integrating in y
+Q: Revolve $x=\tfrac19y^2+2$ on $2\le y\le6$ about the x-axis.
+1. Axis is the x-axis, so radius $=y$. The curve is $x=g(y)$, so integrate in $y$.
+2. $x'=\tfrac29y$. $1+(x')^2=1+\tfrac{4y^2}{81}=\dfrac{81+4y^2}{81}$, so $ds=\tfrac19\sqrt{81+4y^2}\,dy$.
+3. $$SA=\tfrac{2\pi}{9}\int_2^6y\sqrt{81+4y^2}\,dy$$
+4. $u=81+4y^2$, $du=8y\,dy$, so $y\,dy=\tfrac18du$. The antiderivative becomes $\tfrac{2\pi}{9}\cdot\tfrac18\cdot\tfrac23u^{3/2}=\tfrac{\pi}{54}u^{3/2}$.
+5. At $y=6$: $u=225$ and $225^{3/2}=3375$. At $y=2$: $u=97$.
+Answer: $SA=\dfrac{\pi}{54}\left(225^{3/2}-97^{3/2}\right)=\dfrac{\pi}{54}\left(3375-97\sqrt{97}\right)$
+
+### Example 3: about the x-axis, integrating in x
+Q: Revolve $y=\sqrt x$ on $4\le x\le9$ about the x-axis.
+1. Radius $=y=\sqrt x$ (replace $y$ with $f(x)$).
+2. $y'=\dfrac1{2\sqrt x}$. $1+(y')^2=\dfrac{4x+1}{4x}$, so $ds=\dfrac{\sqrt{4x+1}}{2\sqrt x}\,dx$.
+3. Radius times $ds$: $\sqrt x\cdot\dfrac{\sqrt{4x+1}}{2\sqrt x}=\dfrac{\sqrt{4x+1}}2$. The $\sqrt x$ cancels.
+4. $$SA=\pi\int_4^9\sqrt{4x+1}\,dx$$
+5. $u=4x+1$, $dx=\tfrac14du$: $\pi\cdot\tfrac14\cdot\tfrac23\left[u^{3/2}\right]=\tfrac\pi6(4x+1)^{3/2}$.
+Answer: $SA=\dfrac\pi6\left(37^{3/2}-17^{3/2}\right)$
+
+### Example 4: a parametric curve about the y-axis
+Q: Revolve $x=2\sqrt t$, $y=1-t$, $0\le t\le15$ about the y-axis.
+1. Axis is the y-axis, so radius $=x=2\sqrt t$.
+2. $x'=\dfrac1{\sqrt t}$ and $y'=-1$. So $(x')^2+(y')^2=\dfrac1t+1=\dfrac{1+t}{t}$, and $ds=\dfrac{\sqrt{1+t}}{\sqrt t}\,dt$.
+3. $$SA=2\pi\int_0^{15}2\sqrt t\cdot\frac{\sqrt{1+t}}{\sqrt t}\,dt=4\pi\int_0^{15}\sqrt{1+t}\,dt$$ The $\sqrt t$ cancels.
+4. $=4\pi\cdot\tfrac23\left[(1+t)^{3/2}\right]_0^{15}=\tfrac{8\pi}{3}\left(16^{3/2}-1\right)=\tfrac{8\pi}3\cdot63$.
+Answer: $SA=168\pi$
+
+## 3. Average value of a function
+
+**Formula.** $$f_{avg}=\frac{1}{b-a}\int_a^bf(x)\,dx$$ **Why.** For $n$ equally spaced samples, the average is $\dfrac{\sum f(x_i)}{n}$. Since $n=\dfrac{b-a}{\Delta x}$, that equals $\dfrac1{b-a}\sum f(x_i)\Delta x$, which becomes the integral.
+
+**Mean Value Theorem for Integrals.** If $f$ is continuous on $[a,b]$, there is a $c$ in $(a,b)$ with $f(c)=f_{avg}$, equivalently $f(c)(b-a)=\int_a^bf$. The area under the curve equals the area of a rectangle of the same width and height $f_{avg}$. There may be more than one such $c$.
+
+**Parametric.** Average height $y$ with respect to $x$: $y_{avg}=\dfrac{1}{x(\beta)-x(\alpha)}\displaystyle\int_\alpha^\beta g(t)\,f'(t)\,dt$ (use $dx=f'(t)\,dt$).
+
+### Example 1: average value and the MVT point c
+Q: Find the average value of $f(x)=3x^2-2x$ on $[1,4]$ and the $c$ it guarantees.
+1. $\displaystyle f_{avg}=\frac1{4-1}\int_1^4(3x^2-2x)dx=\frac13\Big[x^3-x^2\Big]_1^4=\frac13\left[(64-16)-0\right]=\frac{48}3$.
+2. Solve $f(c)=16$: $3c^2-2c=16\Rightarrow3c^2-2c-16=0\Rightarrow(3c-8)(c+2)=0$, so $c=\tfrac83$ or $c=-2$.
+3. Only $c=\tfrac83$ is in $[1,4]$.
+Answer: $f_{avg}=16$ and $c=\dfrac83$
+
+### Example 2: average height of a parametrized half circle
+Q: Find the average height of the upper half of the circle $x=\cos t$, $y=\sin t$, $0\le t\le\pi$, with respect to $x$.
+1. $x(0)=1$ and $x(\pi)=-1$, so the width is $x(\pi)-x(0)=-2$.
+2. $dx=-\sin t\,dt$.
+3. $$y_{avg}=\frac1{-2}\int_0^\pi\sin t\cdot(-\sin t)\,dt=\frac12\int_0^\pi\sin^2t\,dt$$
+4. $\sin^2t=\dfrac{1-\cos2t}2$: $\dfrac12\cdot\dfrac12\left[t-\dfrac{\sin2t}{2}\right]_0^\pi=\dfrac14\cdot\pi$.
+Answer: $y_{avg}=\dfrac\pi4$
+
+## 4. Center of mass and centroids
+
+### Ideas
+- **Moment** = mass times distance from the pivot. The center of mass $\bar x$ is where total moment equals (total mass) $\times\bar x$: $\bar x=\dfrac{\text{total moment}}{\text{total mass}}$.
+- **Rod** with density $\rho(x)$ on $[a,b]$: $m=\int\rho\,dx$, $M_0=\int x\rho\,dx$, $\bar x=\dfrac{M_0}m$.
+- **Lamina** (flat plate) between $y=f(x)$ (top) and $y=g(x)$ (bottom), with density $\rho(x)$: $$m=\int_a^b\rho\,(f-g)\,dx,\qquad M_y=\int_a^bx\,\rho\,(f-g)\,dx,\qquad M_x=\tfrac12\int_a^b\rho\,(f^2-g^2)\,dx$$ $$\bar x=\frac{M_y}{m},\qquad\bar y=\frac{M_x}{m}$$ Constant density cancels and mass becomes area $A$.
+- **Why $M_x$ has $\tfrac12(f^2-g^2)$:** a vertical strip balances at its midpoint height $\tfrac{f+g}2$, and its area is $(f-g)\,dx$. Multiply: $\tfrac{f+g}{2}(f-g)=\tfrac12(f^2-g^2)$.
+
+### Checklist for any centroid problem
+1. **Look for symmetry first.** Symmetric about the y-axis means $\bar x=0$. Symmetric about the x-axis means $\bar y=0$. Symmetric about $y=x$ means $\bar x=\bar y$.
+2. **Look for standard pieces.** Rectangles, triangles, circle pieces: use the table below and the composite formula. Subtract holes using negative area.
+3. **Integrate what is left** with $A$, $M_y$, $M_x$.
+4. **If density varies**, put $\rho(x)$ in every integral, and expect the answer to move toward the denser side.
+
+### Standard centroids
+
+| Region | Centroid $(\bar x,\bar y)$ |
+|---|---|
+| Rectangle $0\le x\le w$, $0\le y\le h$ | $\left(\tfrac w2,\tfrac h2\right)$ |
+| Disk of radius $r$ centered at $(h,k)$ | $(h,k)$ |
+| Semicircle (upper half of $x^2+y^2\le r^2$) | $\left(0,\tfrac{4r}{3\pi}\right)$ |
+| Quarter circle (first quadrant) | $\left(\tfrac{4r}{3\pi},\tfrac{4r}{3\pi}\right)$ |
+| Right triangle with vertices $(0,0),(b,0),(0,h)$ | $\left(\tfrac b3,\tfrac h3\right)$ |
+| Any triangle | average of the three vertices |
+
+**Composite regions.** If a region is made of pieces with areas $A_i$ and centroids $(\bar x_i,\bar y_i)$: $$\bar x=\frac{\sum A_i\bar x_i}{\sum A_i},\qquad\bar y=\frac{\sum A_i\bar y_i}{\sum A_i}$$ A hole is a piece with negative area.
+
+### Example 1: centroid of a region between two curves
+Q: Find the centroid of the region between $y=x^2$ and $y=x$ in the first quadrant.
+1. They meet where $x^2=x$: $x=0$ and $x=1$. On $[0,1]$, $f=x$ (top) and $g=x^2$ (bottom).
+2. $A=\displaystyle\int_0^1(x-x^2)dx=\tfrac12-\tfrac13=\tfrac16$.
+3. $M_y=\displaystyle\int_0^1x(x-x^2)dx=\tfrac13-\tfrac14=\tfrac1{12}$.
+4. $M_x=\tfrac12\displaystyle\int_0^1(x^2-x^4)dx=\tfrac12\left(\tfrac13-\tfrac15\right)=\tfrac1{15}$.
+5. $\bar x=\dfrac{1/12}{1/6}=\dfrac12$ and $\bar y=\dfrac{1/15}{1/6}=\dfrac25$.
+Answer: $(\bar x,\bar y)=\left(\dfrac12,\dfrac25\right)$
+
+### Example 2: symmetry saves half the work
+Q: Find the centroid of the region bounded by $y=4-x^2$ and the x-axis.
+1. Symmetric about the y-axis, so $\bar x=0$.
+2. $A=\displaystyle\int_{-2}^2(4-x^2)dx=2\left[4x-\tfrac{x^3}3\right]_0^2=2\left(8-\tfrac83\right)=\tfrac{32}3$.
+3. $M_x=\tfrac12\displaystyle\int_{-2}^2(4-x^2)^2dx=\displaystyle\int_0^2\left(16-8x^2+x^4\right)dx=32-\tfrac{64}3+\tfrac{32}5=\tfrac{256}{15}$.
+4. $\bar y=\dfrac{256/15}{32/3}=\dfrac{256\cdot3}{15\cdot32}=\dfrac85$.
+Answer: $(\bar x,\bar y)=\left(0,\dfrac85\right)$
+
+### Example 3: semicircle
+Q: Find the centroid of the upper half of $x^2+y^2\le r^2$.
+1. Symmetric about the y-axis, so $\bar x=0$. Area $=\tfrac12\pi r^2$ (no integral).
+2. $f=\sqrt{r^2-x^2}$, $g=0$. Squaring removes the root: $M_x=\tfrac12\displaystyle\int_{-r}^r(r^2-x^2)dx=\tfrac12\left[r^2x-\tfrac{x^3}3\right]_{-r}^r=\tfrac12\cdot\tfrac{4r^3}{3}=\tfrac{2r^3}3$.
+3. $\bar y=\dfrac{2r^3/3}{\pi r^2/2}=\dfrac{4r}{3\pi}\approx0.42r$.
+Answer: $(\bar x,\bar y)=\left(0,\dfrac{4r}{3\pi}\right)$
+The balance point is below the halfway height $\tfrac r2$ because there is more area near the flat edge.
+
+### Example 4: add a triangle to a rectangle
+Q: Find the centroid of the rectangle $0\le x\le4$, $0\le y\le2$ joined with the right triangle with vertices $(4,0),(7,0),(4,2)$.
+1. Rectangle: area $8$, centroid $(2,1)$.
+2. Triangle: area $\tfrac12\cdot3\cdot2=3$. Centroid: average of vertices $=\left(\tfrac{4+7+4}{3},\tfrac{0+0+2}{3}\right)=\left(5,\tfrac23\right)$.
+3. Total area $11$.
+4. $\bar x=\dfrac{8(2)+3(5)}{11}=\dfrac{31}{11}$ and $\bar y=\dfrac{8(1)+3\cdot\tfrac23}{11}=\dfrac{10}{11}$.
+Answer: $(\bar x,\bar y)=\left(\dfrac{31}{11},\dfrac{10}{11}\right)$
+
+### Example 5: subtract a hole
+Q: A $4\times4$ square plate occupies $0\le x\le4$, $0\le y\le4$. A circular hole of radius 1 centered at $(3,3)$ is cut out. Find the centroid.
+1. Square and hole are both symmetric about $y=x$, so $\bar x=\bar y$.
+2. Square: area $16$, $\bar x=2$. Hole: area $-\pi$ (negative, since it is removed), $\bar x=3$.
+3. $\bar x=\dfrac{16(2)+(-\pi)(3)}{16-\pi}=\dfrac{32-3\pi}{16-\pi}\approx1.76$.
+Answer: $(\bar x,\bar y)=\left(\dfrac{32-3\pi}{16-\pi},\dfrac{32-3\pi}{16-\pi}\right)\approx(1.76,\ 1.76)$
+Removing material from the upper right pushes the balance point down and left of the center $(2,2)$.
+
+### Example 6: a rod with varying density
+Q: A rod on $0\le x\le4$ has density $\rho(x)=1+x$. Find its center of mass.
+1. Mass: $\displaystyle m=\int_0^4(1+x)dx=\left[x+\tfrac{x^2}2\right]_0^4=4+8=12$.
+2. Moment: $\displaystyle M_0=\int_0^4x(1+x)dx=\left[\tfrac{x^2}2+\tfrac{x^3}3\right]_0^4=8+\tfrac{64}3=\tfrac{88}{3}$.
+3. $\bar x=\dfrac{88/3}{12}=\dfrac{22}{9}$.
+Answer: $\bar x=\dfrac{22}{9}\approx2.44$, right of the midpoint 2, toward the heavy end.
+
+### Example 7: a plate with varying density
+Q: Region between $y=x$ and $y=x^2$ with density $\rho(x)=x$. Compare with the centroid $\left(\tfrac12,\tfrac25\right)$.
+1. $m=\displaystyle\int_0^1x(x-x^2)dx=\tfrac13-\tfrac14=\tfrac1{12}$.
+2. $M_y=\displaystyle\int_0^1x\cdot x(x-x^2)dx=\tfrac14-\tfrac15=\tfrac1{20}$.
+3. $M_x=\tfrac12\displaystyle\int_0^1x(x^2-x^4)dx=\tfrac12\left(\tfrac14-\tfrac16\right)=\tfrac1{24}$.
+4. $\bar x=\dfrac{1/20}{1/12}=\dfrac35$ and $\bar y=\dfrac{1/24}{1/12}=\dfrac12$.
+Answer: $(\bar x,\bar y)=\left(\dfrac35,\dfrac12\right)$. It moved right (toward the denser side) and up (the region is taller on the right).
