@@ -21,7 +21,7 @@ h2{font-size:1.3rem;margin:2.4rem 0 .6rem;padding-top:.6rem;border-top:2px solid
 h3.sub{font-size:1.1rem;margin:1.8rem 0 .4rem}
 .problem{border-top:1px solid var(--line);margin-top:2rem;padding-top:1rem}
 .problem h3{font-size:1.1rem;margin:0 0 .5rem;display:flex;gap:10px;align-items:baseline}
-.num{flex:none;min-width:2.2em;text-align:center;background:var(--accent);color:#fff;border-radius:6px;padding:0 8px;font-size:.9rem}
+.pnum{flex:none;min-width:2.2em;text-align:center;background:var(--accent);color:#fff;border-radius:6px;padding:0 8px;font-size:.9rem}
 .q{background:var(--side);border:1px solid var(--line);border-radius:8px;padding:10px 14px;margin:.4rem 0 .8rem}
 details.sol>summary{cursor:pointer;color:var(--accent);font-size:.9rem;margin-bottom:.5rem;user-select:none}
 .plan{background:var(--plan);border-radius:8px;padding:10px 14px;margin:.4rem 0}
@@ -29,6 +29,31 @@ ol.steps{margin:.6rem 0;padding-left:1.6rem}
 ol.steps li{margin:.55rem 0;padding-left:.2rem}
 .answer{background:var(--ans);border-left:4px solid var(--ansline);border-radius:6px;padding:10px 14px;margin:.7rem 0}
 .careful{background:var(--care);border-left:4px solid var(--careline);border-radius:6px;padding:10px 14px;margin:.7rem 0;font-size:.95rem}
+.calc{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:28px;align-items:start}
+.calc h2{display:flex;justify-content:space-between;align-items:baseline;gap:12px;border-top:0;margin-top:1.4rem;padding-top:0}
+.calc h2 .w{font-size:.8rem;font-weight:400;color:var(--muted)}
+.calc form>h2:first-child{margin-top:0}
+.hint{color:var(--muted);font-size:.9rem;margin:.3rem 0 .8rem}
+.fields{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.field{display:grid;gap:4px;min-width:0}
+.field label{font-size:.85rem;font-weight:500}
+.field .sub{font-weight:400;color:var(--muted)}
+.inbox{display:flex;align-items:center;background:var(--bg);border:1px solid var(--line);border-radius:8px;min-width:0}
+.inbox:focus-within{border-color:var(--accent);outline:2px solid var(--accent);outline-offset:1px}
+.inbox input{flex:1;min-width:0;border:0;background:transparent;color:var(--fg);font:inherit;padding:8px 10px;outline:0}
+.inbox .unit{padding-right:10px;color:var(--muted);font-size:.85rem}
+.field.bad .inbox{border-color:#c0392b}
+.err{color:#c0392b;font-size:.8rem;min-height:0}
+.result{border:1px solid var(--line);border-radius:12px;padding:16px;background:var(--side);position:sticky;top:16px}
+.score-label{font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600}
+.score{font-size:2.6rem;font-weight:700;line-height:1.1;margin:2px 0 8px}
+.result table{font-size:.85rem}
+.result th.num,.result td.num{text-align:right;font-variant-numeric:tabular-nums}
+.result tr.total td{font-weight:700}
+.result tr.dropped td{color:var(--muted);text-decoration:line-through}
+.result details{margin:.8rem 0}
+.result summary{cursor:pointer;color:var(--accent);font-size:.9rem}
+@media (max-width:760px){.calc{grid-template-columns:minmax(0,1fr)}.result{position:static}.fields{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .tablewrap{overflow-x:auto;margin:.8rem 0}
 table{border-collapse:collapse;width:100%;font-size:.95rem}
 th,td{border:1px solid var(--line);padding:8px 12px;text-align:left;vertical-align:top}

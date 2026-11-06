@@ -11,7 +11,7 @@
 <script defer src="study.js"></script>
 </head>
 <body>
-<nav id='nav'><details id='navd' open><summary>Documents</summary><a class='home' href='index.html'>All documents</a><a href='quiz5.html'>Quiz 5 practice problems<small>Quiz 5 Practice Problems + Answer Key</small></a><a href='worksheet.html'>Arc length and surface area worksheet<small>Fall 2026 Math 1400 worksheet + solutions</small></a><a href='lec35-36.html'>Lectures 35 and 36<small>Practice Problems + Solutions</small></a><a href='week10-notes.html'>Week 10 notes<small>Applications of Integration, Part 2</small></a><a href='week10-practice.html'>Week 10 practice<small>Week 10 Practice + Key</small></a><a href='lec39.html'>Lecture 39<small>Practice Problems + Solutions</small></a><a href='lec40.html'>Lecture 40<small>Practice Problems + Solutions</small></a><a class='cur' href='week11-notes.html'>Week 11 notes<small>Probability and expectation</small></a><a href='lec42-43.html'>Lectures 42 and 43<small>Practice Problems + Solutions</small></a><a href='lec44.html'>Lecture 44<small>Practice Problems + Solutions</small></a></details></nav>
+<nav id='nav'><details id='navd' open><summary>Documents</summary><a class='home' href='index.html'>All documents</a><a href='quiz5.html'>Quiz 5 practice problems<small>Quiz 5 Practice Problems + Answer Key</small></a><a href='worksheet.html'>Arc length and surface area worksheet<small>Fall 2026 Math 1400 worksheet + solutions</small></a><a href='lec35-36.html'>Lectures 35 and 36<small>Practice Problems + Solutions</small></a><a href='week10-notes.html'>Week 10 notes<small>Applications of Integration, Part 2</small></a><a href='week10-practice.html'>Week 10 practice<small>Week 10 Practice + Key</small></a><a href='lec39.html'>Lecture 39<small>Practice Problems + Solutions</small></a><a href='lec40.html'>Lecture 40<small>Practice Problems + Solutions</small></a><a class='cur' href='week11-notes.html'>Week 11 notes<small>Probability and expectation</small></a><a href='lec42-43.html'>Lectures 42 and 43<small>Practice Problems + Solutions</small></a><a href='lec44.html'>Lecture 44<small>Practice Problems + Solutions</small></a><a href='grade-calculator.html'>Raw score calculator<small>Quizzes, final exam, prep quizzes, recitation</small></a></details></nav>
 <main>
 <header>
 <h1>Week 11 notes</h1>
@@ -27,7 +27,7 @@
 <li>The total area is 1: \(\displaystyle\int_{-\infty}^\infty f(x)\,dx=1\).<br>Probability of a window: \(\displaystyle P(a\le X\le b)=\int_a^bf(x)\,dx\).<br>The density is <strong>not</strong> a probability (it can be bigger than 1). Probability is the <strong>area</strong> under it.</li>
 </ol>
 </div></details>
-<section class='problem' id='pex-1'><h3><span class='num'>Ex. 1</span>verify a pdf and find a probability</h3>
+<section class='problem' id='pex-1'><h3><span class='pnum'>Ex. 1</span>verify a pdf and find a probability</h3>
 <div class='q'>\(f(x)=\tfrac2{27}x(x-1)\) on \(1\le x\le4\), and \(0\) otherwise. Verify it is a pdf and find \(P(2\le X\le3)\).</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <ol class='steps'>
@@ -44,7 +44,7 @@
 <li><strong>Median</strong> \(m\): half the area on each side, \(\displaystyle\int_{-\infty}^mf=\tfrac12\) (or \(\displaystyle\int_m^\infty f=\tfrac12\)).</li>
 <li><strong>Variance</strong> \(\sigma^2=\displaystyle\int(x-\mu)^2f\,dx=\int x^2f\,dx-\mu^2\). <strong>Standard deviation</strong> \(\sigma=\sqrt{\sigma^2}\).</li>
 </ul>
-<section class='problem' id='pex-2'><h3><span class='num'>Ex. 2</span>a median</h3>
+<section class='problem' id='pex-2'><h3><span class='pnum'>Ex. 2</span>a median</h3>
 <div class='q'>Find the median of \(f(x)=\tfrac1{39}x^2\) on \(2\le x\le5\).</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <ol class='steps'>
@@ -58,7 +58,7 @@
 <h2>3. Special models</h2>
 <p><strong>Exponential</strong> (waiting times, lifetimes): \(f(x)=ke^{-kx}\) for \(x\ge0\) (and 0 for \(x&lt;0\)), \(k&gt;0\). Its mean is \(\mu=\tfrac1k\), so you can write \[f(x)=\frac1\mu e^{-x/\mu},\quad x\ge0\] and the standard deviation always equals the mean: \(\sigma=\mu\). Useful results: \(P(X&gt;x)=e^{-x/\mu}\) and the median is \(\mu\ln2\).</p>
 <p><strong>Normal</strong> (the bell curve): \(f(x)=\dfrac{1}{\sigma\sqrt{2\pi}}e^{-(x-\mu)^2/(2\sigma^2)}\). With \(\mu=0\) and \(\sigma=1\) it is the <strong>standard normal</strong>, \(f(x)=\dfrac1{\sqrt{2\pi}}e^{-x^2/2}\), used with z-scores: \(z=\dfrac{x-\mu}\sigma\).</p>
-<section class='problem' id='pex-3'><h3><span class='num'>Ex. 3</span>waiting time at a bank</h3>
+<section class='problem' id='pex-3'><h3><span class='pnum'>Ex. 3</span>waiting time at a bank</h3>
 <div class='q'>Waiting times are exponential with mean \(\mu=8\) minutes. Find the probability someone waits more than 10 minutes, and the median wait.</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <ol class='steps'>
@@ -77,7 +77,7 @@
 <li>If \(A\) is bounded by curves, find its area with \(\int(\text{top}-\text{bottom})\,dx\).</li>
 <li>Dart board problems assume the dart always hits the board and is not aimed, so only area matters.</li>
 </ul>
-<section class='problem' id='pex-4'><h3><span class='num'>Ex. 4</span>the dart board</h3>
+<section class='problem' id='pex-4'><h3><span class='pnum'>Ex. 4</span>the dart board</h3>
 <div class='q'>A board has radius 12 in. The bullseye has radius 2. A scoring ring lies between radii 6 and 8. A dart lands uniformly at random. Find the probability it lands (a) in the bullseye, (b) in the ring, (c) outside radius 8.</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <ol class='steps'>
@@ -89,7 +89,7 @@
 <div class='answer'><strong>Answer.</strong> (a) \(\dfrac1{36}\), (b) \(\dfrac7{36}\), (c) \(\dfrac59\). The \(\pi\) always cancels.</div>
 </div></details>
 </section>
-<section class='problem' id='pex-5'><h3><span class='num'>Ex. 5</span>regions under curves in a rectangle</h3>
+<section class='problem' id='pex-5'><h3><span class='pnum'>Ex. 5</span>regions under curves in a rectangle</h3>
 <div class='q'>A point is chosen at random in \(0\le x\le2\), \(0\le y\le4\). Find the probability it lies (a) below \(y=x^2\), (b) between \(y=x^2\) and \(y=2x\).</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <ol class='steps'>
@@ -100,7 +100,7 @@
 <div class='answer'><strong>Answer.</strong> (a) \(\dfrac13\), (b) \(\dfrac16\)</div>
 </div></details>
 </section>
-<section class='problem' id='pex-6'><h3><span class='num'>Ex. 6</span>the meeting problem</h3>
+<section class='problem' id='pex-6'><h3><span class='pnum'>Ex. 6</span>the meeting problem</h3>
 <div class='q'>Two students each arrive at a uniformly random time between 3:00 and 4:00 and wait 15 minutes. What is the probability they meet?</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <ol class='steps'>
@@ -126,7 +126,7 @@
 </table></div>
 <p><strong>Writing a CDF in pieces.</strong> If \(f\) is nonzero only on \([a,b]\): \(F(x)=0\) for \(x&lt;a\), \(F(x)=\int_a^xf(t)\,dt\) for \(a\le x\le b\), and \(F(x)=1\) for \(x&gt;b\). Check that the middle piece is \(0\) at \(x=a\) and \(1\) at \(x=b\).</p>
 <p><strong>Exponential CDF</strong> with mean \(\mu\): \(F(x)=1-e^{-x/\mu}\) for \(x\ge0\) (and 0 for \(x&lt;0\)). So \(P(X&gt;x)=e^{-x/\mu}\) and the median is \(\mu\ln2\).</p>
-<section class='problem' id='pex-7'><h3><span class='num'>Ex. 7</span>build a CDF from a pdf</h3>
+<section class='problem' id='pex-7'><h3><span class='pnum'>Ex. 7</span>build a CDF from a pdf</h3>
 <div class='q'>Find the CDF of \(f(x)=\tfrac2{27}(x^2-x)\) on \([1,4]\), and use it to recompute \(P(2\le X\le3)\).</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <ol class='steps'>
@@ -138,7 +138,7 @@
 <div class='answer'><strong>Answer.</strong> \(P(2\le X\le3)=F(3)-F(2)=\dfrac{23}{81}\), matching Example 1.</div>
 </div></details>
 </section>
-<section class='problem' id='pex-8'><h3><span class='num'>Ex. 8</span>recover a pdf from a CDF</h3>
+<section class='problem' id='pex-8'><h3><span class='pnum'>Ex. 8</span>recover a pdf from a CDF</h3>
 <div class='q'>\(F(x)=0\) for \(x&lt;0\) and \(F(x)=1-(1+x)e^{-x}\) for \(x\ge0\). Find the pdf, \(P(1\le X\le2)\) and \(P(X&gt;3)\).</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <ol class='steps'>
@@ -149,7 +149,7 @@
 <div class='answer'><strong>Answer.</strong> \(f(x)=xe^{-x}\) for \(x\ge0\); \(P(1\le X\le2)=2e^{-1}-3e^{-2}\); \(P(X&gt;3)=4e^{-3}\). No integration by parts was needed because the CDF already did it.</div>
 </div></details>
 </section>
-<section class='problem' id='pex-9'><h3><span class='num'>Ex. 9</span>distance of a dart from the center</h3>
+<section class='problem' id='pex-9'><h3><span class='pnum'>Ex. 9</span>distance of a dart from the center</h3>
 <div class='q'>A dart lands uniformly on a board of radius 12. Let \(R\) be its distance from the center. Find the CDF and pdf of \(R\), then the mean and median.</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <ol class='steps'>

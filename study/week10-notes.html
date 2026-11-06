@@ -11,7 +11,7 @@
 <script defer src="study.js"></script>
 </head>
 <body>
-<nav id='nav'><details id='navd' open><summary>Documents</summary><a class='home' href='index.html'>All documents</a><a href='quiz5.html'>Quiz 5 practice problems<small>Quiz 5 Practice Problems + Answer Key</small></a><a href='worksheet.html'>Arc length and surface area worksheet<small>Fall 2026 Math 1400 worksheet + solutions</small></a><a href='lec35-36.html'>Lectures 35 and 36<small>Practice Problems + Solutions</small></a><a class='cur' href='week10-notes.html'>Week 10 notes<small>Applications of Integration, Part 2</small></a><a href='week10-practice.html'>Week 10 practice<small>Week 10 Practice + Key</small></a><a href='lec39.html'>Lecture 39<small>Practice Problems + Solutions</small></a><a href='lec40.html'>Lecture 40<small>Practice Problems + Solutions</small></a><a href='week11-notes.html'>Week 11 notes<small>Probability and expectation</small></a><a href='lec42-43.html'>Lectures 42 and 43<small>Practice Problems + Solutions</small></a><a href='lec44.html'>Lecture 44<small>Practice Problems + Solutions</small></a></details></nav>
+<nav id='nav'><details id='navd' open><summary>Documents</summary><a class='home' href='index.html'>All documents</a><a href='quiz5.html'>Quiz 5 practice problems<small>Quiz 5 Practice Problems + Answer Key</small></a><a href='worksheet.html'>Arc length and surface area worksheet<small>Fall 2026 Math 1400 worksheet + solutions</small></a><a href='lec35-36.html'>Lectures 35 and 36<small>Practice Problems + Solutions</small></a><a class='cur' href='week10-notes.html'>Week 10 notes<small>Applications of Integration, Part 2</small></a><a href='week10-practice.html'>Week 10 practice<small>Week 10 Practice + Key</small></a><a href='lec39.html'>Lecture 39<small>Practice Problems + Solutions</small></a><a href='lec40.html'>Lecture 40<small>Practice Problems + Solutions</small></a><a href='week11-notes.html'>Week 11 notes<small>Probability and expectation</small></a><a href='lec42-43.html'>Lectures 42 and 43<small>Practice Problems + Solutions</small></a><a href='lec44.html'>Lecture 44<small>Practice Problems + Solutions</small></a><a href='grade-calculator.html'>Raw score calculator<small>Quizzes, final exam, prep quizzes, recitation</small></a></details></nav>
 <main>
 <header>
 <h1>Week 10 notes</h1>
@@ -27,7 +27,7 @@
 <li><strong>Strategy 1: it simplifies to a clean power.</strong> After adding 1 the expression is already simple, such as \(x\) or \(1+4x\).</li>
 <li><strong>Strategy 2: perfect square trinomial.</strong> When the derivative is a difference of two terms, squaring it gives a negative middle term. Adding 1 flips that middle term's sign and makes a perfect square. This is the one that shows up most.</li>
 </ul>
-<section class='problem' id='pex-1'><h3><span class='num'>Ex. 1</span>a power that cancels (Strategy 1)</h3>
+<section class='problem' id='pex-1'><h3><span class='pnum'>Ex. 1</span>a power that cancels (Strategy 1)</h3>
 <div class='q'>Find the length of \(y=1+\tfrac23(x-1)^{3/2}\) for \(1\le x\le4\).</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <ol class='steps'>
@@ -39,7 +39,7 @@
 <div class='answer'><strong>Answer.</strong> \(L=\dfrac{14}{3}\)</div>
 </div></details>
 </section>
-<section class='problem' id='pex-2'><h3><span class='num'>Ex. 2</span>perfect square trinomial (Strategy 2)</h3>
+<section class='problem' id='pex-2'><h3><span class='pnum'>Ex. 2</span>perfect square trinomial (Strategy 2)</h3>
 <div class='q'>Find the length of \(y=x^2-\dfrac{\ln x}{8}\) for \(1\le x\le2\).</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <ol class='steps'>
@@ -67,7 +67,7 @@
 <li><strong>How is the curve given, and over what range?</strong> \(y=f(x)\) with \(a\le x\le b\) means integrate in \(x\). \(x=g(y)\) with \(c\le y\le d\) means integrate in \(y\).<br>Then <strong>write the radius in terms of the variable you integrate in.</strong> Spun about the y-axis but the curve is \(y=f(x)\)? The radius is \(x\), already in the right variable, so leave it. Spun about the x-axis but the curve is \(y=f(x)\)? The radius is \(y\), so replace it with \(f(x)\).<br><strong>Parametric curves</strong> \(x=f(t)\), \(y=g(t)\): \(ds=\sqrt{(x')^2+(y')^2}\,dt\). Radius is \(y(t)\) about the x-axis, \(x(t)\) about the y-axis.</li>
 </ol>
 </div></details>
-<section class='problem' id='pex-1'><h3><span class='num'>Ex. 1</span>about the y-axis, integrating in x</h3>
+<section class='problem' id='pex-1'><h3><span class='pnum'>Ex. 1</span>about the y-axis, integrating in x</h3>
 <div class='q'>Revolve \(y=x^2\) on \(0\le x\le\sqrt2\) about the y-axis.</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <ol class='steps'>
@@ -80,7 +80,7 @@
 <div class='answer'><strong>Answer.</strong> \(SA=\dfrac{13\pi}{3}\)</div>
 </div></details>
 </section>
-<section class='problem' id='pex-2'><h3><span class='num'>Ex. 2</span>about the x-axis, integrating in y</h3>
+<section class='problem' id='pex-2'><h3><span class='pnum'>Ex. 2</span>about the x-axis, integrating in y</h3>
 <div class='q'>Revolve \(x=\tfrac19y^2+2\) on \(2\le y\le6\) about the x-axis.</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <ol class='steps'>
@@ -93,7 +93,7 @@
 <div class='answer'><strong>Answer.</strong> \(SA=\dfrac{\pi}{54}\left(225^{3/2}-97^{3/2}\right)=\dfrac{\pi}{54}\left(3375-97\sqrt{97}\right)\)</div>
 </div></details>
 </section>
-<section class='problem' id='pex-3'><h3><span class='num'>Ex. 3</span>about the x-axis, integrating in x</h3>
+<section class='problem' id='pex-3'><h3><span class='pnum'>Ex. 3</span>about the x-axis, integrating in x</h3>
 <div class='q'>Revolve \(y=\sqrt x\) on \(4\le x\le9\) about the x-axis.</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <ol class='steps'>
@@ -106,7 +106,7 @@
 <div class='answer'><strong>Answer.</strong> \(SA=\dfrac\pi6\left(37^{3/2}-17^{3/2}\right)\)</div>
 </div></details>
 </section>
-<section class='problem' id='pex-4'><h3><span class='num'>Ex. 4</span>a parametric curve about the y-axis</h3>
+<section class='problem' id='pex-4'><h3><span class='pnum'>Ex. 4</span>a parametric curve about the y-axis</h3>
 <div class='q'>Revolve \(x=2\sqrt t\), \(y=1-t\), \(0\le t\le15\) about the y-axis.</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <ol class='steps'>
@@ -122,7 +122,7 @@
 <p><strong>Formula.</strong> \[f_{avg}=\frac{1}{b-a}\int_a^bf(x)\,dx\] <strong>Why.</strong> For \(n\) equally spaced samples, the average is \(\dfrac{\sum f(x_i)}{n}\). Since \(n=\dfrac{b-a}{\Delta x}\), that equals \(\dfrac1{b-a}\sum f(x_i)\Delta x\), which becomes the integral.</p>
 <p><strong>Mean Value Theorem for Integrals.</strong> If \(f\) is continuous on \([a,b]\), there is a \(c\) in \((a,b)\) with \(f(c)=f_{avg}\), equivalently \(f(c)(b-a)=\int_a^bf\). The area under the curve equals the area of a rectangle of the same width and height \(f_{avg}\). There may be more than one such \(c\).</p>
 <p><strong>Parametric.</strong> Average height \(y\) with respect to \(x\): \(y_{avg}=\dfrac{1}{x(\beta)-x(\alpha)}\displaystyle\int_\alpha^\beta g(t)\,f'(t)\,dt\) (use \(dx=f'(t)\,dt\)).</p>
-<section class='problem' id='pex-1'><h3><span class='num'>Ex. 1</span>average value and the MVT point c</h3>
+<section class='problem' id='pex-1'><h3><span class='pnum'>Ex. 1</span>average value and the MVT point c</h3>
 <div class='q'>Find the average value of \(f(x)=3x^2-2x\) on \([1,4]\) and the \(c\) it guarantees.</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <ol class='steps'>
@@ -133,7 +133,7 @@
 <div class='answer'><strong>Answer.</strong> \(f_{avg}=16\) and \(c=\dfrac83\)</div>
 </div></details>
 </section>
-<section class='problem' id='pex-2'><h3><span class='num'>Ex. 2</span>average height of a parametrized half circle</h3>
+<section class='problem' id='pex-2'><h3><span class='pnum'>Ex. 2</span>average height of a parametrized half circle</h3>
 <div class='q'>Find the average height of the upper half of the circle \(x=\cos t\), \(y=\sin t\), \(0\le t\le\pi\), with respect to \(x\).</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <ol class='steps'>
@@ -173,7 +173,7 @@
 <tr><td>Any triangle</td><td>average of the three vertices</td></tr>
 </table></div>
 <p><strong>Composite regions.</strong> If a region is made of pieces with areas \(A_i\) and centroids \((\bar x_i,\bar y_i)\): \[\bar x=\frac{\sum A_i\bar x_i}{\sum A_i},\qquad\bar y=\frac{\sum A_i\bar y_i}{\sum A_i}\] A hole is a piece with negative area.</p>
-<section class='problem' id='pex-1'><h3><span class='num'>Ex. 1</span>centroid of a region between two curves</h3>
+<section class='problem' id='pex-1'><h3><span class='pnum'>Ex. 1</span>centroid of a region between two curves</h3>
 <div class='q'>Find the centroid of the region between \(y=x^2\) and \(y=x\) in the first quadrant.</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <ol class='steps'>
@@ -186,7 +186,7 @@
 <div class='answer'><strong>Answer.</strong> \((\bar x,\bar y)=\left(\dfrac12,\dfrac25\right)\)</div>
 </div></details>
 </section>
-<section class='problem' id='pex-2'><h3><span class='num'>Ex. 2</span>symmetry saves half the work</h3>
+<section class='problem' id='pex-2'><h3><span class='pnum'>Ex. 2</span>symmetry saves half the work</h3>
 <div class='q'>Find the centroid of the region bounded by \(y=4-x^2\) and the x-axis.</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <ol class='steps'>
@@ -198,7 +198,7 @@
 <div class='answer'><strong>Answer.</strong> \((\bar x,\bar y)=\left(0,\dfrac85\right)\)</div>
 </div></details>
 </section>
-<section class='problem' id='pex-3'><h3><span class='num'>Ex. 3</span>semicircle</h3>
+<section class='problem' id='pex-3'><h3><span class='pnum'>Ex. 3</span>semicircle</h3>
 <div class='q'>Find the centroid of the upper half of \(x^2+y^2\le r^2\).</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <ol class='steps'>
@@ -210,7 +210,7 @@
 <p>The balance point is below the halfway height \(\tfrac r2\) because there is more area near the flat edge.</p>
 </div></details>
 </section>
-<section class='problem' id='pex-4'><h3><span class='num'>Ex. 4</span>add a triangle to a rectangle</h3>
+<section class='problem' id='pex-4'><h3><span class='pnum'>Ex. 4</span>add a triangle to a rectangle</h3>
 <div class='q'>Find the centroid of the rectangle \(0\le x\le4\), \(0\le y\le2\) joined with the right triangle with vertices \((4,0),(7,0),(4,2)\).</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <ol class='steps'>
@@ -222,7 +222,7 @@
 <div class='answer'><strong>Answer.</strong> \((\bar x,\bar y)=\left(\dfrac{31}{11},\dfrac{10}{11}\right)\)</div>
 </div></details>
 </section>
-<section class='problem' id='pex-5'><h3><span class='num'>Ex. 5</span>subtract a hole</h3>
+<section class='problem' id='pex-5'><h3><span class='pnum'>Ex. 5</span>subtract a hole</h3>
 <div class='q'>A \(4\times4\) square plate occupies \(0\le x\le4\), \(0\le y\le4\). A circular hole of radius 1 centered at \((3,3)\) is cut out. Find the centroid.</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <ol class='steps'>
@@ -234,7 +234,7 @@
 <p>Removing material from the upper right pushes the balance point down and left of the center \((2,2)\).</p>
 </div></details>
 </section>
-<section class='problem' id='pex-6'><h3><span class='num'>Ex. 6</span>a rod with varying density</h3>
+<section class='problem' id='pex-6'><h3><span class='pnum'>Ex. 6</span>a rod with varying density</h3>
 <div class='q'>A rod on \(0\le x\le4\) has density \(\rho(x)=1+x\). Find its center of mass.</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <ol class='steps'>
@@ -245,7 +245,7 @@
 <div class='answer'><strong>Answer.</strong> \(\bar x=\dfrac{22}{9}\approx2.44\), right of the midpoint 2, toward the heavy end.</div>
 </div></details>
 </section>
-<section class='problem' id='pex-7'><h3><span class='num'>Ex. 7</span>a plate with varying density</h3>
+<section class='problem' id='pex-7'><h3><span class='pnum'>Ex. 7</span>a plate with varying density</h3>
 <div class='q'>Region between \(y=x\) and \(y=x^2\) with density \(\rho(x)=x\). Compare with the centroid \(\left(\tfrac12,\tfrac25\right)\).</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <ol class='steps'>

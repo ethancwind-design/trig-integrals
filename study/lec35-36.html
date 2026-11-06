@@ -11,7 +11,7 @@
 <script defer src="study.js"></script>
 </head>
 <body>
-<nav id='nav'><details id='navd' open><summary>Documents</summary><a class='home' href='index.html'>All documents</a><a href='quiz5.html'>Quiz 5 practice problems<small>Quiz 5 Practice Problems + Answer Key</small></a><a href='worksheet.html'>Arc length and surface area worksheet<small>Fall 2026 Math 1400 worksheet + solutions</small></a><a class='cur' href='lec35-36.html'>Lectures 35 and 36<small>Practice Problems + Solutions</small></a><a href='week10-notes.html'>Week 10 notes<small>Applications of Integration, Part 2</small></a><a href='week10-practice.html'>Week 10 practice<small>Week 10 Practice + Key</small></a><a href='lec39.html'>Lecture 39<small>Practice Problems + Solutions</small></a><a href='lec40.html'>Lecture 40<small>Practice Problems + Solutions</small></a><a href='week11-notes.html'>Week 11 notes<small>Probability and expectation</small></a><a href='lec42-43.html'>Lectures 42 and 43<small>Practice Problems + Solutions</small></a><a href='lec44.html'>Lecture 44<small>Practice Problems + Solutions</small></a></details></nav>
+<nav id='nav'><details id='navd' open><summary>Documents</summary><a class='home' href='index.html'>All documents</a><a href='quiz5.html'>Quiz 5 practice problems<small>Quiz 5 Practice Problems + Answer Key</small></a><a href='worksheet.html'>Arc length and surface area worksheet<small>Fall 2026 Math 1400 worksheet + solutions</small></a><a class='cur' href='lec35-36.html'>Lectures 35 and 36<small>Practice Problems + Solutions</small></a><a href='week10-notes.html'>Week 10 notes<small>Applications of Integration, Part 2</small></a><a href='week10-practice.html'>Week 10 practice<small>Week 10 Practice + Key</small></a><a href='lec39.html'>Lecture 39<small>Practice Problems + Solutions</small></a><a href='lec40.html'>Lecture 40<small>Practice Problems + Solutions</small></a><a href='week11-notes.html'>Week 11 notes<small>Probability and expectation</small></a><a href='lec42-43.html'>Lectures 42 and 43<small>Practice Problems + Solutions</small></a><a href='lec44.html'>Lecture 44<small>Practice Problems + Solutions</small></a><a href='grade-calculator.html'>Raw score calculator<small>Quizzes, final exam, prep quizzes, recitation</small></a></details></nav>
 <main>
 <header>
 <h1>Lectures 35 and 36</h1>
@@ -28,7 +28,7 @@
 </ul>
 <p><strong>Arc length</strong> is \(\int dL\). <strong>Surface area</strong> is \(\int 2\pi\,r\,dL\), where \(r\) is the distance from the curve to the axis of rotation (a thin band is a cylinder of circumference \(2\pi r\) and height \(dL\)). About the x-axis, \(r=y\). About the y-axis, \(r=x\).</p>
 <h2>Arc length (problems 1 to 6)</h2>
-<section class='problem' id='p1'><h3><span class='num'>1</span>Curve defined by an integral</h3>
+<section class='problem' id='p1'><h3><span class='pnum'>1</span>Curve defined by an integral</h3>
 <div class='q'>Find the arc length of \(y=\displaystyle\int_0^x\sqrt{e^{2t}-1}\,dt\) between \(x=0\) and \(x=1\).</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <div class='plan'><strong>Plan.</strong> You need \(y'\). The Fundamental Theorem of Calculus gives it without any integrating.</div>
@@ -40,7 +40,7 @@
 <div class='answer'><strong>Answer.</strong> \(L=e-1\)</div>
 </div></details>
 </section>
-<section class='problem' id='p2'><h3><span class='num'>2</span>Arc length of x to the 2/3</h3>
+<section class='problem' id='p2'><h3><span class='pnum'>2</span>Arc length of x to the 2/3</h3>
 <div class='q'>Find the arc length of \(y=\tfrac32x^{2/3}\) for \(0\le x\le3\sqrt3\).</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <div class='plan'><strong>Plan.</strong> Differentiate, square, add 1, then substitute.</div>
@@ -56,7 +56,7 @@
 <div class='answer'><strong>Answer.</strong> \(L=7\)</div>
 </div></details>
 </section>
-<section class='problem' id='p3'><h3><span class='num'>3</span>Parametric arc length (perfect square)</h3>
+<section class='problem' id='p3'><h3><span class='pnum'>3</span>Parametric arc length (perfect square)</h3>
 <div class='q'>Find the arc length of \(x=t^2\), \(y=\tfrac13t^3-t\) between \(t=0\) and \(t=3\).</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <div class='plan'><strong>Plan.</strong> \(dL=\sqrt{(x')^2+(y')^2}\,dt\). Expect a perfect square.</div>
@@ -68,7 +68,7 @@
 <div class='answer'><strong>Answer.</strong> \(L=12\)</div>
 </div></details>
 </section>
-<section class='problem' id='p4'><h3><span class='num'>4</span>Arc length of cosh</h3>
+<section class='problem' id='p4'><h3><span class='pnum'>4</span>Arc length of cosh</h3>
 <div class='q'>Find the arc length of \(x=\cosh y\) between \(y=0\) and \(y=2\).</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <div class='plan'><strong>Plan.</strong> The curve is \(x=g(y)\), so integrate in \(y\). The identity \(1+\sinh^2y=\cosh^2y\) does the work.</div>
@@ -80,7 +80,7 @@
 <div class='answer'><strong>Answer.</strong> \(L=\sinh 2\) (which equals \(\dfrac{e^2-e^{-2}}{2}\))</div>
 </div></details>
 </section>
-<section class='problem' id='p5'><h3><span class='num'>5</span>Arc length with a perfect square in y</h3>
+<section class='problem' id='p5'><h3><span class='pnum'>5</span>Arc length with a perfect square in y</h3>
 <div class='q'>Compute the arc length of \(x=\tfrac14y^{-2}+\tfrac18y^4\) between \(y=1\) and \(y=2\).</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <div class='plan'><strong>Plan.</strong> The curve is \(x=g(y)\), so differentiate with respect to \(y\) and integrate in \(y\).</div>
@@ -95,7 +95,7 @@
 <div class='answer'><strong>Answer.</strong> \(L=\dfrac{33}{16}\)</div>
 </div></details>
 </section>
-<section class='problem' id='p6'><h3><span class='num'>6</span>Arc length of ln|cos x|</h3>
+<section class='problem' id='p6'><h3><span class='pnum'>6</span>Arc length of ln|cos x|</h3>
 <div class='q'>Compute the arc length of \(y=\ln|\cos x|\) between \(x=0\) and \(x=\tfrac\pi4\).</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <ol class='steps'>
@@ -107,7 +107,7 @@
 </div></details>
 </section>
 <h2>Surface area (problems 7 to 10)</h2>
-<section class='problem' id='p7'><h3><span class='num'>7</span>Parabola spun about the y-axis</h3>
+<section class='problem' id='p7'><h3><span class='pnum'>7</span>Parabola spun about the y-axis</h3>
 <div class='q'>The curve \(y=\dfrac{x^2}{8}\) between \(x=0\) and \(x=3\) is revolved around the y-axis. Find the surface area.</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <div class='plan'><strong>Plan.</strong> About the y-axis, radius \(=x\). The curve is \(y=f(x)\), so integrate in \(x\).</div>
@@ -120,7 +120,7 @@
 <div class='answer'><strong>Answer.</strong> \(SA=\dfrac{61\pi}{6}\)</div>
 </div></details>
 </section>
-<section class='problem' id='p8'><h3><span class='num'>8</span>Curve given as x of y, spun about the x-axis</h3>
+<section class='problem' id='p8'><h3><span class='pnum'>8</span>Curve given as x of y, spun about the x-axis</h3>
 <div class='q'>The portion of \(3x=(y^2+2)^{3/2}\) between \(y=0\) and \(y=1\) is revolved around the x-axis. Find the surface area.</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <div class='plan'><strong>Plan.</strong> About the x-axis, radius \(=y\). The curve is \(x=g(y)\), so integrate in \(y\).</div>
@@ -132,7 +132,7 @@
 <div class='answer'><strong>Answer.</strong> \(SA=\dfrac{3\pi}{2}\)</div>
 </div></details>
 </section>
-<section class='problem' id='p9'><h3><span class='num'>9</span>Surface area of a sphere</h3>
+<section class='problem' id='p9'><h3><span class='pnum'>9</span>Surface area of a sphere</h3>
 <div class='q'>Use calculus to compute the surface area of the sphere of radius 1.</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <div class='plan'><strong>Plan.</strong> A sphere is a half circle \(y=\sqrt{1-x^2}\) spun about the x-axis.</div>
@@ -144,7 +144,7 @@
 <div class='answer'><strong>Answer.</strong> \(SA=4\pi\)</div>
 </div></details>
 </section>
-<section class='problem' id='p10'><h3><span class='num'>10</span>Set up only: x = ln y about the x-axis</h3>
+<section class='problem' id='p10'><h3><span class='pnum'>10</span>Set up only: x = ln y about the x-axis</h3>
 <div class='q'>Give an integral for the area of the surface generated by revolving \(x=\ln y\), \(1\le y\le2\), about the x-axis. Explain your answer.</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <div class='plan'><strong>Plan.</strong> Spun about the x-axis, so the radius is \(y\). The curve is given as \(x=g(y)\), so integrate in \(y\) with \(dL=\sqrt{1+(x')^2}\,dy\).</div>
@@ -159,7 +159,7 @@
 </section>
 <h2>Parametric arc length, "factor out the pattern" (problems 11 to 15)</h2>
 <p>All five of these work the same way. \(x\) and \(y\) are powers of \(t\), so \((x')^2+(y')^2\) has a common factor of a power of \(t\). Pull it out of the square root, and the rest is a clean \(u\)-substitution.</p>
-<section class='problem' id='p11'><h3><span class='num'>11</span>x = 3t^8, y = 2t^12</h3>
+<section class='problem' id='p11'><h3><span class='pnum'>11</span>x = 3t^8, y = 2t^12</h3>
 <div class='q'>Find the arc length for \(0\le t\le1\).</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <ol class='steps'>
@@ -172,7 +172,7 @@
 <div class='answer'><strong>Answer.</strong> \(L=2\left(2\sqrt2-1\right)\)</div>
 </div></details>
 </section>
-<section class='problem' id='p12'><h3><span class='num'>12</span>x = 3t^10, y = 2t^15</h3>
+<section class='problem' id='p12'><h3><span class='pnum'>12</span>x = 3t^10, y = 2t^15</h3>
 <div class='q'>Find the arc length for \(0\le t\le1\).</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <ol class='steps'>
@@ -184,7 +184,7 @@
 <div class='answer'><strong>Answer.</strong> \(L=2\left(2\sqrt2-1\right)\)</div>
 </div></details>
 </section>
-<section class='problem' id='p13'><h3><span class='num'>13</span>x = 2t^6, y = 3t^4</h3>
+<section class='problem' id='p13'><h3><span class='pnum'>13</span>x = 2t^6, y = 3t^4</h3>
 <div class='q'>Find the arc length for \(0\le t\le2\).</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <ol class='steps'>
@@ -196,7 +196,7 @@
 <div class='answer'><strong>Answer.</strong> \(L=2\left(17\sqrt{17}-1\right)\)</div>
 </div></details>
 </section>
-<section class='problem' id='p14'><h3><span class='num'>14</span>x = 2t^4, y = t^6</h3>
+<section class='problem' id='p14'><h3><span class='pnum'>14</span>x = 2t^4, y = t^6</h3>
 <div class='q'>Find the arc length for \(0\le t\le1\).</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <ol class='steps'>
@@ -208,7 +208,7 @@
 <div class='answer'><strong>Answer.</strong> \(L=\dfrac{61}{27}\)</div>
 </div></details>
 </section>
-<section class='problem' id='p15'><h3><span class='num'>15</span>x = t^4, y = 2t^6</h3>
+<section class='problem' id='p15'><h3><span class='pnum'>15</span>x = t^4, y = 2t^6</h3>
 <div class='q'>Find the arc length for \(0\le t\le1\).</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <ol class='steps'>
@@ -222,7 +222,7 @@
 </section>
 <h2>Set up the integral (problems 16 to 21)</h2>
 <p>For these, follow the same four questions every time: <strong>(1)</strong> axis, so radius. <strong>(2)</strong> which variable and which \(dL\). <strong>(3)</strong> limits. <strong>(4)</strong> write \(\int 2\pi\,(\text{radius})\,dL\). Do not evaluate unless asked.</p>
-<section class='problem' id='p16'><h3><span class='num'>16</span>Parametric, about the y-axis</h3>
+<section class='problem' id='p16'><h3><span class='pnum'>16</span>Parametric, about the y-axis</h3>
 <div class='q'>Set up the surface area for \(x=2\sin3t\), \(y=\cos3t\), \(0\le t\le\tfrac\pi3\), revolved about the y-axis.</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <ol class='steps'>
@@ -233,7 +233,7 @@
 <div class='answer'><strong>Answer.</strong> \[SA=\int_0^{\pi/3}2\pi\,(2\sin3t)\sqrt{36\cos^2(3t)+9\sin^2(3t)}\,dt\]</div>
 </div></details>
 </section>
-<section class='problem' id='p17'><h3><span class='num'>17</span>y = 9 − x², first quadrant, about the y-axis</h3>
+<section class='problem' id='p17'><h3><span class='pnum'>17</span>y = 9 − x², first quadrant, about the y-axis</h3>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <ol class='steps'>
 <li>Axis: y-axis, so radius \(=x\). The curve is \(y=f(x)\), so integrate in \(x\).</li>
@@ -243,7 +243,7 @@
 <div class='answer'><strong>Answer.</strong> \[SA=\int_0^32\pi\,x\sqrt{1+4x^2}\,dx\]</div>
 </div></details>
 </section>
-<section class='problem' id='p18'><h3><span class='num'>18</span>y = 4 − x², first quadrant, about the x-axis</h3>
+<section class='problem' id='p18'><h3><span class='pnum'>18</span>y = 4 − x², first quadrant, about the x-axis</h3>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <ol class='steps'>
 <li>Axis: x-axis, so radius \(=y=4-x^2\). Integrate in \(x\).</li>
@@ -253,7 +253,7 @@
 <div class='answer'><strong>Answer.</strong> \[SA=\int_0^22\pi\left(4-x^2\right)\sqrt{1+4x^2}\,dx\]</div>
 </div></details>
 </section>
-<section class='problem' id='p19'><h3><span class='num'>19</span>Parametric, about the x-axis</h3>
+<section class='problem' id='p19'><h3><span class='pnum'>19</span>Parametric, about the x-axis</h3>
 <div class='q'>\(x=2t\), \(y=t^2\sqrt{1-t^2}\), \(0\le t\le1\), revolved about the x-axis.</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <ol class='steps'>
@@ -263,7 +263,7 @@
 <div class='answer'><strong>Answer.</strong> \[SA=\int_0^12\pi\,t^2\sqrt{1-t^2}\,\sqrt{4+\left(2t\sqrt{1-t^2}-\frac{t^3}{\sqrt{1-t^2}}\right)^2}\,dt\]</div>
 </div></details>
 </section>
-<section class='problem' id='p20'><h3><span class='num'>20</span>A circle piece, set up and evaluate</h3>
+<section class='problem' id='p20'><h3><span class='pnum'>20</span>A circle piece, set up and evaluate</h3>
 <div class='q'>For \(y=\sqrt{4-x^2}\), for which \(x\) is it defined? It is rotated about the y-axis. Set up and evaluate the surface area.</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <ol class='steps'>
@@ -277,7 +277,7 @@
 <div class='answer'><strong>Answer.</strong> \(SA=8\pi\) (a hemisphere of radius 2, area \(\tfrac12\cdot4\pi\cdot4\))</div>
 </div></details>
 </section>
-<section class='problem' id='p21'><h3><span class='num'>21</span>x = e^t, y = e^(2t), about the x-axis</h3>
+<section class='problem' id='p21'><h3><span class='pnum'>21</span>x = e^t, y = e^(2t), about the x-axis</h3>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <ol class='steps'>
 <li>Axis: x-axis, so radius \(=y=e^{2t}\).</li>
@@ -288,7 +288,7 @@
 </div></details>
 </section>
 <h2>Not solved in the PDF</h2>
-<section class='problem' id='p22'><h3><span class='num'>22</span>Length of a curve defined by an integral</h3>
+<section class='problem' id='p22'><h3><span class='pnum'>22</span>Length of a curve defined by an integral</h3>
 <div class='q'>Find the length of \(y(x)=\displaystyle\int_1^x\sqrt{t^3-1}\,dt\) between \(x=9\) and \(x=16\).</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <div class='plan'><strong>Plan.</strong> Same trick as problem 1. The Fundamental Theorem gives \(y'\) directly.</div>

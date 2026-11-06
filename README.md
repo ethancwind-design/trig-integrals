@@ -13,7 +13,7 @@ caption bar, and a Back / jump / "n of N" / Next / Full screen toolbar.
 
 ## Plain study guide
 
-`study/` is a plain, game-free study guide for the Calc path: one page per class PDF (Quiz 5 practice, the arc length worksheet, Lectures 35-36, Week 10 notes and practice, Lectures 39, 40, 42-43, 44, Week 11 notes), every problem worked out step by step with a plan and a "watch out" note. Open `study/index.html`; it is also linked from the game's title screen. Pages are generated: edit `study/src/<page>.txt` and run `python3 study/build.py`. Needs internet once for the KaTeX math fonts.
+`study/` is a plain, game-free study guide for the Calc path: one page per class PDF (Quiz 5 practice, the arc length worksheet, Lectures 35-36, Week 10 notes and practice, Lectures 39, 40, 42-43, 44, Week 11 notes), every problem worked out step by step with a plan and a "watch out" note. Open `study/index.html`; it is also linked from the game's title screen. `study/grade-calculator.html` is a raw score calculator (six quizzes ranked and weighted 0/4/7/10/13/16%, final 33%, prep quizzes 5%, recitation 12%); it is plain client-side JavaScript with no backend, and it keeps your numbers only in the browser's localStorage. Pages are generated: edit `study/src/<page>.txt` and run `python3 study/build.py` (the calculator is written by hand in `study/src/grade-calculator.html`). Needs internet once for the KaTeX math fonts.
 
 | File | What it is |
 |---|---|

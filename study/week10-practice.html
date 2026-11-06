@@ -11,7 +11,7 @@
 <script defer src="study.js"></script>
 </head>
 <body>
-<nav id='nav'><details id='navd' open><summary>Documents</summary><a class='home' href='index.html'>All documents</a><a href='quiz5.html'>Quiz 5 practice problems<small>Quiz 5 Practice Problems + Answer Key</small></a><a href='worksheet.html'>Arc length and surface area worksheet<small>Fall 2026 Math 1400 worksheet + solutions</small></a><a href='lec35-36.html'>Lectures 35 and 36<small>Practice Problems + Solutions</small></a><a href='week10-notes.html'>Week 10 notes<small>Applications of Integration, Part 2</small></a><a class='cur' href='week10-practice.html'>Week 10 practice<small>Week 10 Practice + Key</small></a><a href='lec39.html'>Lecture 39<small>Practice Problems + Solutions</small></a><a href='lec40.html'>Lecture 40<small>Practice Problems + Solutions</small></a><a href='week11-notes.html'>Week 11 notes<small>Probability and expectation</small></a><a href='lec42-43.html'>Lectures 42 and 43<small>Practice Problems + Solutions</small></a><a href='lec44.html'>Lecture 44<small>Practice Problems + Solutions</small></a></details></nav>
+<nav id='nav'><details id='navd' open><summary>Documents</summary><a class='home' href='index.html'>All documents</a><a href='quiz5.html'>Quiz 5 practice problems<small>Quiz 5 Practice Problems + Answer Key</small></a><a href='worksheet.html'>Arc length and surface area worksheet<small>Fall 2026 Math 1400 worksheet + solutions</small></a><a href='lec35-36.html'>Lectures 35 and 36<small>Practice Problems + Solutions</small></a><a href='week10-notes.html'>Week 10 notes<small>Applications of Integration, Part 2</small></a><a class='cur' href='week10-practice.html'>Week 10 practice<small>Week 10 Practice + Key</small></a><a href='lec39.html'>Lecture 39<small>Practice Problems + Solutions</small></a><a href='lec40.html'>Lecture 40<small>Practice Problems + Solutions</small></a><a href='week11-notes.html'>Week 11 notes<small>Probability and expectation</small></a><a href='lec42-43.html'>Lectures 42 and 43<small>Practice Problems + Solutions</small></a><a href='lec44.html'>Lecture 44<small>Practice Problems + Solutions</small></a><a href='grade-calculator.html'>Raw score calculator<small>Quizzes, final exam, prep quizzes, recitation</small></a></details></nav>
 <main>
 <header>
 <h1>Week 10 practice</h1>
@@ -28,7 +28,7 @@
 <li>Why \(M_x\) has a \(\tfrac12\) and \(f^2\): a vertical strip of height \(f-g\) balances at its midpoint height \(\tfrac{f+g}{2}\). Its moment is \(\tfrac{f+g}2\cdot(f-g)=\tfrac12(f^2-g^2)\).</li>
 </ul>
 <h2>Part A: set up, don't evaluate</h2>
-<section class='problem' id='pa-a-'><h3><span class='num'>A(a)</span>Mass of a rod</h3>
+<section class='problem' id='pa-a-'><h3><span class='pnum'>A(a)</span>Mass of a rod</h3>
 <div class='q'>The mass of a rod on \(0\le x\le3\) with density \(\rho(x)=\sqrt{1+x}\).</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <div class='plan'><strong>Plan.</strong> Mass of a rod is the integral of its density.</div>
@@ -39,7 +39,7 @@
 <div class='answer'><strong>Answer.</strong> \(m=\displaystyle\int_0^3\sqrt{1+x}\,dx=\dfrac{14}{3}\)</div>
 </div></details>
 </section>
-<section class='problem' id='pa-b-'><h3><span class='num'>A(b)</span>Moment M_x of a region</h3>
+<section class='problem' id='pa-b-'><h3><span class='pnum'>A(b)</span>Moment M_x of a region</h3>
 <div class='q'>The moment \(M_x\) of the region between \(y=\sqrt x\) and \(y=x^2\) for \(0\le x\le1\) (uniform density).</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <div class='plan'><strong>Plan.</strong> Decide which curve is on top, then use \(M_x=\tfrac12\int(f^2-g^2)\,dx\) with \(\rho=1\).</div>
@@ -52,7 +52,7 @@
 </div></details>
 </section>
 <h2>Part B: average value</h2>
-<section class='problem' id='p1'><h3><span class='num'>1</span>Average value, integration by parts</h3>
+<section class='problem' id='p1'><h3><span class='pnum'>1</span>Average value, integration by parts</h3>
 <div class='q'>Find the average value of \(f(x)=xe^{-x}\) on \([0,2]\).</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <div class='plan'><strong>Plan.</strong> Integrate by parts, then divide by the interval length 2.</div>
@@ -66,7 +66,7 @@
 <div class='answer'><strong>Answer.</strong> \(f_{avg}=\dfrac{1-3e^{-2}}{2}\)</div>
 </div></details>
 </section>
-<section class='problem' id='p2'><h3><span class='num'>2</span>Mean Value Theorem for Integrals, sin squared</h3>
+<section class='problem' id='p2'><h3><span class='pnum'>2</span>Mean Value Theorem for Integrals, sin squared</h3>
 <div class='q'>Let \(f(x)=\sin^2x\) on \([0,\pi]\). (a) Find the average value. (b) Find every \(c\) in \((0,\pi)\) with \(f(c)=f_{avg}\). (c) Explain why there is more than one.</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <div class='plan'><strong>Plan.</strong> Use the power-reducing identity \(\sin^2x=\dfrac{1-\cos2x}{2}\) to integrate.</div>
@@ -80,7 +80,7 @@
 </div></details>
 </section>
 <h2>Part C: center of mass and centroids</h2>
-<section class='problem' id='p3'><h3><span class='num'>3</span>A rod heavier on one end</h3>
+<section class='problem' id='p3'><h3><span class='pnum'>3</span>A rod heavier on one end</h3>
 <div class='q'>A thin rod on \(0\le x\le1\) has density \(\rho(x)=\dfrac1{1+x^2}\). (a) Is \(\bar x\) left or right of \(\tfrac12\)? (b) Find \(m\), \(M_0\) and \(\bar x\).</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <div class='plan'><strong>Plan.</strong> For part (a), look at where the density is bigger. For (b), use the rod formulas.</div>
@@ -94,7 +94,7 @@
 <div class='answer'><strong>Answer.</strong> \(m=\dfrac\pi4\), \(M_0=\dfrac{\ln2}{2}\), \(\bar x=\dfrac{2\ln2}{\pi}\)</div>
 </div></details>
 </section>
-<section class='problem' id='p4'><h3><span class='num'>4</span>Centroid under one arch of sine</h3>
+<section class='problem' id='p4'><h3><span class='pnum'>4</span>Centroid under one arch of sine</h3>
 <div class='q'>Find the centroid of the region under \(y=\sin x\), \(0\le x\le\pi\), above the x-axis. Use symmetry.</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <div class='plan'><strong>Plan.</strong> The arch is symmetric about \(x=\tfrac\pi2\), so \(\bar x=\tfrac\pi2\) for free. Then compute \(A\) and \(M_x\).</div>
@@ -107,7 +107,7 @@
 <div class='answer'><strong>Answer.</strong> \((\bar x,\bar y)=\left(\dfrac\pi2,\dfrac\pi8\right)\)</div>
 </div></details>
 </section>
-<section class='problem' id='p5'><h3><span class='num'>5</span>An arched window (no integrals)</h3>
+<section class='problem' id='p5'><h3><span class='pnum'>5</span>An arched window (no integrals)</h3>
 <div class='q'>A window is a \(4\times2\) rectangle (\(-2\le x\le2\), \(0\le y\le2\)) topped by a semicircle of radius 2. Find the centroid.</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <div class='plan'><strong>Plan.</strong> Use the composite formula: weight each piece's centroid by its area. The semicircle's centroid is \(\dfrac{4r}{3\pi}\) above its flat edge.</div>
@@ -122,7 +122,7 @@
 <div class='careful'><strong>Watch out.</strong> the semicircle's centroid is measured from its <strong>own</strong> flat edge. Add the 2 to place it on the window.</div>
 </div></details>
 </section>
-<section class='problem' id='p6'><h3><span class='num'>6</span>When density varies</h3>
+<section class='problem' id='p6'><h3><span class='pnum'>6</span>When density varies</h3>
 <div class='q'>The lamina under \(y=4-x^2\) for \(0\le x\le2\) (above the x-axis) has density \(\rho(x)=x\). (a) Find its mass and center of mass. (b) The uniform-density centroid is \(\left(\tfrac34,\tfrac85\right)\). Compare and explain the shift.</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <div class='plan'><strong>Plan.</strong> Put \(\rho(x)=x\) inside all three integrals. Here \(f=4-x^2\), \(g=0\).</div>
@@ -137,7 +137,7 @@
 </div></details>
 </section>
 <h2>Challenge</h2>
-<section class='problem' id='p7'><h3><span class='num'>7</span>Parts, twice</h3>
+<section class='problem' id='p7'><h3><span class='pnum'>7</span>Parts, twice</h3>
 <div class='q'>Find the centroid of the region bounded by \(y=\ln x\), the x-axis and the line \(x=e\).</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <div class='plan'><strong>Plan.</strong> The curve crosses the x-axis at \(x=1\), so the region is \(1\le x\le e\). Two integrals need integration by parts.</div>

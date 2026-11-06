@@ -30,7 +30,11 @@ PAGES = [
     ("week11-notes", "Week 11 notes", "Probability and expectation"),
     ("lec42-43", "Lectures 42 and 43", "Practice Problems + Solutions"),
     ("lec44", "Lecture 44", "Practice Problems + Solutions"),
+    ("grade-calculator", "Raw score calculator", "Quizzes, final exam, prep quizzes, recitation"),
 ]
+
+# pages written by hand as an HTML fragment in src/<slug>.html (no solutions toggle)
+HAND_PAGES = {"grade-calculator"}
 
 
 def inline(s):
@@ -124,7 +128,7 @@ def render(lines):
                 out.append(f"<h3 class='sub'>{inline(s[4:])}</h3>")
                 continue
             pid = re.sub(r"[^a-z0-9]+", "-", ("p" + num).lower())
-            out.append(f"<section class='problem' id='{pid}'><h3><span class='num'>{html.escape(num)}</span>{inline(title)}</h3>")
+            out.append(f"<section class='problem' id='{pid}'><h3><span class='pnum'>{html.escape(num)}</span>{inline(title)}</h3>")
             in_problem = True
         elif s.startswith("## "):
             close_ul()
@@ -177,7 +181,8 @@ def sidebar(current):
     return "<nav id='nav'><details id='navd' open><summary>Documents</summary>" + "".join(items) + "</details></nav>"
 
 
-def page(slug, title, sub, body):
+def page(slug, title, sub, body, tools=True):
+    toolbar = '<div class="tools"><button type="button" id="collapse">Hide all solutions</button><button type="button" id="expand">Show all solutions</button></div>' if tools else ""
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -196,7 +201,7 @@ def page(slug, title, sub, body):
 <header>
 <h1>{html.escape(title)}</h1>
 <p class="src">From: {html.escape(sub)}</p>
-<div class="tools"><button type="button" id="collapse">Hide all solutions</button><button type="button" id="expand">Show all solutions</button></div>
+{toolbar}
 </header>
 {body}
 <footer>Study guide built from your class PDFs. Needs internet once to load the math fonts.</footer>
@@ -209,12 +214,12 @@ def page(slug, title, sub, body):
 def index():
     rows = []
     for slug, title, sub in PAGES:
-        p = os.path.join(SRC, slug + ".txt")
+        p = os.path.join(SRC, slug + (".html" if slug in HAND_PAGES else ".txt"))
         n = 0
-        if os.path.exists(p):
+        if os.path.exists(p) and slug not in HAND_PAGES:
             n = sum(1 for l in open(p, encoding="utf-8") if l.startswith("### "))
         noun = "worked examples" if slug.endswith("notes") else "problems"
-        count = f"{n} {noun}" if n else "coming"
+        count = "interactive" if slug in HAND_PAGES else (f"{n} {noun}" if n else "coming")
         built = os.path.exists(p)
         link = f"<a href='{slug}.html'>{html.escape(title)}</a>" if built else html.escape(title) + " (coming)"
         rows.append(f"<li>{link}<small>{html.escape(sub)} · {count}</small></li>")
@@ -228,13 +233,14 @@ def index():
 
 def main():
     for slug, title, sub in PAGES:
-        p = os.path.join(SRC, slug + ".txt")
+        hand = slug in HAND_PAGES
+        p = os.path.join(SRC, slug + (".html" if hand else ".txt"))
         if not os.path.exists(p):
             continue
         with open(p, encoding="utf-8") as f:
-            body = render(f.readlines())
+            body = f.read() if hand else render(f.readlines())
         with open(os.path.join(HERE, slug + ".html"), "w", encoding="utf-8") as f:
-            f.write(page(slug, title, sub, body))
+            f.write(page(slug, title, sub, body, tools=not hand))
         print("built", slug)
     with open(os.path.join(HERE, "index.html"), "w", encoding="utf-8") as f:
         f.write(index())

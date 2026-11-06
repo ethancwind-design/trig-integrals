@@ -11,7 +11,7 @@
 <script defer src="study.js"></script>
 </head>
 <body>
-<nav id='nav'><details id='navd' open><summary>Documents</summary><a class='home' href='index.html'>All documents</a><a href='quiz5.html'>Quiz 5 practice problems<small>Quiz 5 Practice Problems + Answer Key</small></a><a class='cur' href='worksheet.html'>Arc length and surface area worksheet<small>Fall 2026 Math 1400 worksheet + solutions</small></a><a href='lec35-36.html'>Lectures 35 and 36<small>Practice Problems + Solutions</small></a><a href='week10-notes.html'>Week 10 notes<small>Applications of Integration, Part 2</small></a><a href='week10-practice.html'>Week 10 practice<small>Week 10 Practice + Key</small></a><a href='lec39.html'>Lecture 39<small>Practice Problems + Solutions</small></a><a href='lec40.html'>Lecture 40<small>Practice Problems + Solutions</small></a><a href='week11-notes.html'>Week 11 notes<small>Probability and expectation</small></a><a href='lec42-43.html'>Lectures 42 and 43<small>Practice Problems + Solutions</small></a><a href='lec44.html'>Lecture 44<small>Practice Problems + Solutions</small></a></details></nav>
+<nav id='nav'><details id='navd' open><summary>Documents</summary><a class='home' href='index.html'>All documents</a><a href='quiz5.html'>Quiz 5 practice problems<small>Quiz 5 Practice Problems + Answer Key</small></a><a class='cur' href='worksheet.html'>Arc length and surface area worksheet<small>Fall 2026 Math 1400 worksheet + solutions</small></a><a href='lec35-36.html'>Lectures 35 and 36<small>Practice Problems + Solutions</small></a><a href='week10-notes.html'>Week 10 notes<small>Applications of Integration, Part 2</small></a><a href='week10-practice.html'>Week 10 practice<small>Week 10 Practice + Key</small></a><a href='lec39.html'>Lecture 39<small>Practice Problems + Solutions</small></a><a href='lec40.html'>Lecture 40<small>Practice Problems + Solutions</small></a><a href='week11-notes.html'>Week 11 notes<small>Probability and expectation</small></a><a href='lec42-43.html'>Lectures 42 and 43<small>Practice Problems + Solutions</small></a><a href='lec44.html'>Lecture 44<small>Practice Problems + Solutions</small></a><a href='grade-calculator.html'>Raw score calculator<small>Quizzes, final exam, prep quizzes, recitation</small></a></details></nav>
 <main>
 <header>
 <h1>Arc length and surface area worksheet</h1>
@@ -27,7 +27,7 @@
 <li>Then \[SA=\int 2\pi\,(\text{radius})\,ds.\]</li>
 </ul>
 <h2>Part I: arc length</h2>
-<section class='problem' id='p1'><h3><span class='num'>1</span>Arc length, a simple power</h3>
+<section class='problem' id='p1'><h3><span class='pnum'>1</span>Arc length, a simple power</h3>
 <div class='q'>Find the length of the curve \(y=\tfrac43x^{3/2}\), \(0\le x\le2\).</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <div class='plan'><strong>Plan.</strong> Differentiate, square, add 1. Here the result is not a perfect square, but it is a simple linear expression so a substitution finishes it.</div>
@@ -41,7 +41,7 @@
 <div class='answer'><strong>Answer.</strong> \(L=\dfrac{13}{3}\)</div>
 </div></details>
 </section>
-<section class='problem' id='p2'><h3><span class='num'>2</span>Arc length, perfect square trick</h3>
+<section class='problem' id='p2'><h3><span class='pnum'>2</span>Arc length, perfect square trick</h3>
 <div class='q'>Find the length of the curve \(y=\dfrac{x^3}{6}+\dfrac{1}{2x}\), \(1\le x\le3\).</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <div class='plan'><strong>Plan.</strong> Rewrite as \(\tfrac16x^3+\tfrac12x^{-1}\), differentiate, square, add 1, and look for a perfect square.</div>
@@ -56,7 +56,7 @@
 <div class='answer'><strong>Answer.</strong> \(L=\dfrac{14}{3}\)</div>
 </div></details>
 </section>
-<section class='problem' id='p3'><h3><span class='num'>3</span>Arc length of a log curve</h3>
+<section class='problem' id='p3'><h3><span class='pnum'>3</span>Arc length of a log curve</h3>
 <div class='q'>Find the length of the curve \(y=\ln\left(1-x^2\right)\), \(0\le x\le\tfrac12\).</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <div class='plan'><strong>Plan.</strong> Chain rule for the derivative. The expression under the root turns into a perfect square again, but you then have to integrate a fraction by long division and partial fractions.</div>
@@ -73,7 +73,7 @@
 <div class='careful'><strong>Watch out.</strong> \(\int\dfrac1{1-x}dx=-\ln|1-x|\). The minus sign comes from the chain rule.</div>
 </div></details>
 </section>
-<section class='problem' id='p4'><h3><span class='num'>4</span>Arc length of ln(cos x)</h3>
+<section class='problem' id='p4'><h3><span class='pnum'>4</span>Arc length of ln(cos x)</h3>
 <div class='q'>Find the length of the curve \(y=\ln(\cos x)\), \(0\le x\le\tfrac\pi3\).</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <div class='plan'><strong>Plan.</strong> The derivative becomes \(-\tan x\), and the identity \(1+\tan^2x=\sec^2x\) kills the square root.</div>
@@ -88,7 +88,7 @@
 </div></details>
 </section>
 <h2>Part II: surface area of revolution</h2>
-<section class='problem' id='p5'><h3><span class='num'>5</span>Surface area, curve with a fourth-root limit</h3>
+<section class='problem' id='p5'><h3><span class='pnum'>5</span>Surface area, curve with a fourth-root limit</h3>
 <div class='q'>The curve \(y=\dfrac{x^3}{3}\), \(0\le x\le\sqrt[4]{8}\), is rotated about the x-axis. Find the surface area.</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <div class='plan'><strong>Plan.</strong> About the x-axis, radius \(=y=\tfrac{x^3}{3}\). The curve is \(y=f(x)\), so integrate in \(x\).</div>
@@ -102,7 +102,7 @@
 <div class='answer'><strong>Answer.</strong> \(SA=\dfrac{26\pi}{9}\)</div>
 </div></details>
 </section>
-<section class='problem' id='p6'><h3><span class='num'>6</span>Surface area, half circle spun about the y-axis</h3>
+<section class='problem' id='p6'><h3><span class='pnum'>6</span>Surface area, half circle spun about the y-axis</h3>
 <div class='q'>The curve \(x=\sqrt{4-y^2}\), \(-1\le y\le1\), is rotated about the y-axis. Find the surface area.</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <div class='plan'><strong>Plan.</strong> About the y-axis, radius \(=x=\sqrt{4-y^2}\). The curve is \(x=g(y)\), so integrate in \(y\). Things cancel nicely.</div>
@@ -115,7 +115,7 @@
 <div class='answer'><strong>Answer.</strong> \(SA=8\pi\) (a band cut from a sphere of radius 2)</div>
 </div></details>
 </section>
-<section class='problem' id='p7'><h3><span class='num'>7</span>Surface area, x = (2/3) y to the 3/2, about the x-axis</h3>
+<section class='problem' id='p7'><h3><span class='pnum'>7</span>Surface area, x = (2/3) y to the 3/2, about the x-axis</h3>
 <div class='q'>The curve \(x=\tfrac23y^{3/2}\), \(0\le y\le3\), is rotated about the x-axis. Find the surface area.</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <div class='plan'><strong>Plan.</strong> About the x-axis, radius \(=y\). The curve is \(x=g(y)\), so integrate in \(y\). The radius is already \(y\), so leave it alone.</div>
@@ -131,7 +131,7 @@
 <div class='careful'><strong>Watch out.</strong> when the substitution is \(u=1+y\), you must replace the extra \(y\) with \(u-1\). Forgetting that is the most common error here.</div>
 </div></details>
 </section>
-<section class='problem' id='p8'><h3><span class='num'>8</span>Surface area of a cosh curve</h3>
+<section class='problem' id='p8'><h3><span class='pnum'>8</span>Surface area of a cosh curve</h3>
 <div class='q'>The curve \(y=\dfrac{e^x+e^{-x}}{2}\), \(0\le x\le\ln2\), is rotated about the x-axis. Find the surface area.</div>
 <details class='sol' open><summary>Solution</summary><div class='solbody'>
 <div class='plan'><strong>Plan.</strong> Radius \(=y\). Integrating in \(x\), so replace \(y\) with \(f(x)\). The square root again becomes a perfect square.</div>
