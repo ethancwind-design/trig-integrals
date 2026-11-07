@@ -1,10 +1,9 @@
 /* Choose-your-character, shared by every page: pick one once, then it sits in the bottom-right corner (static, no animation).
    The ten characters are Kenney's CC0 Animal Pack (img/chars/); CHARS below lists them as { id, name, img }. While it is empty the picker is skipped.
    The pick is kept in localStorage; the small ⇄ button re-opens the picker.
-   The Dopamine Music Button plays the Brawl Stars menu theme through a YouTube embed (see MUSIC; it is an unofficial upload). */
+   (The music button was removed.) */
 (function () {
   const KEY = 'trigquest.buddy';
-  const MUSIC = { id: 'oH_Cgrkz_Lk', title: 'Brawl Stars OST | OG Classic | Menu Music', by: 'Blast Brawl' };
   const BASE = document.currentScript ? new URL('.', document.currentScript.src).href : '';
   /* Kenney's CC0 Animal Pack (round style), copied to img/chars/ */
   const CHARS = ['giraffe', 'panda', 'parrot', 'penguin', 'monkey', 'rabbit', 'snake', 'hippo', 'pig', 'elephant']
@@ -37,18 +36,10 @@
   document.head.appendChild(css);
 
   let dock = null, picker = null;
-  function tune() {
-    const btn = dock.querySelector('.tune'), pl = dock.querySelector('.player');
-    if (pl.firstChild) { pl.innerHTML = ''; pl.hidden = true; btn.setAttribute('aria-pressed', 'false'); return; }
-    /* the player stays visible while the music plays (YouTube's embed rules do not allow hiding it) */
-    pl.innerHTML = `<iframe title="${MUSIC.title}" src="https://www.youtube.com/embed/${MUSIC.id}?autoplay=1&loop=1&playlist=${MUSIC.id}&rel=0&playsinline=1&modestbranding=1" allow="autoplay; encrypted-media; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
-    pl.hidden = false; btn.setAttribute('aria-pressed', 'true');
-  }
   function mount(c) {
     if (!dock) {
       dock = document.createElement('div'); dock.className = 'buddy';
-      dock.innerHTML = '<div class="player" hidden></div><div class="row"><button type="button" class="tune" aria-pressed="false">♪ Dopamine Music Button</button><div class="sit"><button type="button" class="swap" title="Change brawler" aria-label="Change brawler">⇄</button></div></div>';
-      dock.querySelector('.tune').addEventListener('click', e => { e.stopPropagation(); tune(); });
+      dock.innerHTML = '<div class="row"><div class="sit"><button type="button" class="swap" title="Change brawler" aria-label="Change brawler">⇄</button></div></div>';
       dock.querySelector('.swap').addEventListener('click', e => { e.stopPropagation(); pick(); });
       document.body.appendChild(dock);
     }
@@ -68,8 +59,7 @@
     picker = document.createElement('div'); picker.className = 'buddypick'; picker.setAttribute('role', 'dialog'); picker.setAttribute('aria-modal', 'true'); picker.setAttribute('aria-label', 'Choose your brawler');
     picker.innerHTML = '<div class="card"><h2>Choose your brawler</h2><div class="opts">' +
       CHARS.map(c => `<button type="button" class="opt" data-id="${c.id}"><img src="${c.img}" alt="" draggable="false">${c.name}</button>`).join('') +
-      `</div><p class="credit">Characters: <a href="https://opengameart.org/content/animal-pack" target="_blank" rel="noopener">Animal Pack</a> by Kenney (CC0). ` +
-      `The Dopamine Music Button plays the Brawl Stars menu theme from YouTube (“${MUSIC.title}” by ${MUSIC.by}, an unofficial upload) and is not affiliated with or endorsed by Supercell.</p></div>`;
+      `</div><p class="credit">Characters: <a href="https://opengameart.org/content/animal-pack" target="_blank" rel="noopener">Animal Pack</a> by Kenney (CC0).</p></div>`;
     picker.addEventListener('click', e => {
       e.stopPropagation();
       const b = e.target.closest('.opt'); if (!b) return;

@@ -432,8 +432,8 @@ function hub() {
   stopRun();
   const last = S.last;
   const pathsSlide = () => ({
-    eb: 'Main menu', main: `<div class="display sm">Choose your path</div><div class="mcards two">${PATHS.map(p => { const sls = storyFor(p.id), solved = sls.reduce((n, sl) => n + slSolved(sl), 0);
-      return `<a class="mc" href="#/path/${p.id}" style="--c:var(${p.c})"><span class="gl">${p.glyph}</span><span class="tag">${p.tag}${S.path === p.id ? ' · current' : ''}</span><h3>${p.name}</h3><p>${p.blurb}</p><span class="meta">${sls.length} cards · ${solved}/${PATH_N[p.id]} solved</span></a>`; }).join('')}</div>
+    eb: 'Main menu', main: `<div class="display sm">Choose your path</div><div class="mcards three">${PATHS.map(p => { const sls = storyFor(p.id), solved = sls.reduce((n, sl) => n + slSolved(sl), 0);
+      return `<a class="mc" href="#/path/${p.id}" style="--c:var(${p.c})"><span class="gl">${p.glyph}</span><span class="tag">${p.tag}${S.path === p.id ? ' · current' : ''}</span><h3>${p.name}</h3><p>${p.blurb}</p><span class="meta">${sls.length} cards · ${solved}/${PATH_N[p.id]} solved</span></a>`; }).join('')}<a class="mc" href="study/grade-calculator.html" style="--c:var(--ca)"><span class="gl">%</span><span class="tag">Tool</span><h3>Grade Calculator</h3><p>Type your quiz, final, prep quiz and recitation scores and get your raw score.</p><span class="meta">Open the calculator ↗</span></a></div>
       <div class="modestrip">${last ? `<a class="btn sm" href="${esc(last.hash)}">Continue<span class="m">${esc(last.label)}</span></a>` : ''}<a class="btn sm" href="study/index.html">Study guide<span class="m">one page per PDF</span></a><a class="btn sm" href="codex.html">Codex<span class="m">every formula</span></a></div>`,
     say: ['Choose', 'Each path is one section: its story lines, Daily Run, Blitz and Survival all live together. You can switch any time. Progress, XP and stars are saved in this browser.  <button class="btn sm" data-act="reset" style="margin-left:10px">Reset progress</button>'] });
   openDeck({ slides: [pathsSlide], jump: [], start: 0 });
