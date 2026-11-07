@@ -3,7 +3,7 @@
 One project with two paths: a slide-deck game plus a searchable library.
 
 - **Trig** path: identities, integrals, MATH 1400 exam prep (the original Trig Quest, 816 problems).
-- **Calc** path: arc length and surface area (lectures 35-36), averages and centroids (lectures 39-40, Week 10 practice), probability densities (lectures 42-43), expectation and variance (lecture 44). 176 problems from the Quiz 5 practice set (all 25, matching the answer key), the arc length / surface area worksheet, the Week 10 in-class practice and the lecture practice problems; the figure-based ones (Lecture 40 #20 and #21) are left out.
+- **Calc** path: one story-line card per class PDF (Quiz 5 practice, the arc length worksheet, Lectures 35-36, Week 10 notes and practice, Lectures 39, 40, 42-43, 44, Week 11 notes). Each card's chapters follow the sections of that document, pick problems by the document label in their `src`, and every answer slide has a "Step-by-step solution" link into `study/`. The two notes cards open the notes pages. 176 problems (130 from the PDFs, 46 extra ones kept out of the story screen but still used by Daily Run, Blitz and Survival); the figure-based ones (Lecture 40 #20 and #21) are left out. The story-line definitions are `DOCS` in `quest.js`.
 
 Pick a path from the main menu (or "Switch path" on a path's home screen). Each path is one section: its story lines, Daily Run, Blitz and Survival sit together, and the Trig path also links the Codex and the lessons.
 Open `index.html` (needs internet once for MathJax and fonts; add `?fast` to skip the boot screen).

@@ -147,8 +147,9 @@ Q: Average $x$-coordinate of $1\le x\le3$, $0\le y\le\ln x$.
 Answer: $\bar x=\dfrac{\tfrac92\ln3-2}{3\ln3-2}\approx2.27$
 Careful: $\int\ln x\,dx=x\ln x-x$, not $x\ln x$. The PDF's printed area $3(\ln3-1)$ leaves out the $-x$ part, so the answer there is different. The value above matches a numerical check.
 
-## Greater, less, or equal (problem 17)
+## Comparing and set-ups
 
+### 17. Greater, less, or equal
 Q: The region is $(x-1)^2\le y\le2$. Circle greater than, less than or equal to and explain.
 (a) The x-coordinate of the centroid vs the y-coordinate of the centroid.
 (b) The y-coordinate of the centroid vs the y-coordinate of the center of mass with density $\rho=\pi$.

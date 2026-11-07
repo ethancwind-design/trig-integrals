@@ -117,9 +117,21 @@ function mcProblems(it, s, g, gi, ii) {
   });
   return out;
 }
+function labelOrder(src) {   // "…Practice #12", "#2b", "#A(a)", "#B1" -> a sortable number
+  const lab = (src || '').split(' #')[1] || '';
+  if (/^A\(a\)/.test(lab)) return -3; if (/^A\(b\)/.test(lab)) return -2;
+  const m = /^B?(\d+)([a-d]?)$/.exec(lab); return m ? +m[1] + (m[2] ? (m[2].charCodeAt(0) - 96) / 10 : 0) : 999;
+}
 function gather(c) {
   const out = [], seen = new Set();
   c.src.forEach(([secId, sel]) => {
+    if (secId === '@docs') {   // problems picked by the document label in their src (Calc path: one story line per PDF)
+      const hits = [];
+      Object.keys(secById).filter(id => /^c_/.test(id)).forEach(id => { const sc = secById[id]; sc.groups.forEach((g, gi) => g.items.forEach((it, ii) => { if (sel(it.src || '')) hits.push([sc, g, gi, it, ii]); })); });
+      hits.sort((a, b) => labelOrder(a[3].src) - labelOrder(b[3].src));
+      hits.forEach(([sc, g, gi, it, ii]) => { const p = selfProblem(it, sc, g, gi, ii); if (!p) return; const key = p.q + '|' + p.a; if (!seen.has(key)) { seen.add(key); out.push(p); } });
+      return;
+    }
     const s = secById[secId]; if (!s) return;
     s.groups.forEach((g, gi) => {
       if (sel && !sel.some(p => typeof p === 'number' ? p === gi : p instanceof RegExp ? p.test(g.t) : g.t.startsWith(p))) return;
@@ -207,50 +219,74 @@ const STORY = [
 ];
 STORY.forEach(sl => { sl.path = 'trig'; });
 
-/* Calc path: the four topics of weeks 10 and 11 (Quiz 5), organised by lecture. Problems come from calcdata.js (group indexes = build/calc_build.py ORDER). */
-STORY.push(
-  { id: 'arc', path: 'calc', name: 'Arc Length & Surface Area', glyph: 'ℓ', color: '#5B8CFF', tag: 'Lectures 35–36 · curves and surfaces',
-    blurb: 'How long is the curve, and how much area does it sweep out when you spin it? The radical almost always collapses into a perfect square.', chapters: [
-    C('Arc Length · y = f(x)', 'L = ∫ √(1 + (f′)²) dx. Look for a perfect square under the root.', 'self', [['c_arc', [0]]]),
-    C('Arc Length · Parametric & x = g(y)', 'L = ∫ √(x′² + y′²) dt, or swap the roles of x and y.', 'self', [['c_arc', [1]]]),
-    C('Surface Area · About the x-axis', 'S = 2π ∫ y ds, where ds = √(1 + y′²) dx.', 'self', [['c_arc', [2]]]),
-    C('Surface Area · About the y-axis', 'S = 2π ∫ x ds: the radius is now x.', 'self', [['c_arc', [3]]]),
-    C('Set Up the Integral', 'Choose the radius and the arc-length element, then write the integral without evaluating it.', 'self', [['c_arc', [4]]])
-  ] },
-  { id: 'avg', path: 'calc', name: 'Averages & Centroids', glyph: 'x̄', color: '#3DDC97', tag: 'Lectures 39–40 · averages and balance points',
-    blurb: 'The average value of a function, averages over curves and surfaces, the centroid of a region, and the center of mass when the density is not constant.', chapters: [
-    C('Average Value', 'f_avg = 1/(b − a) ∫ f dx. Check symmetry first.', 'self', [['c_avg', [0]]]),
-    C('Average Value · True or False', 'Reason about averages without computing them.', 'self', [['c_avg', [1]]]),
-    C('Averages Over Curves & Surfaces', 'Weight by arc length ds or surface area dS, not by dx.', 'self', [['c_avg', [2]]]),
-    C('Centroids of Regions', 'x̄ = (1/A) ∫ x (top − bottom) dx, ȳ = (1/A) ∫ ½ (top² − bottom²) dx.', 'self', [['c_avg', [3]]]),
-    C('Center of Mass with Density', 'Weight every slice by ρ: x̄ = ∫ x ρ dx / ∫ ρ dx.', 'self', [['c_avg', [4]]]),
-    C('Compare & Explain', 'Greater, less or equal? Use symmetry and where the density is larger.', 'self', [['c_avg', [5]]]),
-    C('Set Up Mass & Moments', 'Write m, M_x, M_y and the center of mass as integrals.', 'self', [['c_avg', [6]]])
-  ] },
-  { id: 'pdf', path: 'calc', name: 'Probability Densities', glyph: 'f', color: '#FF6FD8', tag: 'Lectures 42–43 · continuous probability',
-    blurb: 'A density is a function that integrates to 1. Find the missing constant, turn areas under the curve into probabilities, and use geometry when the point is uniform.', chapters: [
-    C('Find the Constant', 'Set ∫ f = 1 and solve for the unknown.', 'self', [['c_pdf', [0]]]),
-    C('Probabilities from a Density', 'P(a ≤ X ≤ b) = ∫ f from a to b.', 'self', [['c_pdf', [1]]]),
-    C('Geometric Probability', 'Uniform means probability = favorable measure ÷ total measure.', 'self', [['c_pdf', [2]]])
-  ] },
-  { id: 'ev', path: 'calc', name: 'Expectation & Variance', glyph: 'μ', color: '#FFD84D', tag: 'Lecture 44 · mean, median, spread',
-    blurb: 'The mean, the median, and how spread out a random variable is, from a density, from a cumulative probability, or from a list of values.', chapters: [
-    C('Mean (Expected Value)', 'μ = ∫ x f(x) dx.', 'self', [['c_ev', [0]]]),
-    C('Median', 'Solve ∫ f = ½ from the left end of the support.', 'self', [['c_ev', [1]]]),
-    C('Variance & Standard Deviation', 'σ² = E[X²] − μ², and σ is its square root.', 'self', [['c_ev', [2]]]),
-    C('Mean from a Cumulative Probability', 'Differentiate P(X < x) to get the density, then integrate x f(x).', 'self', [['c_ev', [3]]]),
-    C('Discrete Random Variables', 'Sums instead of integrals: E[X] = Σ x P(x).', 'self', [['c_ev', [4]]])
-  ] }
-);
+/* Calc path: one story line per class PDF. Each card is a document (problem set + its solutions, or lecture notes); its chapters follow the sections of that document.
+   Problems come from calcdata.js and are picked by the document label in their src ("MATH 1400 · Lecture 44 #5" -> Lecture 44). */
+const nums = (...a) => { const set = new Set(); a.forEach(x => { if (Array.isArray(x)) for (let i = x[0]; i <= x[1]; i++) set.add(String(i)); else set.add(String(x)); }); return set; };
+const docPred = (prefix, set) => src => { if (!src.startsWith(prefix + ' #')) return false; const lab = src.slice(prefix.length + 2); return set.has(lab) || set.has(lab.replace(/[a-d]$/, '')); };
+const DOCS = [
+  { id: 'q5', page: 'quiz5', name: 'Quiz 5 Practice Problems', glyph: 'Q5', cv: '--cx', prefix: 'MATH 1400 · Quiz 5 Practice', tag: 'Practice problems + answer key',
+    blurb: 'The 25 practice problems for Quiz 5 (weeks 10 and 11), in the order they are printed: arc length and surface area, average value, centroids, then probability.', ch: [
+    ['Arc length and surface area', 'Problems 1–9. L = ∫ √(1 + y′²) dx. About the x-axis the radius is y, about the y-axis it is x.', [[1, 9]]],
+    ['Average value', 'Problems 10–11. f_avg = 1/(b − a) ∫ f dx.', [[10, 11]]],
+    ['Centroids and center of mass', 'Problems 12–17. Use symmetry first, and put the density in every integral.', [[12, 17]]],
+    ['Probability, mean and median', 'Problems 18–25. The total area is 1, μ = ∫ x f dx, the median solves ∫ f = ½.', [[18, 25]]] ] },
+  { id: 'ws', page: 'worksheet', name: 'Arc Length & Surface Area Worksheet', glyph: 'WS', cv: '--cd', prefix: 'Worksheet: Arc Length and Surface Area', tag: 'Worksheet + solutions',
+    blurb: 'Four arc lengths and four surfaces of revolution. Every one is built so the square root collapses into a perfect square.', ch: [
+    ['Part I · Arc length', 'Problems 1–4. Differentiate, square, add 1, find the perfect square.', [[1, 4]]],
+    ['Part II · Surface area', 'Problems 5–8. S = 2π ∫ (radius) ds. Pick the radius from the axis.', [[5, 8]]] ] },
+  { id: 'l3536', page: 'lec35-36', name: 'Lectures 35 and 36', glyph: '35', cv: '--cr', prefix: 'MATH 1400 · Lectures 35–36', tag: 'Practice problems + solutions',
+    blurb: 'Arc length and surface area of revolution: the tiny right triangle behind dL, then curves given as y = f(x), x = g(y) or parametrically.', ch: [
+    ['Arc length · y = f(x) and x = g(y)', 'Problems 1–6 and 22. dL = √(1 + y′²) dx or √(1 + x′²) dy.', [[1, 6], 22]],
+    ['Surface area', 'Problems 7–10. S = ∫ 2π r dL.', [[7, 10]]],
+    ['Parametric arc length', 'Problems 11–15. dL = √(x′² + y′²) dt. Factor out the common power of t.', [[11, 15]]],
+    ['Set up the integral', 'Problems 16–21. Axis, radius, dL, limits. Do not evaluate.', [[16, 21]]] ] },
+  { id: 'w10n', page: 'week10-notes', href: 'study/week10-notes.html', name: 'Week 10 Notes', glyph: 'W10', cv: '--cp', tag: 'Lecture notes · 15 worked examples',
+    blurb: 'Arc length, surface area, average value and centroids, with the worked examples from the notes.', ch: [] },
+  { id: 'w10p', page: 'week10-practice', name: 'Week 10 Practice', glyph: 'P10', cv: '--ct', prefix: 'Week 10 In-Class Practice', tag: 'Practice + answer key',
+    blurb: 'The in-class practice sheet: set up integrals, average value, then centers of mass and centroids.', ch: [
+    ['Part A · Set up, do not evaluate', 'Mass of a rod and M_x of a region.', ['A(a)', 'A(b)']],
+    ['Part B · Average value', 'f_avg and the Mean Value Theorem for integrals.', ['B1', 'B2']],
+    ['Part C · Centers of mass', 'Rod, symmetry, composite shapes and a varying density.', [3, 5, 6, 7]] ] },
+  { id: 'l39', page: 'lec39', name: 'Lecture 39', glyph: '39', cv: '--cy', prefix: 'MATH 1400 · Lecture 39', tag: 'Practice problems + solutions',
+    blurb: 'Averages: over an interval, along a curve (weight by arc length) and over a surface (weight by surface area).', ch: [
+    ['Average over an interval', 'Problems 1–7. Divide the integral by the length of the interval.', [[1, 7]]],
+    ['Average along a curve', 'Problems 9–10. The slice is arc length dL.', [9, 10]],
+    ['Set up the average', 'Problems 8, 11, 12. Quantity times slice, divided by slice.', [8, 11, 12]] ] },
+  { id: 'l40', page: 'lec40', name: 'Lecture 40', glyph: '40', cv: '--ca', prefix: 'MATH 1400 · Lecture 40', tag: 'Practice problems + solutions',
+    blurb: 'Centroids and centers of mass: symmetry, moments, and what a density does to the balance point.', ch: [
+    ['Centroids and center of mass', 'Problems 1–6.', [[1, 6]]],
+    ['Centroid plus a density question', 'Problems 7–11. Find the centroid, then choose a density.', [[7, 11]]],
+    ['Average y-coordinate of a region', 'Problems 12–16. This is the centroid coordinate ȳ.', [[12, 16]]],
+    ['Greater, less or equal, and set-ups', 'Problems 17–19.', [[17, 19]]] ] },
+  { id: 'w11n', page: 'week11-notes', href: 'study/week11-notes.html', name: 'Week 11 Notes', glyph: 'W11', cv: '--cx', tag: 'Lecture notes · 9 worked examples',
+    blurb: 'Probability with calculus: densities, mean and median, exponential and normal models, geometric probability and the CDF.', ch: [] },
+  { id: 'l4243', page: 'lec42-43', name: 'Lectures 42 and 43', glyph: '42', cv: '--cd', prefix: 'MATH 1400 · Lectures 42–43', tag: 'Practice problems + solutions',
+    blurb: 'Probability from areas, and probability density functions.', ch: [
+    ['Geometric probability', 'Problems 1, 4, 5, 6, 7, 11. Favorable area ÷ total area.', [1, 4, 5, 6, 7, 11]],
+    ['Probability density functions', 'Problems 2, 3, 8, 9, 10. Total area 1, tails as improper integrals.', [2, 3, 8, 9, 10]],
+    ['A random point in a solid', 'Problem 12. Volume above a height ÷ total volume.', [12]] ] },
+  { id: 'l44', page: 'lec44', name: 'Lecture 44', glyph: '44', cv: '--cr', prefix: 'MATH 1400 · Lecture 44', tag: 'Practice problems + solutions',
+    blurb: 'Expected value, median, variance, and finding a density from a cumulative probability.', ch: [
+    ['Constants, mean and variance', 'Problems 1–8. μ = ∫ x f dx and σ² = E[X²] − μ².', [[1, 8]]],
+    ['Mean and median', 'Problems 9–11. Solve ∫ f = ½ for the median.', [[9, 11]]],
+    ['From P(X < x) to the mean', 'Problems 12–18. Differentiate the cumulative probability to get f.', [[12, 18]]],
+    ['Discrete random variables', 'Problems 19–20. Sums instead of integrals.', [[19, 20]]] ] }
+];
+DOCS.forEach(d => STORY.push({ id: d.id, path: 'calc', name: d.name, glyph: d.glyph, cv: d.cv, tag: d.tag, blurb: d.blurb, doc: d.page, href: d.href,
+  chapters: d.ch.map(([t, b, spec]) => C(t, b, 'self', [['@docs', docPred(d.prefix, nums(...spec))]], { noBoss: true })) }));
+/* Extra practice problems that are not from your PDFs: kept out of the story screen, still used by Daily Run, Blitz and Survival. */
+STORY.push({ id: 'cx', path: 'calc', hidden: true, name: 'Extra practice', glyph: '+', cv: '--cx', tag: 'Not from your PDFs', blurb: '',
+  chapters: [C('Extra practice', 'Extra problems that are not in your PDFs.', 'self', [['@docs', src => !src]], { noBoss: true })] });
 
 const PATHS = [
   { id: 'trig', name: 'Trig', glyph: '∫', c: '--cr', tag: 'Path 1', blurb: 'Identities, trig integrals and substitution, by parts, partial fractions, definite integrals, area and volume, plus your MATH 1400 exam prep.' },
-  { id: 'calc', name: 'Calc', glyph: 'ℓ', c: '--cx', tag: 'Path 2', blurb: 'Arc length and surface area, averages and centroids, probability densities, expectation and variance: lectures 35 to 44 with the Quiz 5 practice problems, the worksheets and Week 10 practice.' }
+  { id: 'calc', name: 'Calc', glyph: 'ℓ', c: '--cx', tag: 'Path 2', blurb: 'One card for each class PDF: the Quiz 5 practice problems, the arc length worksheet, lectures 35 to 44, Week 10 practice and the Week 10 and 11 notes.' }
 ];
 const curPath = () => S.path || 'trig';
 const pathOf = id => PATHS.find(p => p.id === id);
-const storyFor = id => STORY.filter(s => s.path === id);
+const storyFor = id => STORY.filter(s => s.path === id && !s.hidden);
 
+const slc = sl => SLV[sl.id] || sl.cv || '--cx';
 const SLV = { core: '--cx', trail: '--cr', sub: '--cd', tech: '--cp', def: '--ct', area: '--cy', exam: '--ca', arc: '--cx', avg: '--cr', pdf: '--cp', ev: '--cy' };
 let ALL_SELF = [], ALL_MC = [], MISSIONS = {}, MISSION_ORDER = [], TOTAL_PROBLEMS = 0, PATH_N = {};
 const inPath = p => p.path === curPath();
@@ -300,6 +336,16 @@ document.addEventListener('fullscreenchange', () => setTimeout(fit, 60));
 async function typeset(el) { if (mjReady && el) { try { await MathJax.typesetPromise([el]); } catch (e) { console.error(e); } } }
 const pct = (a, b) => b ? Math.round(a / b * 100) : 0;
 const big = t => `<div class="row big">${M(t)}</div>`;
+const STUDY = [[/^MATH 1400 · Quiz 5 Practice #(.+)$/, 'quiz5'], [/^Worksheet: Arc Length and Surface Area #(.+)$/, 'worksheet'], [/^MATH 1400 · Lectures 35–36 #(.+)$/, 'lec35-36'],
+  [/^Week 10 In-Class Practice #(.+)$/, 'week10-practice'], [/^MATH 1400 · Lecture 39 #(.+)$/, 'lec39'], [/^MATH 1400 · Lecture 40 #(.+)$/, 'lec40'],
+  [/^MATH 1400 · Lectures 42–43 #(.+)$/, 'lec42-43'], [/^MATH 1400 · Lecture 44 #(.+)$/, 'lec44']];
+function studyHref(src) {   // link to the step-by-step solution of this problem in study/
+  for (const [re, page] of STUDY) { const m = re.exec(src || ''); if (!m) continue;
+    let lab = m[1].replace(/^B(\d)$/, '$1'); lab = /^A\(/.test(lab) ? 'p' + lab.toLowerCase().replace(/[^a-z0-9]+/g, '-') : 'p' + lab.replace(/[a-d]$/, '');
+    return `study/${page}.html#${lab}`; }
+  return '';
+}
+const solLink = p => { const h = studyHref(p.src); return h ? `<a class="btn" href="${h}" target="_blank" rel="noopener">Step-by-step solution ↗</a>` : ''; };
 const solq = p => (window.shotUI ? shotUI.solHtml(p.src) : '');   // handwritten solution (recitation only)
 const origShot = p => (window.shotUI && p.src ? shotUI.forSrc(p.src, true) : null);   // crop of the problem as printed in the source PDF, when there is one
 const wideShot = sh => !!sh && sh.h / sh.w < .5;
@@ -410,8 +456,9 @@ function storyList() {
     { h: '#/survival', name: 'Survival', meta: `best ${S.best[survKey(P.id)] || 0} rounds` }
   ].concat(P.id === 'trig' ? [{ h: 'codex.html', name: 'Codex', meta: 'every formula' }, { h: 'lesson/index.html', name: 'Lessons in Motion', meta: '116 lessons' }] : []);
   const slide = () => ({
-    eb: `${P.name} path`, main: `<div class="display sm"><span style="color:var(${P.c})">${P.name}</span> · pick a story line</div><div class="mcards ${sls.length > 4 ? 'four' : sls.length === 4 ? 'four' : 'three'}">${sls.map(sl => { const [st, mx] = slStars(sl), sv = slSolved(sl);
-      return `<a class="mc" href="#/story/${sl.id}" style="--c:var(${SLV[sl.id]})"><span class="gl">${sl.glyph}</span><h3 style="font-size:21px">${esc(sl.name)}</h3><p style="font-size:14.5px">${esc(sl.tag)}</p><span class="meta" style="font-size:13px">${sv}/${sl.problems.size} solved · ${st}/${mx} ★</span><span class="bar"><i style="width:${pct(sv, sl.problems.size)}%"></i></span></a>`; }).join('')}</div>
+    eb: `${P.name} path`, main: `<div class="display sm"><span style="color:var(${P.c})">${P.name}</span> · pick a story line</div><div class="mcards ${sls.length > 8 ? 'five' : sls.length > 4 ? 'four' : sls.length === 4 ? 'four' : 'three'}">${sls.map(sl => { const [st, mx] = slStars(sl), sv = slSolved(sl);
+      if (sl.href) return `<a class="mc" href="${sl.href}" style="--c:var(${slc(sl)})"><span class="gl">${sl.glyph}</span><h3 style="font-size:21px">${esc(sl.name)}</h3><p style="font-size:14.5px">${esc(sl.tag)}</p><span class="meta" style="font-size:13px">Open the notes ↗</span></a>`;
+      return `<a class="mc" href="#/story/${sl.id}" style="--c:var(${slc(sl)})"><span class="gl">${sl.glyph}</span><h3 style="font-size:21px">${esc(sl.name)}</h3><p style="font-size:14.5px">${esc(sl.tag)}</p><span class="meta" style="font-size:13px">${sv}/${sl.problems.size} solved · ${st}/${mx} ★</span><span class="bar"><i style="width:${pct(sv, sl.problems.size)}%"></i></span></a>`; }).join('')}</div>
       <div class="modestrip">${modes.map(m => `<a class="btn sm" href="${m.h}">${m.name}<span class="m">${m.meta}</span></a>`).join('')}<a class="btn sm" href="#/">Switch path</a></div>`,
     say: ['Story', 'Each story line is a deck of chapters. Missions are five problems; clear one with at least one star to mark it done.'] });
   openDeck({ slides: [slide], jump: [] });
@@ -420,7 +467,8 @@ function storyList() {
 function storyMap(id) {
   stopRun();
   const sl = STORY.find(s => s.id === id); if (!sl) { location.hash = '#/story'; return; }
-  const cv = `var(${SLV[sl.id]})`, [st, mx] = slStars(sl), N = sl.chapters.length;
+  if (sl.href) { location.href = sl.href; return; }
+  const cv = `var(${slc(sl)})`, [st, mx] = slStars(sl), N = sl.chapters.length;
   const intro = () => ({
     eb: `Story line · ${sl.tag}`, adv: true, main: `<div class="display sm" style="color:${cv}">${esc(sl.name)}</div><div class="lead">${esc(sl.blurb)}</div>
       <div class="statrow"><div class="stat"><b>${slSolved(sl)}/${sl.problems.size}</b><span>problems solved</span></div><div class="stat"><b>${st}/${mx}</b><span>stars</span></div><div class="stat"><b>${sl.chapters.filter(chapterDone).length}/${N}</b><span>chapters done</span></div></div>
@@ -500,7 +548,7 @@ function slidesFor(k) {
     () => { const x = it(), p = x.p, g = x.grade;
       return { eb: ebFor(k), ph: phasesFor(p), on: 3, track: trackHtml(k, true), side: solq(p) || pdfq(p),
         main: `${pdfTop(p)}<div class="row big">${boxed(p.a, g === 'ok' ? 'ok' : g === 'no' ? 'no' : '')}</div>${p.note ? `<div class="note">${p.note}</div>` : ''}
-          <div class="btns">${g ? `<span class="chip flat">${g === 'ok' ? '✓ Marked correct' : '✗ Marked missed'}</span>` : `<button class="btn ok" data-act="grade" data-g="ok">✓ I got it (G)</button><button class="btn no" data-act="grade" data-g="no">✗ Missed it (M)</button>`}</div>`,
+          <div class="btns">${g ? `<span class="chip flat">${g === 'ok' ? '✓ Marked correct' : '✗ Marked missed'}</span>` : `<button class="btn ok" data-act="grade" data-g="ok">✓ I got it (G)</button><button class="btn no" data-act="grade" data-g="no">✗ Missed it (M)</button>`}${solLink(p)}</div>`,
         say: ['Check', g ? 'Press → for the next problem.' : 'Compare with your work. Be honest: it only counts if you got it.'],
         lock: g ? null : 'Mark yourself first: G for got it, M for missed.', keys: g ? {} : { g: () => grade(k, 'ok'), m: () => grade(k, 'no') } }; }
   ];
