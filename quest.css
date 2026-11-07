@@ -112,6 +112,12 @@ button:disabled{opacity:.4;cursor:default}
 .mcards.five .mc h3{font-size:17px!important}
 .mcards.five .mc p{font-size:12.5px!important}
 .mcards.five .mc .meta{font-size:12px!important}
+.mcards.six{grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}
+.mcards.six .mc{padding:10px 11px;gap:3px}
+.mcards.six .mc .gl{width:34px;height:34px;font-size:15px;border-radius:10px}
+.mcards.six .mc h3{font-size:15px!important}
+.mcards.six .mc p{font-size:11.5px!important}
+.mcards.six .mc .meta{font-size:11px!important}
 .mcards.two{grid-template-columns:repeat(2,minmax(0,1fr))}
 .mcards.two .mc{padding:26px 28px;gap:10px}
 .mcards.two .mc h3{font-size:40px}

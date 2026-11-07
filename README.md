@@ -3,17 +3,17 @@
 One project with two paths: a slide-deck game plus a searchable library.
 
 - **Trig** path: identities, integrals, MATH 1400 exam prep (the original Trig Quest, 816 problems).
-- **Calc** path: one story-line card per class PDF (Quiz 5 practice, the arc length worksheet, Lectures 35-36, Week 10 notes and practice, Lectures 39, 40, 42-43, 44, Week 11 notes). Each card's chapters follow the sections of that document, pick problems by the document label in their `src`, and every answer slide has a "Step-by-step solution" link into `study/`. The two notes cards open the notes pages. 176 problems (130 from the PDFs, 46 extra ones kept out of the story screen but still used by Daily Run, Blitz and Survival); the figure-based ones (Lecture 40 #20 and #21) are left out. The story-line definitions are `DOCS` in `quest.js`.
+- **Calc** path: one story-line card per class PDF (Quiz 5 practice, the arc length worksheet, Lectures 35-36, Week 10 notes and practice, Lectures 39, 40, 42-43, 44, Week 11 notes). Each card's chapters follow the sections of that document, pick problems by the document label in their `src`, and every answer slide has a "Step-by-step solution" link into `study/`. The two notes cards open the notes pages, and a Grade Calculator card opens `study/grade-calculator.html`. 176 problems (130 from the PDFs, 46 extra ones kept out of the story screen but still used by Daily Run, Blitz and Survival); the figure-based ones (Lecture 40 #20 and #21) are left out. The story-line definitions are `DOCS` in `quest.js`.
 
 Pick a path from the main menu (or "Switch path" on a path's home screen). Each path is one section: its story lines, Daily Run, Blitz and Survival sit together, and the Trig path also links the Codex and the lessons.
-Open `index.html` (needs internet once for MathJax and fonts; add `?fast` to skip the boot screen).
+Open `index.html`: it opens straight on the main menu (no loading screen). It needs internet once for MathJax and fonts.
 
 Everything is presented like *Trig Substitution in Motion*: a 16:9 graph-paper stage, eyebrow + title, phase pills,
 caption bar, and a Back / jump / "n of N" / Next / Full screen toolbar.
 
 ## Plain study guide
 
-`study/` is a plain, game-free study guide for the Calc path: one page per class PDF (Quiz 5 practice, the arc length worksheet, Lectures 35-36, Week 10 notes and practice, Lectures 39, 40, 42-43, 44, Week 11 notes), every problem worked out step by step with a plan and a "watch out" note. Open `study/index.html`; it is also linked from the game's title screen. `study/grade-calculator.html` is a raw score calculator (six quizzes ranked and weighted 0/4/7/10/13/16%, final 33%, prep quizzes 5%, recitation 12%); it is plain client-side JavaScript with no backend, and it keeps your numbers only in the browser's localStorage. Pages are generated: edit `study/src/<page>.txt` and run `python3 study/build.py` (the calculator is written by hand in `study/src/grade-calculator.html`). Needs internet once for the KaTeX math fonts.
+`study/` is a plain, game-free study guide for the Calc path: one page per class PDF (Quiz 5 practice, the arc length worksheet, Lectures 35-36, Week 10 notes and practice, Lectures 39, 40, 42-43, 44, Week 11 notes), every problem worked out step by step with a plan and a "watch out" note. Open `study/index.html`; it is also linked from the game's main menu. `study/grade-calculator.html` is a raw score calculator (six quizzes ranked and weighted 0/4/7/10/13/16%, final 33%, prep quizzes 5%, recitation 12%); it is plain client-side JavaScript with no backend, and it keeps your numbers only in the browser's localStorage. Pages are generated: edit `study/src/<page>.txt` and run `python3 study/build.py` (the calculator is written by hand in `study/src/grade-calculator.html`). Needs internet once for the KaTeX math fonts.
 
 | File | What it is |
 |---|---|

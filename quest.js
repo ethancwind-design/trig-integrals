@@ -274,6 +274,7 @@ const DOCS = [
 ];
 DOCS.forEach(d => STORY.push({ id: d.id, path: 'calc', name: d.name, glyph: d.glyph, cv: d.cv, tag: d.tag, blurb: d.blurb, doc: d.page, href: d.href,
   chapters: d.ch.map(([t, b, spec]) => C(t, b, 'self', [['@docs', docPred(d.prefix, nums(...spec))]], { noBoss: true })) }));
+STORY.push({ id: 'gc', path: 'calc', name: 'Grade Calculator', glyph: '%', cv: '--ca', tag: 'Raw score from quizzes, final, prep, recitation', blurb: '', href: 'study/grade-calculator.html', meta: 'Open the calculator ↗', chapters: [] });
 /* Extra practice problems that are not from your PDFs: kept out of the story screen, still used by Daily Run, Blitz and Survival. */
 STORY.push({ id: 'cx', path: 'calc', hidden: true, name: 'Extra practice', glyph: '+', cv: '--cx', tag: 'Not from your PDFs', blurb: '',
   chapters: [C('Extra practice', 'Extra problems that are not in your PDFs.', 'self', [['@docs', src => !src]], { noBoss: true })] });
@@ -429,18 +430,13 @@ const starRow = n => [1, 2, 3].map(k => `<span class="${n >= k ? 'on' : ''}">★
 let hubSeen = false;
 function hub() {
   stopRun();
-  const L = lvl(S.xp), last = S.last, P = S.path && pathOf(S.path);
-  const title = () => ({
-    eb: 'Calculus II · Integration and its applications', ph: ['Read', 'Plan', 'Answer'], on: 0, adv: true,
-    main: `<div class="display">Calc Quest</div><div class="lead">Trig, integrals, arc length, centroids and probability, one slide at a time. ${TOTAL_PROBLEMS.toLocaleString()} problems, every answer checked.</div>
-      <div class="statrow"><div class="stat"><b>LV ${L.l}</b><span>${rank(L.l)}</span></div><div class="stat"><b>${Object.keys(S.solved).length}</b><span>solved</span></div><div class="stat"><b>${clearedMissions()}</b><span>missions cleared</span></div><div class="stat"><b>${totalStars()}</b><span>stars</span></div></div>
-      <div class="btns">${last ? `<a class="btn main" href="${esc(last.hash)}">Continue · ${esc(last.label)}</a>` : ''}${P ? `<a class="btn${last ? '' : ' main'}" href="#/story">Open the ${esc(P.name)} path</a>` : ''}<button class="btn${last || P ? '' : ' main'}" data-act="toPaths">${P ? 'Switch path' : 'Choose your path'} →</button></div>`,
-    say: ['Welcome', 'Press → or click the slide to pick a path. The loading tips in the boot screen are real study notes.'] });
+  const last = S.last;
   const pathsSlide = () => ({
     eb: 'Main menu', main: `<div class="display sm">Choose your path</div><div class="mcards two">${PATHS.map(p => { const sls = storyFor(p.id), solved = sls.reduce((n, sl) => n + slSolved(sl), 0);
-      return `<a class="mc" href="#/path/${p.id}" style="--c:var(${p.c})"><span class="gl">${p.glyph}</span><span class="tag">${p.tag}${S.path === p.id ? ' · current' : ''}</span><h3>${p.name}</h3><p>${p.blurb}</p><span class="meta">${sls.length} story lines · ${solved}/${PATH_N[p.id]} solved</span></a>`; }).join('')}</div>`,
+      return `<a class="mc" href="#/path/${p.id}" style="--c:var(${p.c})"><span class="gl">${p.glyph}</span><span class="tag">${p.tag}${S.path === p.id ? ' · current' : ''}</span><h3>${p.name}</h3><p>${p.blurb}</p><span class="meta">${sls.length} cards · ${solved}/${PATH_N[p.id]} solved</span></a>`; }).join('')}</div>
+      <div class="modestrip">${last ? `<a class="btn sm" href="${esc(last.hash)}">Continue<span class="m">${esc(last.label)}</span></a>` : ''}<a class="btn sm" href="study/index.html">Study guide<span class="m">one page per PDF</span></a><a class="btn sm" href="codex.html">Codex<span class="m">every formula</span></a></div>`,
     say: ['Choose', 'Each path is one section: its story lines, Daily Run, Blitz and Survival all live together. You can switch any time. Progress, XP and stars are saved in this browser.  <button class="btn sm" data-act="reset" style="margin-left:10px">Reset progress</button>'] });
-  openDeck({ slides: [title, pathsSlide], jump: [['Title', 0], ['Paths', 1]], start: hubSeen ? 1 : 0 });
+  openDeck({ slides: [pathsSlide], jump: [], start: 0 });
   hubSeen = true;
 }
 
@@ -456,8 +452,8 @@ function storyList() {
     { h: '#/survival', name: 'Survival', meta: `best ${S.best[survKey(P.id)] || 0} rounds` }
   ].concat(P.id === 'trig' ? [{ h: 'codex.html', name: 'Codex', meta: 'every formula' }, { h: 'lesson/index.html', name: 'Lessons in Motion', meta: '116 lessons' }] : []);
   const slide = () => ({
-    eb: `${P.name} path`, main: `<div class="display sm"><span style="color:var(${P.c})">${P.name}</span> · pick a story line</div><div class="mcards ${sls.length > 8 ? 'five' : sls.length > 4 ? 'four' : sls.length === 4 ? 'four' : 'three'}">${sls.map(sl => { const [st, mx] = slStars(sl), sv = slSolved(sl);
-      if (sl.href) return `<a class="mc" href="${sl.href}" style="--c:var(${slc(sl)})"><span class="gl">${sl.glyph}</span><h3 style="font-size:21px">${esc(sl.name)}</h3><p style="font-size:14.5px">${esc(sl.tag)}</p><span class="meta" style="font-size:13px">Open the notes ↗</span></a>`;
+    eb: `${P.name} path`, main: `<div class="display sm"><span style="color:var(${P.c})">${P.name}</span> · pick a story line</div><div class="mcards ${sls.length > 10 ? 'six' : sls.length > 8 ? 'five' : sls.length > 4 ? 'four' : sls.length === 4 ? 'four' : 'three'}">${sls.map(sl => { const [st, mx] = slStars(sl), sv = slSolved(sl);
+      if (sl.href) return `<a class="mc" href="${sl.href}" style="--c:var(${slc(sl)})"><span class="gl">${sl.glyph}</span><h3 style="font-size:21px">${esc(sl.name)}</h3><p style="font-size:14.5px">${esc(sl.tag)}</p><span class="meta" style="font-size:13px">${esc(sl.meta || 'Open the notes ↗')}</span></a>`;
       return `<a class="mc" href="#/story/${sl.id}" style="--c:var(${slc(sl)})"><span class="gl">${sl.glyph}</span><h3 style="font-size:21px">${esc(sl.name)}</h3><p style="font-size:14.5px">${esc(sl.tag)}</p><span class="meta" style="font-size:13px">${sv}/${sl.problems.size} solved · ${st}/${mx} ★</span><span class="bar"><i style="width:${pct(sv, sl.problems.size)}%"></i></span></a>`; }).join('')}</div>
       <div class="modestrip">${modes.map(m => `<a class="btn sm" href="${m.h}">${m.name}<span class="m">${m.meta}</span></a>`).join('')}<a class="btn sm" href="#/">Switch path</a></div>`,
     say: ['Story', 'Each story line is a deck of chapters. Missions are five problems; clear one with at least one star to mark it done.'] });
@@ -780,9 +776,11 @@ function boot() {
   let ti = Math.floor(Math.random() * TIPS.length);
   const showTip = () => { tipEl.innerHTML = `<b>TIP</b>${esc(TIPS[ti % TIPS.length])}`; ti++; };
   showTip(); const tipTimer = setInterval(showTip, 2600);
-  const FAST = /[?&]fast\b/.test(location.search);
+  const FAST = true;   // no title/loading screen: open straight on the main menu
+  loader.style.display = 'none';
   const t0 = performance.now(), MIN = FAST ? 0 : store.sget('tq.seen') ? 1500 : 3000;
   let real = 0, failed = false, ready = false;
+  setTimeout(() => { if (!ready) loader.style.display = ''; }, 1800);   // only if loading is slow
   const setReal = v => { real = Math.max(real, v); };
   setReal(.15);
   const fonts = (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(() => setReal(.45));
