@@ -224,7 +224,7 @@ STORY.forEach(sl => { sl.path = 'trig'; });
 const nums = (...a) => { const set = new Set(); a.forEach(x => { if (Array.isArray(x)) for (let i = x[0]; i <= x[1]; i++) set.add(String(i)); else set.add(String(x)); }); return set; };
 const docPred = (prefix, set) => src => { if (!src.startsWith(prefix + ' #')) return false; const lab = src.slice(prefix.length + 2); return set.has(lab) || set.has(lab.replace(/[a-d]$/, '')); };
 const DOCS = [
-  { id: 'q5', page: 'quiz5', sheet: { href: 'study/quiz5-cheatsheet.pdf', label: 'Quiz 5 cheat sheet (PDF)' }, name: 'Quiz 5 Practice Problems', glyph: 'Q5', cv: '--cx', prefix: 'MATH 1400 · Quiz 5 Practice', tag: 'Practice problems + answer key',
+  { id: 'q5', page: 'quiz5', sheet: { href: 'study/quiz5-cheatsheet.pdf?v=2', label: 'Quiz 5 cheat sheet (PDF)' }, name: 'Quiz 5 Practice Problems', glyph: 'Q5', cv: '--cx', prefix: 'MATH 1400 · Quiz 5 Practice', tag: 'Practice problems + answer key',
     blurb: 'The 25 practice problems for Quiz 5 (weeks 10 and 11), in the order they are printed: arc length and surface area, average value, centroids, then probability.', ch: [
     ['Arc length and surface area', 'Problems 1–9. L = ∫ √(1 + y′²) dx. About the x-axis the radius is y, about the y-axis it is x.', [[1, 9]]],
     ['Average value', 'Problems 10–11. f_avg = 1/(b − a) ∫ f dx.', [[10, 11]]],
