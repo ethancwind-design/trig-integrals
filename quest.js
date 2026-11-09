@@ -224,7 +224,7 @@ STORY.forEach(sl => { sl.path = 'trig'; });
 const nums = (...a) => { const set = new Set(); a.forEach(x => { if (Array.isArray(x)) for (let i = x[0]; i <= x[1]; i++) set.add(String(i)); else set.add(String(x)); }); return set; };
 const docPred = (prefix, set) => src => { if (!src.startsWith(prefix + ' #')) return false; const lab = src.slice(prefix.length + 2); return set.has(lab) || set.has(lab.replace(/[a-d]$/, '')); };
 const DOCS = [
-  { id: 'q5', page: 'quiz5', name: 'Quiz 5 Practice Problems', glyph: 'Q5', cv: '--cx', prefix: 'MATH 1400 · Quiz 5 Practice', tag: 'Practice problems + answer key',
+  { id: 'q5', page: 'quiz5', sheet: { href: 'study/quiz5-cheatsheet.pdf', label: 'Quiz 5 cheat sheet (PDF)' }, name: 'Quiz 5 Practice Problems', glyph: 'Q5', cv: '--cx', prefix: 'MATH 1400 · Quiz 5 Practice', tag: 'Practice problems + answer key',
     blurb: 'The 25 practice problems for Quiz 5 (weeks 10 and 11), in the order they are printed: arc length and surface area, average value, centroids, then probability.', ch: [
     ['Arc length and surface area', 'Problems 1–9. L = ∫ √(1 + y′²) dx. About the x-axis the radius is y, about the y-axis it is x.', [[1, 9]]],
     ['Average value', 'Problems 10–11. f_avg = 1/(b − a) ∫ f dx.', [[10, 11]]],
@@ -272,7 +272,7 @@ const DOCS = [
     ['From P(X < x) to the mean', 'Problems 12–18. Differentiate the cumulative probability to get f.', [[12, 18]]],
     ['Discrete random variables', 'Problems 19–20. Sums instead of integrals.', [[19, 20]]] ] }
 ];
-DOCS.forEach(d => STORY.push({ id: d.id, path: 'calc', name: d.name, glyph: d.glyph, cv: d.cv, tag: d.tag, blurb: d.blurb, doc: d.page, href: d.href,
+DOCS.forEach(d => STORY.push({ id: d.id, path: 'calc', name: d.name, glyph: d.glyph, cv: d.cv, tag: d.tag, blurb: d.blurb, doc: d.page, href: d.href, sheet: d.sheet,
   chapters: d.ch.map(([t, b, spec]) => C(t, b, 'self', [['@docs', docPred(d.prefix, nums(...spec))]], { noBoss: true })) }));
 STORY.push({ id: 'gc', path: 'calc', name: 'Grade Calculator', glyph: '%', cv: '--ca', tag: 'Raw score from quizzes, final, prep, recitation', blurb: '', href: 'study/grade-calculator.html', meta: 'Open the calculator ↗', chapters: [] });
 /* Extra practice problems that are not from your PDFs: kept out of the story screen, still used by Daily Run, Blitz and Survival. */
@@ -468,7 +468,8 @@ function storyMap(id) {
   const intro = () => ({
     eb: `Story line · ${sl.tag}`, adv: true, main: `<div class="display sm" style="color:${cv}">${esc(sl.name)}</div><div class="lead">${esc(sl.blurb)}</div>
       <div class="statrow"><div class="stat"><b>${slSolved(sl)}/${sl.problems.size}</b><span>problems solved</span></div><div class="stat"><b>${st}/${mx}</b><span>stars</span></div><div class="stat"><b>${sl.chapters.filter(chapterDone).length}/${N}</b><span>chapters done</span></div></div>
-      ${sl.cutscene ? `<div class="btns"><a class="btn" href="${sl.cutscene.href}">🎬 ${esc(sl.cutscene.label)}</a></div>` : ''}`,
+      ${sl.cutscene ? `<div class="btns"><a class="btn" href="${sl.cutscene.href}">🎬 ${esc(sl.cutscene.label)}</a></div>` : ''}
+      ${sheetBtn(sl)}`,
     say: ['Start', 'Press → for chapter 1, or use the jump menu to go straight to a chapter.'] });
   const chap = (c, i) => () => ({
     eb: `${sl.name} · Chapter ${i + 1} of ${N}`, ph: null, adv: false,
@@ -626,10 +627,11 @@ function fixedDeck(cfg, intro) {
   jump.push(['Results', slides.length]); slides.push(resultSlide());
   openDeck({ slides, jump });
 }
+const sheetBtn = sl => sl && sl.sheet ? `<div class="btns"><a class="btn" href="${sl.sheet.href}" target="_blank" rel="noopener">📄 ${esc(sl.sheet.label)}</a></div>` : '';
 function introFor(cfg, kicker, lead) {
   return () => ({ eb: kicker, adv: true, ph: null,
     main: `<div class="display sm">${esc(cfg.title)}</div><div class="lead">${lead}</div>
-      <div class="pillrow"><span class="chip"><b>${cfg.problems.length}</b>problems</span>${cfg.hearts ? `<span class="chip"><b>${cfg.hearts}</b>hearts</span>` : ''}${cfg.boss ? '<span class="chip flat">Boss mission</span>' : ''}</div>`,
+      <div class="pillrow"><span class="chip"><b>${cfg.problems.length}</b>problems</span>${cfg.hearts ? `<span class="chip"><b>${cfg.hearts}</b>hearts</span>` : ''}${cfg.boss ? '<span class="chip flat">Boss mission</span>' : ''}</div>${sheetBtn(cfg.slObj)}`,
     say: ['Briefing', 'Each problem is a few slides: read it, plan it, then check your answer. Press → to begin.'] });
 }
 
